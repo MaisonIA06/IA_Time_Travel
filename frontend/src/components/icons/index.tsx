@@ -228,3 +228,39 @@ export function ValidateIcon({ size = 24, className = '', color = 'currentColor'
   )
 }
 
+// Icône Accueil - Pour retourner au menu
+export function HomeIcon({ size = 24, className = '', color = 'currentColor' }: IconProps) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="none"
+      className={`icon icon-home ${className}`}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M3 12L12 3L21 12"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M9 21V12H15V21"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M5 21H19"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
+

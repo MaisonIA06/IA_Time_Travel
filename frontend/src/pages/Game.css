@@ -21,9 +21,27 @@
   flex-wrap: wrap;
 }
 
+.game-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  flex: 1;
+}
+
+.btn-home {
+  color: var(--aa-text-muted) !important;
+  transition: color var(--transition-fast), transform var(--transition-fast) !important;
+}
+
+.btn-home:hover {
+  color: var(--aa-accent) !important;
+  transform: scale(1.1);
+  background: rgba(var(--aa-accent-rgb), 0.1) !important;
+}
+
 .game-progress {
   flex: 1;
-  min-width: 200px;
+  max-width: 400px;
 }
 
 .progress-text {

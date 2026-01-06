@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Card } from '../components/ui'
 import { Timeline } from '../components/Timeline'
 import { EventCardMini } from '../components/EventCard'
-import { RefreshIcon, CheckIcon } from '../components/icons'
+import { RefreshIcon, CheckIcon, HomeIcon } from '../components/icons'
 import { useGameStore } from '../store/gameStore'
 import './End.css'
 
@@ -34,6 +34,11 @@ export function End() {
     navigate('/')
   }
 
+  const handleGoHome = () => {
+    resetGame()
+    navigate('/')
+  }
+
   // Message de félicitations basé sur la performance
   const getMessage = () => {
     if (accuracy >= 90) return { level: 'legendary', text: 'Extraordinaire !' }
@@ -47,6 +52,15 @@ export function End() {
   return (
     <div className="end-page">
       <header className="end-header">
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={handleGoHome}
+          className="btn-home-end"
+          title="Retour à l'accueil"
+        >
+          <HomeIcon size={24} />
+        </Button>
         <div className={`end-badge end-badge--${message.level}`}>
           <CheckIcon size={48} color="currentColor" />
         </div>

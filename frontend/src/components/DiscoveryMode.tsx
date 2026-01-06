@@ -7,26 +7,15 @@ interface DiscoveryModeProps {
   event: QuizItem
   onNext: () => void
   isLast: boolean
-  progress: { current: number; total: number }
 }
 
 export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
   event,
   onNext,
-  isLast,
-  progress
+  isLast
 }) => {
   return (
     <div className="discovery-container">
-      <div className="discovery-header">
-        <Badge variant="purple" size="lg" glow>
-          Phase de Découverte
-        </Badge>
-        <div className="discovery-progress">
-          Événement {progress.current} / {progress.total}
-        </div>
-      </div>
-
       <Card variant="glass" padding="xl" className="discovery-card">
         <div className="discovery-content">
           <div className="discovery-image-container">

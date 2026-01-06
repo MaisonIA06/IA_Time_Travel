@@ -12,6 +12,7 @@ import { useGameStore } from '../store/gameStore'
 import { OrderGame } from '../games/OrderGame'
 import { TrueFalseGame } from '../games/TrueFalseGame'
 import { DiscoveryMode } from '../components/DiscoveryMode'
+import { HomeIcon } from '../components/icons'
 import './Game.css'
 
 export function Game() {
@@ -42,11 +43,19 @@ export function Game() {
     nextDiscovery,
     completeMiniGame,
     skipMiniGame,
-    finishGame
+    finishGame,
+    resetGame
   } = useGameStore()
 
   const currentItem = getCurrentItem()
   const progress = getProgress()
+
+  const handleGoHome = () => {
+    if (window.confirm('Voulez-vous vraiment quitter la partie en cours ?')) {
+      resetGame()
+      navigate('/')
+    }
+  }
 
   // Vérifier si le jeu est terminé
   useEffect(() => {
@@ -99,15 +108,26 @@ export function Game() {
     <div className="game-page">
       {/* Header avec progression et score */}
       <header className="game-header">
-        <div className="game-progress">
-          <span className="progress-text">
-            Question {progress.current} / {progress.total}
-          </span>
-          <div className="progress-bar">
-            <div
-              className="progress-fill"
-              style={{ width: `${progress.percentage}%` }}
-            />
+        <div className="game-header-left">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleGoHome}
+            className="btn-home"
+            title="Retour à l'accueil"
+          >
+            <HomeIcon size={24} />
+          </Button>
+          <div className="game-progress">
+            <span className="progress-text">
+              {phase === 'discovery' ? 'Étape' : 'Défi'} {progress.current} / {progress.total}
+            </span>
+            <div className="progress-bar">
+              <div
+                className="progress-fill"
+                style={{ width: `${progress.percentage}%` }}
+              />
+            </div>
           </div>
         </div>
 
@@ -131,7 +151,6 @@ export function Game() {
             event={currentItem}
             onNext={handleNextDiscovery}
             isLast={currentIndex === quizItems.length - 1}
-            progress={progress}
           />
         )}
 
