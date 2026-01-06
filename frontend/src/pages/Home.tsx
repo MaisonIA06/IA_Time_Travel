@@ -2,10 +2,11 @@
  * Page d'accueil - Sélection du mode de jeu et du chapitre
  */
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Card, Badge } from '../components/ui'
 import { GlitchText, HolographicCard, TimeIcon } from '../components'
+import { NeuralSnake } from '../components/EasterEgg/NeuralSnake'
 import { getChapters, getQuiz } from '../api/client'
 import { useGameStore } from '../store/gameStore'
 import type { Chapter, ChapterId } from '../types'
@@ -17,6 +18,11 @@ export function Home() {
   const [selectedChapter, setSelectedChapter] = useState<ChapterId | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  // Easter Egg State
+  const [clickCount, setClickCount] = useState(0)
+  const [showEasterEgg, setShowEasterEgg] = useState(false)
+  const lastClickTime = useRef<number>(0)
 
   const { setChapter, setQuizItems, startGame, resetGame, setIsLoading: setStoreIsLoading } = useGameStore()
 
@@ -65,13 +71,31 @@ export function Home() {
     }
   }
 
+  const handleLogoClick = () => {
+    const now = Date.now()
+    if (now - lastClickTime.current < 2000) {
+      const newCount = clickCount + 1
+      if (newCount >= 5) {
+        setShowEasterEgg(true)
+        setClickCount(0)
+      } else {
+        setClickCount(newCount)
+      }
+    } else {
+      setClickCount(1)
+    }
+    lastClickTime.current = now
+  }
+
   const selectedChapterData = chapters.find(c => c.id === selectedChapter)
 
   return (
     <div className="home-page">
+      {showEasterEgg && <NeuralSnake onClose={() => setShowEasterEgg(false)} />}
+      
       {/* Header */}
       <header className="home-header">
-        <div className="logo-container">
+        <div className="logo-container" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
           <div className="logo-icon">
             <TimeIcon size={48} color="var(--aa-accent)" />
           </div>
