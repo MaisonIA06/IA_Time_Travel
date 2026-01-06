@@ -1,0 +1,88 @@
+/**
+ * Styles Card - Glassmorphism effect
+ */
+
+.card {
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-normal);
+}
+
+/* Variants */
+.card-default {
+  background: var(--aa-bg-secondary);
+  border: 1px solid var(--aa-border);
+}
+
+.card-glass {
+  background: var(--aa-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--aa-border);
+}
+
+.card-bordered {
+  background: transparent;
+  border: 2px solid var(--aa-border);
+}
+
+.card-elevated {
+  background: var(--aa-bg-secondary);
+  border: 1px solid var(--aa-border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Padding */
+.card-p-none { padding: 0; }
+.card-p-sm { padding: var(--space-3); }
+.card-p-md { padding: var(--space-5); }
+.card-p-lg { padding: var(--space-8); }
+
+/* Hoverable */
+.card-hoverable {
+  cursor: pointer;
+}
+
+.card-hoverable:hover {
+  transform: translateY(-4px);
+  border-color: var(--aa-border-hover);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Glow variants */
+.card-glow-accent:hover {
+  box-shadow: 0 0 30px var(--aa-glow);
+  border-color: var(--aa-accent);
+}
+
+.card-glow-purple:hover {
+  box-shadow: 0 0 30px var(--aa-glow-purple);
+  border-color: var(--aa-accent-secondary);
+}
+
+.card-glow-success {
+  border-color: var(--aa-success);
+  box-shadow: 0 0 20px var(--aa-success-glow);
+}
+
+.card-glow-error {
+  border-color: var(--aa-error);
+  box-shadow: 0 0 20px var(--aa-error-glow);
+}
+
+/* Sub-components */
+.card-header {
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--aa-border);
+  margin-bottom: var(--space-4);
+}
+
+.card-body {
+  flex: 1;
+}
+
+.card-footer {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--aa-border);
+  margin-top: var(--space-4);
+}
+

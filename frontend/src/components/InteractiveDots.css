@@ -1,0 +1,16 @@
+/**
+ * Styles InteractiveDots
+ */
+
+.interactive-dots {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  /* Fond transparent pour laisser voir les effets 3D derrière */
+  background: transparent;
+}
+

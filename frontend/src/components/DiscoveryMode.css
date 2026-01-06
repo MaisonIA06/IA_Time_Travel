@@ -1,0 +1,139 @@
+.discovery-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.discovery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.discovery-progress {
+  font-family: var(--aa-font-mono);
+  color: var(--aa-text-secondary);
+  font-size: 1.1rem;
+}
+
+.discovery-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.discovery-content {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+@media (max-width: 768px) {
+  .discovery-content {
+    grid-template-columns: 1fr;
+  }
+}
+
+.discovery-image-container {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  aspect-ratio: 4/3;
+}
+
+.discovery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.discovery-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--aa-bg-secondary);
+  color: var(--aa-text-dim);
+}
+
+.discovery-year-badge {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+}
+
+.discovery-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.discovery-title {
+  font-size: 2rem;
+  margin: 0;
+  background: linear-gradient(to right, var(--aa-text-primary), var(--aa-accent));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1.2;
+}
+
+.discovery-description {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--aa-text-primary);
+  margin: 0;
+}
+
+.discovery-note {
+  background: rgba(var(--aa-accent-rgb), 0.1);
+  border-left: 4px solid var(--aa-accent);
+  padding: 1.5rem;
+  border-radius: 0 8px 8px 0;
+}
+
+.discovery-note h4 {
+  margin: 0 0 0.5rem 0;
+  color: var(--aa-accent);
+}
+
+.discovery-note p {
+  margin: 0;
+  font-style: italic;
+  color: var(--aa-text-secondary);
+}
+
+.discovery-actions {
+  margin-top: 2.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.next-btn {
+  min-width: 200px;
+}
+
+.discovery-teacher-note {
+  background: rgba(var(--aa-purple-rgb), 0.1);
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px dashed var(--aa-purple);
+  text-align: center;
+}
+
+.discovery-teacher-note p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--aa-purple);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

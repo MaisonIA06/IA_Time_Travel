@@ -1,0 +1,187 @@
+/**
+ * Styles TrueFalseGame
+ */
+
+.tf-game {
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tf-game .game-header {
+  margin-bottom: var(--space-6);
+}
+
+.tf-progress {
+  margin-top: var(--space-4);
+}
+
+.tf-progress span {
+  font-family: var(--font-display);
+  font-size: var(--text-sm);
+  color: var(--aa-text-muted);
+}
+
+.tf-progress .progress-bar {
+  height: 6px;
+  background: var(--aa-bg-secondary);
+  border-radius: var(--radius-full);
+  margin-top: var(--space-2);
+  overflow: hidden;
+}
+
+.tf-progress .progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--aa-accent), var(--aa-accent-secondary));
+  transition: width var(--transition-normal);
+}
+
+/* Content */
+.tf-content {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.tf-statement {
+  background: var(--aa-bg-secondary);
+  border: 1px solid var(--aa-border);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.tf-statement p {
+  font-size: var(--text-xl);
+  color: var(--aa-text);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Buttons */
+.tf-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.tf-btn-true {
+  background: var(--aa-success) !important;
+}
+
+.tf-btn-false {
+  background: var(--aa-error) !important;
+}
+
+/* Feedback */
+.tf-feedback {
+  padding: var(--space-6);
+  border-radius: var(--radius-lg);
+  animation: fade-in 0.3s ease;
+}
+
+.tf-feedback.correct {
+  background: rgba(16, 185, 129, 0.1);
+  border: 2px solid var(--aa-success);
+}
+
+.tf-feedback.incorrect {
+  background: rgba(239, 68, 68, 0.1);
+  border: 2px solid var(--aa-error);
+}
+
+.tf-feedback .feedback-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-2xl);
+  font-weight: bold;
+  margin: 0 auto var(--space-3);
+}
+
+.tf-feedback.correct .feedback-icon {
+  background: var(--aa-success);
+  color: white;
+}
+
+.tf-feedback.incorrect .feedback-icon {
+  background: var(--aa-error);
+  color: white;
+}
+
+.feedback-text {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-2);
+}
+
+.tf-feedback.correct .feedback-text {
+  color: var(--aa-success);
+}
+
+.tf-feedback.incorrect .feedback-text {
+  color: var(--aa-error);
+}
+
+.feedback-correction {
+  font-size: var(--text-sm);
+  color: var(--aa-text-muted);
+}
+
+/* Score */
+.tf-score {
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--aa-text-dim);
+}
+
+/* Skip button */
+.skip-btn {
+  margin-top: var(--space-4);
+}
+
+/* Result */
+.tf-result {
+  padding: var(--space-8);
+  animation: slide-up 0.4s ease;
+}
+
+.tf-result .result-icon {
+  font-size: 5rem;
+  margin-bottom: var(--space-4);
+}
+
+.tf-result h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  margin-bottom: var(--space-3);
+}
+
+.tf-result.success h2 {
+  color: var(--aa-success);
+}
+
+.tf-result.partial h2 {
+  color: var(--aa-accent);
+}
+
+.tf-result p {
+  color: var(--aa-text-muted);
+  font-size: var(--text-lg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .tf-statement p {
+    font-size: var(--text-lg);
+  }
+
+  .tf-buttons {
+    grid-template-columns: 1fr;
+  }
+}
+

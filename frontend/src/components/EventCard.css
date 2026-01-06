@@ -1,0 +1,222 @@
+/**
+ * Styles EventCard - Glassmorphism
+ */
+
+.event-card {
+  position: relative;
+  background: var(--aa-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--aa-border);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  transition: all var(--transition-normal);
+  overflow: hidden;
+}
+
+.event-card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(0, 212, 255, 0.1) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  pointer-events: none;
+}
+
+.event-card:hover .event-card-glow,
+.event-card.revealed .event-card-glow {
+  opacity: 1;
+}
+
+.event-card.clickable {
+  cursor: pointer;
+}
+
+.event-card.clickable:hover {
+  transform: translateY(-4px);
+  border-color: var(--aa-accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.event-card.draggable {
+  cursor: grab;
+}
+
+.event-card.draggable:active {
+  cursor: grabbing;
+}
+
+/* États correct/incorrect */
+.event-card.correct {
+  border-color: var(--aa-success);
+  box-shadow: 0 0 30px var(--aa-success-glow);
+  animation: success-pop var(--transition-normal) ease;
+}
+
+.event-card.correct .event-card-glow {
+  background: radial-gradient(
+    circle,
+    rgba(16, 185, 129, 0.2) 0%,
+    transparent 70%
+  );
+  opacity: 1;
+}
+
+.event-card.incorrect {
+  border-color: var(--aa-error);
+  box-shadow: 0 0 30px var(--aa-error-glow);
+  animation: shake 0.5s ease;
+}
+
+.event-card.incorrect .event-card-glow {
+  background: radial-gradient(
+    circle,
+    rgba(239, 68, 68, 0.2) 0%,
+    transparent 70%
+  );
+  opacity: 1;
+}
+
+/* Contenu */
+.event-card-content {
+  position: relative;
+  z-index: 1;
+}
+
+.event-year-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-3);
+}
+
+.year-value {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  color: var(--aa-accent);
+  text-shadow: 0 0 20px var(--aa-glow);
+}
+
+.event-title {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: 600;
+  color: var(--aa-text);
+  margin-bottom: var(--space-3);
+  line-height: 1.3;
+}
+
+.event-people {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.event-description {
+  font-size: var(--text-sm);
+  color: var(--aa-text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-3);
+}
+
+.event-difficulty {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.difficulty-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--aa-bg-tertiary);
+  border: 1px solid var(--aa-border);
+}
+
+.difficulty-dot.active {
+  background: var(--aa-accent-secondary);
+  border-color: var(--aa-accent-secondary);
+}
+
+/* Indicateur de résultat */
+.event-result {
+  position: absolute;
+  top: var(--space-4);
+  right: var(--space-4);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-xl);
+  font-weight: bold;
+}
+
+.event-result.success {
+  background: var(--aa-success);
+  color: white;
+}
+
+.event-result.error {
+  background: var(--aa-error);
+  color: white;
+}
+
+/* Version mini */
+.event-card-mini {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  background: var(--aa-bg-secondary);
+  border: 1px solid var(--aa-border);
+  border-radius: var(--radius-md);
+}
+
+.event-card-mini.correct {
+  border-color: var(--aa-success);
+  background: rgba(16, 185, 129, 0.1);
+}
+
+.event-card-mini.incorrect {
+  border-color: var(--aa-error);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.mini-year {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--aa-accent);
+  min-width: 50px;
+}
+
+.mini-title {
+  font-size: var(--text-sm);
+  color: var(--aa-text);
+  flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .event-card {
+    padding: var(--space-4);
+  }
+
+  .event-title {
+    font-size: var(--text-lg);
+  }
+
+  .year-value {
+    font-size: var(--text-xl);
+  }
+}
+

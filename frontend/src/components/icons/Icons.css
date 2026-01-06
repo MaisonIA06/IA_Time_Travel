@@ -1,0 +1,63 @@
+/**
+ * Styles des icônes SVG
+ */
+
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  flex-shrink: 0;
+}
+
+/* Animation de rotation pour l'icône temps */
+.icon-time .time-spiral {
+  animation: time-rotate 4s linear infinite;
+  transform-origin: center;
+}
+
+@keyframes time-rotate {
+  from {
+    stroke-dashoffset: 0;
+  }
+  to {
+    stroke-dashoffset: 20;
+  }
+}
+
+/* Animation pulse pour les icônes de résultat */
+.icon-check,
+.icon-cross {
+  transition: transform 0.2s ease;
+}
+
+.icon-check:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.6));
+}
+
+.icon-cross:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.6));
+}
+
+/* Animation pour icône refresh */
+.icon-refresh {
+  transition: transform 0.3s ease;
+}
+
+.icon-refresh:hover {
+  transform: rotate(180deg);
+}
+
+/* Glow effect sur les icônes */
+.icon-glow {
+  filter: drop-shadow(0 0 6px var(--aa-accent));
+}
+
+.icon-glow-success {
+  filter: drop-shadow(0 0 8px var(--aa-success));
+}
+
+.icon-glow-error {
+  filter: drop-shadow(0 0 8px var(--aa-error));
+}
+
