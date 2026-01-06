@@ -1,210 +1,110 @@
-# IA Time Traveler 🕰️
+# 🕰️ L'Aventure Temporelle de l'IA
 
-> Jeu éducatif pour découvrir l'histoire de l'Intelligence Artificielle
+> Un jeu pédagogique conçu par la **MIA** (Mission Intelligence Artificielle) pour faire découvrir l'histoire de l'IA aux collégiens.
 
-**IA Time Traveler** est une WebApp éducative destinée aux collégiens. Les élèves incarnent des "agents temporels" et doivent reconstruire l'histoire de l'IA en plaçant des événements sur une frise chronologique.
+**L'Aventure Temporelle** est une application web interactive destinée à être animée par un professeur ou un animateur. Les élèves incarnent des "agents temporels" qui doivent explorer le passé pour reconstruire la frise chronologique de l'Intelligence Artificielle.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Public](https://img.shields.io/badge/public-Collégiens-orange)
+![Goal](https://img.shields.io/badge/but-Pédagogique-green)
 
-## 🎮 Fonctionnalités
+---
 
-- **Quiz chronologique** : Deviner l'année des événements majeurs de l'IA
-- **Mode Drag & Drop** : Placer les événements sur une frise interactive
-- **Mini-jeux** : Remettre en ordre, Vrai/Faux
-- **Design futuriste** : Interface dark avec effets néon et canvas interactif
+## 🎯 Objectif Pédagogique
 
-## 🏗️ Architecture
+Ce projet vise à démystifier l'Intelligence Artificielle auprès des jeunes (11-15 ans) en leur montrant que :
+- L'IA n'est pas une invention magique et récente, mais le fruit d'une longue histoire.
+- De grands scientifiques (hommes et femmes) ont contribué à cette évolution.
+- Les concepts de base (programmation, tests, réseaux de neurones) peuvent être compris par tous.
+
+---
+
+## 🎮 Le Parcours de Jeu
+
+L'expérience est conçue en deux phases complémentaires pour favoriser l'apprentissage :
+
+### 1. Phase de Découverte (Apprentissage Collectif)
+- **Slideshow interactif** : L'animateur présente chaque événement marquant sur grand écran.
+- **Explications simples** : Chaque carte contient une description courte et un encadré *"Le savais-tu ?"* pour approfondir un concept sans complexité.
+- **Support à l'animation** : Des notes sont présentes pour aider l'animateur à guider la discussion.
+
+### 2. Phase de Quiz (Validation des Connaissances)
+- **Mix de questions** : QCM, Vrai/Faux et mini-jeux de mise en ordre.
+- **Feedback immédiat** : Après chaque réponse, une correction pédagogique rappelle l'essentiel de l'événement.
+- **Système de score** : Valorise la réussite, la rapidité et la régularité (séries de bonnes réponses).
+
+---
+
+## 🏗️ Architecture Technique
 
 ```
 IA Time Travel/
-├── backend/          # Django + DRF
-│   ├── config/       # Configuration Django
-│   └── timeline/     # App événements et quiz
+├── backend/          # Django + Django REST Framework
+│   ├── config/       # Paramètres du projet
+│   └── timeline/     # Gestion des événements et génération de quiz
 ├── frontend/         # React + Vite + TypeScript
 │   ├── src/
-│   │   ├── components/   # Composants UI
-│   │   ├── pages/        # Pages de l'application
-│   │   ├── games/        # Mini-jeux
-│   │   ├── store/        # État global (Zustand)
-│   │   └── api/          # Client API
+│   │   ├── components/   # UI (Design futuriste/cyber)
+│   │   ├── pages/        # Découverte, Quiz, Résultats
+│   │   ├── games/        # Logique des mini-jeux
+│   │   └── store/        # État global (Zustand)
 │   └── ...
 └── docker-compose.yml
 ```
 
-## 🚀 Démarrage rapide
+---
+
+## 🚀 Installation & Démarrage
+
+Le projet est entièrement conteneurisé pour faciliter son déploiement dans les établissements scolaires.
 
 ### Prérequis
+- [Docker](https://docs.docker.com/get-docker/) et [Docker Compose](https://docs.docker.com/compose/install/) installés.
 
-- Docker et Docker Compose installés
-- Git
+### Lancement
+1. **Démarrer les services**
+   ```bash
+   docker compose up --build
+   ```
 
-### Installation
+2. **Initialiser les données pédagogiques**
+   (Dans un nouveau terminal, à la racine) :
+   ```bash
+   docker compose exec backend python manage.py shell -c "from timeline.models import Event; Event.objects.all().delete()"
+   docker compose exec backend python manage.py loaddata events
+   ```
 
-1. **Cloner le projet**
-```bash
-git clone <repository-url>
-cd "IA Time Travel"
-```
-
-2. **Créer les fichiers d'environnement**
-
-Créer `.env` à la racine :
-```env
-# Database
-POSTGRES_DB=ia_timetravel
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-
-# Backend
-DEBUG=True
-SECRET_KEY=dev-secret-key-change-in-production
-ALLOWED_HOSTS=localhost,127.0.0.1,backend
-CORS_ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
-
-# Frontend
-VITE_API_URL=http://localhost:8000
-```
-
-Créer `frontend/.env` :
-```env
-VITE_API_URL=http://localhost:8000
-```
-
-3. **Lancer les conteneurs**
-```bash
-docker compose up --build
-```
-
-4. **Accéder à l'application**
-- Frontend : http://localhost:5173
-- API Backend : http://localhost:8000/api/v1/
-- Admin Django : http://localhost:8000/admin/
-
-### Créer un superutilisateur (optionnel)
-
-```bash
-docker compose exec backend python manage.py createsuperuser
-```
-
-## 📖 Utilisation
-
-1. Aller sur http://localhost:5173
-2. Choisir un chapitre
-3. Cliquer sur "Lancer l'Aventure"
-4. Parcourir les événements et répondre au quiz
-
-## 📚 Chapitres disponibles
-
-1. **Précurseurs & Pionniers (1800-1960)** : Ada Lovelace, Turing, Dartmouth...
-2. **Programmes & Systèmes experts (1960-1990)** : ELIZA, MYCIN, premiers robots...
-3. **Grandes victoires (1990-2010)** : Deep Blue, Watson, débuts du deep learning...
-4. **Deep Learning & IA génératives (2010-...)** : AlphaGo, Transformers, ChatGPT...
-
-## 🎯 Système de scoring
-
-| Action | Points |
-|--------|--------|
-| Bonne réponse | +100 |
-| Bonus rapidité | +0 à +50 |
-| Série (streak) | +20 par bonne réponse consécutive (max +100) |
-| Mauvaise réponse | -30 |
-
-## 🛠️ Développement
-
-### Backend (Django)
-
-```bash
-cd backend
-
-# Créer un environnement virtuel
-python -m venv venv
-source venv/bin/activate  # ou venv\Scripts\activate sur Windows
-
-# Installer les dépendances
-pip install -r requirements.txt
-
-# Migrations
-python manage.py migrate
-
-# Charger les fixtures
-python manage.py loaddata events
-
-# Lancer le serveur
-python manage.py runserver
-```
-
-### Frontend (React)
-
-```bash
-cd frontend
-
-# Installer les dépendances
-npm install
-
-# Lancer en développement
-npm run dev
-
-# Build production
-npm run build
-```
-
-### Tests
-
-```bash
-# Backend
-cd backend
-pytest
-
-# Frontend
-cd frontend
-npm test
-```
-
-## 📡 API Endpoints
-
-| Méthode | Endpoint | Description |
-|---------|----------|-------------|
-| GET | `/api/v1/chapters/` | Liste des chapitres |
-| GET | `/api/v1/events/` | Liste des événements |
-| GET | `/api/v1/quiz/?chapter=...` | Générer un quiz |
-
-## 🎨 Design System
-
-Le projet utilise un thème "dark futuriste" avec des variables CSS centralisées :
-
-```css
---aa-bg: #0a0a0f;          /* Fond principal */
---aa-accent: #00d4ff;       /* Accent cyan */
---aa-accent-secondary: #8b5cf6;  /* Accent violet */
---aa-success: #10b981;      /* Succès */
---aa-error: #ef4444;        /* Erreur */
-```
-
-## 📦 Technologies utilisées
-
-### Backend
-- Django 4.2
-- Django REST Framework
-- PostgreSQL
-- django-cors-headers
-
-### Frontend
-- React 18
-- TypeScript
-- Vite
-- Zustand (state management)
-- @dnd-kit (drag and drop)
-
-## 🤝 Contribution
-
-Les contributions sont les bienvenues ! N'hésitez pas à ouvrir une issue ou une pull request.
-
-## 📄 Licence
-
-MIT License - voir le fichier LICENSE pour plus de détails.
+3. **Accéder au jeu**
+   - **Interface Joueur/Animateur** : [http://localhost:5173](http://localhost:5173)
+   - **Administration (Backend)** : [http://localhost:8000/admin/](http://localhost:8000/admin/)
 
 ---
 
-Développé avec ❤️ pour l'éducation
+## 📚 L'Histoire de l'IA (8 Étapes Clés)
 
+L'aventure actuelle se concentre sur les moments fondateurs :
+1. **1843** : Ada Lovelace (La première programmeuse)
+2. **1950** : Le Test de Turing (Les machines peuvent-elles penser ?)
+3. **1956** : Conférence de Dartmouth (La naissance du mot IA)
+4. **1966** : ELIZA (Le premier chatbot)
+5. **1997** : Deep Blue (L'IA bat le champion d'échecs)
+6. **2011** : Siri (L'IA dans notre poche)
+7. **2016** : AlphaGo (L'IA et la stratégie complexe)
+8. **2022** : ChatGPT (L'IA générative pour tous)
+
+---
+
+## 📦 Technologies Utilisées
+
+- **Frontend** : React 18, TypeScript, Zustand (Gestion d'état), @dnd-kit (Drag & Drop), Framer Motion.
+- **Backend** : Django 4.2, Django REST Framework, PostgreSQL.
+- **Design** : CSS moderne (Thème Cyber/Néon) adapté pour une lecture claire.
+
+---
+
+## 🤝 À propos de la MIA
+
+La **MIA (Mission Intelligence Artificielle)** œuvre pour une meilleure compréhension des technologies de demain par les citoyens d'aujourd'hui. Ce projet est une ressource libre destinée aux enseignants et médiateurs numériques.
+
+---
+Développé avec ❤️ par la **MIA** pour l'avenir de nos collégiens.
