@@ -148,7 +148,7 @@ export function OrderGame({ events, onComplete, onSkip }: OrderGameProps) {
           Mini-jeu
         </Badge>
         <h2>Remets dans l'ordre !</h2>
-        <p>Place ces 5 événements du plus ancien au plus récent</p>
+        <p>Place ces {selectedEvents.length} événements du plus ancien au plus récent</p>
       </div>
 
       {!result ? (
@@ -199,7 +199,7 @@ export function OrderGame({ events, onComplete, onSkip }: OrderGameProps) {
           <h3>
             {result.correct
               ? 'Parfait !'
-              : `${5 - result.errors}/5 bien placés`}
+              : `${selectedEvents.length - result.errors}/${selectedEvents.length} bien placés`}
           </h3>
 
           <div className="correct-order">

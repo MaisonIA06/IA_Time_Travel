@@ -187,7 +187,7 @@ export const useGameStore = create<GameState>((set, get) => ({
     const newIndex = state.currentIndex + 1
 
     if (newIndex >= state.quizItems.length) {
-      set({ phase: 'result' })
+      get().finishGame()
       return
     }
 
@@ -219,6 +219,7 @@ export const useGameStore = create<GameState>((set, get) => ({
       set({
         currentIndex: 0,
         phase: 'quiz',
+        startTime: Date.now(),
         questionStartTime: Date.now()
       })
     } else {

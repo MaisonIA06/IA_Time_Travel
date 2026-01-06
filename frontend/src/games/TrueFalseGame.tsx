@@ -23,8 +23,9 @@ interface Statement {
 }
 
 export function TrueFalseGame({ events, onComplete, onSkip }: TrueFalseGameProps) {
-  // Générer 10 affirmations (5 vraies, 5 fausses)
+  // Générer les affirmations basées sur tous les événements disponibles
   const statements = useMemo<Statement[]>(() => {
+    // On utilise tous les événements reçus (maximum 10)
     const shuffledEvents = [...events].sort(() => Math.random() - 0.5).slice(0, 10)
 
     return shuffledEvents.map((event, index) => {
@@ -99,15 +100,15 @@ export function TrueFalseGame({ events, onComplete, onSkip }: TrueFalseGameProps
 
     return (
       <Card variant="glass" padding="lg" className="tf-game">
-        <div className={`tf-result ${finalScore >= 7 ? 'success' : 'partial'}`}>
+        <div className={`tf-result ${finalScore >= (statements.length * 0.7) ? 'success' : 'partial'}`}>
           <div className="result-icon">
             <CheckIcon size={48} color={finalScore >= 7 ? 'var(--aa-success)' : 'var(--aa-warning)'} />
           </div>
-          <h2>{finalScore}/10 bonnes réponses</h2>
+          <h2>{finalScore}/{statements.length} bonnes réponses</h2>
           <p>
-            {finalScore >= 8
+            {finalScore >= (statements.length * 0.8)
               ? 'Excellent ! Tu connais bien l\'histoire de l\'IA !'
-              : finalScore >= 6
+              : finalScore >= (statements.length * 0.6)
                 ? 'Bien joué ! Continue à apprendre !'
                 : 'Pas mal ! Tu peux t\'améliorer !'}
           </p>

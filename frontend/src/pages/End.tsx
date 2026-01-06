@@ -49,6 +49,15 @@ export function End() {
 
   const message = getMessage()
 
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    if (mins > 0) {
+      return `${mins}m ${secs}s`
+    }
+    return `${secs}s`
+  }
+
   return (
     <div className="end-page">
       <header className="end-header">
@@ -88,7 +97,7 @@ export function End() {
               <span className="stat-label">Précision</span>
             </div>
             <div className="score-stat">
-              <span className="stat-value">{Math.floor(totalDuration / 60)}:{String(totalDuration % 60).padStart(2, '0')}</span>
+              <span className="stat-value">{formatTime(totalDuration)}</span>
               <span className="stat-label">Temps</span>
             </div>
             <div className="score-stat">

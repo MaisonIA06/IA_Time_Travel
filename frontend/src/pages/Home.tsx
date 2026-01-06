@@ -51,7 +51,7 @@ export function Home() {
         // Charger le quiz directement
         const response = await getQuiz({
           chapter: selectedChapter,
-          count: 10
+          count: chapter.event_count
         })
         
         setQuizItems(response.items)
