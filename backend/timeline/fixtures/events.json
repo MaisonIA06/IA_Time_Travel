@@ -52,26 +52,11 @@
       "title": "ELIZA : Le premier robot qui discute",
       "description_short": "ELIZA est le tout premier 'chatbot'. Elle pouvait faire semblant de comprendre ce qu'on lui disait en répétant nos phrases, comme un psychologue.",
       "explanation": "Même si elle ne comprenait rien du tout, beaucoup de gens ont commencé à lui confier leurs secrets ! C'est ce qu'on appelle 'l'effet ELIZA'.",
-      "chapter": "chapter_2",
+      "chapter": "chapter_1",
       "difficulty": 1,
       "tags": ["chatbot", "discussion"],
       "people": ["Joseph Weizenbaum"],
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/ELIZA_conversation.png/440px-ELIZA_conversation.png"
-    }
-  },
-  {
-    "model": "timeline.event",
-    "pk": 5,
-    "fields": {
-      "year": 1969,
-      "title": "Shakey : Le premier robot intelligent",
-      "description_short": "Shakey est le premier robot capable de se déplacer tout seul dans une pièce et de contourner des obstacles pour atteindre son but.",
-      "explanation": "On l'appelait Shakey (qui veut dire 'tremblant') parce qu'il bougeait de façon un peu saccadée quand il s'arrêtait pour réfléchir à son prochain mouvement.",
-      "chapter": "chapter_2",
-      "difficulty": 1,
-      "tags": ["robot", "mobile"],
-      "people": ["SRI International"],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Shakey_the_Robot_%28developed_between_1966-1972_at_SRI_International%29_-_Computer_History_Museum_%282007-11-10_23.16.01_by_Carlo_Nardone%29.jpg/250px-Shakey_the_Robot_%28developed_between_1966-1972_at_SRI_International%29_-_Computer_History_Museum_%282007-11-10_23.16.01_by_Carlo_Nardone%29.jpg"
     }
   },
   {
@@ -82,26 +67,11 @@
       "title": "Deep Blue bat le champion d'échecs",
       "description_short": "Pour la première fois, un ordinateur super puissant appelé Deep Blue réussit à battre Garry Kasparov, le meilleur joueur d'échecs du monde !",
       "explanation": "Cette victoire a choqué le monde entier car on pensait que les échecs demandaient une intuition que seules les humains possédaient.",
-      "chapter": "chapter_2",
+      "chapter": "chapter_1",
       "difficulty": 1,
       "tags": ["échecs", "victoire"],
       "people": ["Garry Kasparov", "IBM"],
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Deep_Blue.jpg/560px-Deep_Blue.jpg"
-    }
-  },
-  {
-    "model": "timeline.event",
-    "pk": 7,
-    "fields": {
-      "year": 2002,
-      "title": "Roomba : L'IA fait le ménage",
-      "description_short": "Le premier robot aspirateur Roomba arrive dans les maisons. L'IA n'est plus seulement dans les laboratoires, elle nous aide tous les jours.",
-      "explanation": "Le Roomba utilise des capteurs pour 'voir' les murs et les meubles. S'il se cogne, il apprend petit à petit la forme de la pièce.",
-      "chapter": "chapter_3",
-      "difficulty": 1,
-      "tags": ["maison", "robot"],
-      "people": ["iRobot"],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/Roomba_original.jpg/560px-Roomba_original.jpg"
     }
   },
   {
@@ -112,7 +82,7 @@
       "title": "Siri : L'IA dans ta poche",
       "description_short": "Apple lance Siri sur l'iPhone. On peut maintenant parler à son téléphone pour lui demander la météo ou de mettre une alarme.",
       "explanation": "Siri utilise la 'reconnaissance vocale' pour transformer tes paroles en texte, puis une IA pour comprendre ce que tu veux faire.",
-      "chapter": "chapter_3",
+      "chapter": "chapter_1",
       "difficulty": 1,
       "tags": ["assistant", "vocal"],
       "people": ["Apple"],
@@ -127,7 +97,7 @@
       "title": "AlphaGo : L'IA joue au Go",
       "description_short": "Le jeu de Go est très complexe. Pourtant, l'IA AlphaGo bat le champion du monde. Elle a appris en jouant des millions de parties contre elle-même.",
       "explanation": "C'était encore plus impressionnant que les échecs, car au Go, il y a plus de coups possibles que d'atomes dans tout l'univers !",
-      "chapter": "chapter_4",
+      "chapter": "chapter_1",
       "difficulty": 1,
       "tags": ["jeu", "stratégie"],
       "people": ["DeepMind", "Lee Sedol"],
@@ -142,26 +112,11 @@
       "title": "ChatGPT : L'IA qui écrit tout",
       "description_short": "ChatGPT est capable de rédiger des poèmes, d'expliquer des leçons et de coder des programmes. C'est une révolution pour la création de textes.",
       "explanation": "ChatGPT a été entraîné sur des milliards de textes Internet pour apprendre à prédire le mot suivant, exactement comme le clavier de ton téléphone mais en beaucoup plus puissant.",
-      "chapter": "chapter_4",
+      "chapter": "chapter_1",
       "difficulty": 1,
       "tags": ["texte", "révolution"],
       "people": ["OpenAI"],
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/560px-ChatGPT_logo.svg.png"
-    }
-  },
-  {
-    "model": "timeline.event",
-    "pk": 11,
-    "fields": {
-      "year": 2024,
-      "title": "Sora : L'IA qui crée des vidéos",
-      "description_short": "Avec Sora, on peut créer des vidéos très réalistes juste en décrivant une scène. L'IA imagine maintenant des mondes entiers en mouvement.",
-      "explanation": "Sora comprend non seulement ce que l'utilisateur demande, mais aussi comment les objets existent et bougent dans le monde physique.",
-      "chapter": "chapter_4",
-      "difficulty": 1,
-      "tags": ["vidéo", "futur"],
-      "people": ["OpenAI"],
-      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/OpenAI_Logo.svg/560px-OpenAI_Logo.svg.png"
     }
   }
 ]

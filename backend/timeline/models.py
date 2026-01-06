@@ -7,10 +7,7 @@ from django.db import models
 
 class ChapterChoices(models.TextChoices):
     """Chapitres de l'histoire de l'IA."""
-    CHAPTER_1 = 'chapter_1', 'Précurseurs & Pionniers (1800-1960)'
-    CHAPTER_2 = 'chapter_2', 'Programmes & Systèmes experts (1960-1990)'
-    CHAPTER_3 = 'chapter_3', 'Grandes victoires (1990-2010)'
-    CHAPTER_4 = 'chapter_4', 'Deep Learning & IA génératives (2010-...)'
+    CHAPTER_1 = 'chapter_1', "L'Aventure de l'IA (1843-2024)"
 
 
 class Event(models.Model):
