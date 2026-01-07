@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
-import './NeuralSnake.css';
+import React, { useEffect, useRef, useState, useCallback, useMemo } from 'react';
+import './ChronosSnake.css';
 
 interface Point {
   x: number;
@@ -12,18 +12,29 @@ interface Node extends Point {
   intensity: number;
 }
 
-interface NeuralSnakeProps {
+interface ChronosSnakeProps {
   onClose: () => void;
 }
 
-const GRID_SIZE = 20;
+const GRID_SIZE = 25; // Un peu plus grand pour faciliter le tactile
 const INITIAL_SNAKE = [
   { x: 10, y: 10 },
   { x: 10, y: 11 },
   { x: 10, y: 12 },
 ];
 
-export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
+const HISTORICAL_EVENTS = [
+  { year: 1843, title: "Ada Lovelace" },
+  { year: 1950, title: "Test de Turing" },
+  { year: 1956, title: "Conférence Dartmouth" },
+  { year: 1966, title: "ELIZA" },
+  { year: 1997, title: "Deep Blue" },
+  { year: 2011, title: "Siri" },
+  { year: 2016, title: "AlphaGo" },
+  { year: 2022, title: "ChatGPT" },
+];
+
+export const ChronosSnake: React.FC<ChronosSnakeProps> = ({ onClose }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [snake, setSnake] = useState<Point[]>(INITIAL_SNAKE);
   const [dir, setDir] = useState<Point>({ x: 0, y: -1 });
@@ -32,32 +43,40 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
   const [isGameOver, setIsGameOver] = useState(false);
   const [isGlitching, setIsGlitching] = useState(false);
   const [highScore, setHighScore] = useState(() => 
-    parseInt(localStorage.getItem('snake_highscore') || '0')
+    parseInt(localStorage.getItem('chronos_snake_highscore') || '0')
   );
+  
+  // Chronos Logic
+  const [nextEventIndex, setNextEventIndex] = useState(0);
+  const [lastCollectedEvent, setLastCollectedEvent] = useState<string | null>(null);
+  const [showEventTitle, setShowEventTitle] = useState(false);
+
+  const currentEvent = useMemo(() => HISTORICAL_EVENTS[nextEventIndex % HISTORICAL_EVENTS.length], [nextEventIndex]);
 
   // Neural Net state
   const nodes = useRef<Node[]>([]);
-  const lastEatTime = useRef<number>(0);
 
   const initNeuralNet = useCallback((width: number, height: number) => {
-    const nodeCount = 50;
+    const nodeCount = 40;
     nodes.current = Array.from({ length: nodeCount }, () => ({
       x: Math.random() * width,
       y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.5,
-      vy: (Math.random() - 0.5) * 0.5,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
       intensity: 0,
     }));
   }, []);
 
   const generateFood = useCallback((currentSnake: Point[]) => {
     let newFood;
+    const widthInGrids = Math.floor(window.innerWidth / GRID_SIZE);
+    const heightInGrids = Math.floor(window.innerHeight / GRID_SIZE);
+    
     while (true) {
       newFood = {
-        x: Math.floor(Math.random() * (window.innerWidth / GRID_SIZE)),
-        y: Math.floor(Math.random() * (window.innerHeight / GRID_SIZE)),
+        x: Math.floor(Math.random() * (widthInGrids - 2)) + 1,
+        y: Math.floor(Math.random() * (heightInGrids - 4)) + 2, // Garder de la place pour l'UI en haut
       };
-      // Check if food is on snake
       const onSnake = currentSnake.some(s => s.x === newFood!.x && s.y === newFood!.y);
       if (!onSnake) break;
     }
@@ -72,7 +91,6 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
       setSnake(prevSnake => {
         const head = { x: prevSnake[0].x + dir.x, y: prevSnake[0].y + dir.y };
 
-        // Wall collision (wrap around)
         const widthInGrids = Math.floor(window.innerWidth / GRID_SIZE);
         const heightInGrids = Math.floor(window.innerHeight / GRID_SIZE);
         
@@ -81,7 +99,6 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
         if (head.y < 0) head.y = heightInGrids - 1;
         if (head.y >= heightInGrids) head.y = 0;
 
-        // Self collision
         if (prevSnake.some(s => s.x === head.x && s.y === head.y)) {
           setIsGameOver(true);
           return prevSnake;
@@ -89,24 +106,27 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
 
         const newSnake = [head, ...prevSnake];
 
-        // Food collision
         if (head.x === food.x && head.y === food.y) {
+          // Food collision - Event Collected!
+          const pointsEarned = 50 + (nextEventIndex * 10);
           setScore(s => {
-            const newScore = s + 10;
+            const newScore = s + pointsEarned;
             if (newScore > highScore) {
               setHighScore(newScore);
-              localStorage.setItem('snake_highscore', newScore.toString());
+              localStorage.setItem('chronos_snake_highscore', newScore.toString());
             }
             return newScore;
           });
-          setFood(generateFood(newSnake));
-          lastEatTime.current = Date.now();
-          
-          // Visual Glitch effect
-          setIsGlitching(true);
-          setTimeout(() => setIsGlitching(false), 150);
 
-          // Boost neural intensity
+          setLastCollectedEvent(currentEvent.title);
+          setShowEventTitle(true);
+          setTimeout(() => setShowEventTitle(false), 2000);
+          
+          setNextEventIndex(prev => prev + 1);
+          setFood(generateFood(newSnake));
+          
+          setIsGlitching(true);
+          setTimeout(() => setIsGlitching(false), 200);
           nodes.current.forEach(n => n.intensity = 1);
         } else {
           newSnake.pop();
@@ -116,9 +136,10 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
       });
     };
 
-    const gameInterval = setInterval(moveSnake, Math.max(50, 150 - score / 5));
+    const speed = Math.max(60, 140 - (nextEventIndex * 5));
+    const gameInterval = setInterval(moveSnake, speed);
     return () => clearInterval(gameInterval);
-  }, [dir, food, isGameOver, score, highScore, generateFood]);
+  }, [dir, food, isGameOver, nextEventIndex, currentEvent, highScore, generateFood]);
 
   // Input handling
   useEffect(() => {
@@ -132,41 +153,8 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
       }
     };
 
-    // Touch Handling (Swipe)
-    let touchStart: Point | null = null;
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStart = { x: e.touches[0].clientX, y: e.touches[0].clientY };
-    };
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      if (!touchStart) return;
-      const touchEnd = { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-      const dx = touchEnd.x - touchStart.x;
-      const dy = touchEnd.y - touchStart.y;
-
-      if (Math.abs(dx) > Math.abs(dy)) {
-        if (Math.abs(dx) > 30) { // Threshold
-          if (dx > 0 && dir.x === 0) setDir({ x: 1, y: 0 });
-          else if (dx < 0 && dir.x === 0) setDir({ x: -1, y: 0 });
-        }
-      } else {
-        if (Math.abs(dy) > 30) {
-          if (dy > 0 && dir.y === 0) setDir({ x: 0, y: 1 });
-          else if (dy < 0 && dir.y === 0) setDir({ x: 0, y: -1 });
-        }
-      }
-      touchStart = null;
-    };
-
     window.addEventListener('keydown', handleKeydown);
-    window.addEventListener('touchstart', handleTouchStart);
-    window.addEventListener('touchend', handleTouchEnd);
-    
-    return () => {
-      window.removeEventListener('keydown', handleKeydown);
-      window.removeEventListener('touchstart', handleTouchStart);
-      window.removeEventListener('touchend', handleTouchEnd);
-    };
+    return () => window.removeEventListener('keydown', handleKeydown);
   }, [dir, onClose]);
 
   // Rendering
@@ -179,7 +167,6 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     
-    // N'initialiser le réseau que si les noeuds n'existent pas encore
     if (nodes.current.length === 0) {
       initNeuralNet(canvas.width, canvas.height);
     }
@@ -187,32 +174,27 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
     let animationFrameId: number;
 
     const render = () => {
-      // Clear with slight transparency for trail effect
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+      ctx.fillStyle = 'rgba(10, 10, 20, 0.2)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Render Neural Net Background
+      // Render Neural Net
       nodes.current.forEach((node, i) => {
         node.x += node.vx;
         node.y += node.vy;
-
         if (node.x < 0 || node.x > canvas.width) node.vx *= -1;
         if (node.y < 0 || node.y > canvas.height) node.vy *= -1;
-
-        node.intensity *= 0.95; // Decay
-
-        const finalOpacity = 0.1 + node.intensity * 0.4;
-        ctx.fillStyle = `rgba(0, 255, 70, ${finalOpacity})`;
+        node.intensity *= 0.97;
+        const opacity = 0.1 + node.intensity * 0.5;
+        ctx.fillStyle = `rgba(0, 255, 255, ${opacity})`;
         ctx.beginPath();
         ctx.arc(node.x, node.y, 2, 0, Math.PI * 2);
         ctx.fill();
 
-        // Draw connections
         for (let j = i + 1; j < nodes.current.length; j++) {
           const other = nodes.current[j];
           const dist = Math.hypot(node.x - other.x, node.y - other.y);
-          if (dist < 150) {
-            ctx.strokeStyle = `rgba(0, 255, 70, ${(1 - dist / 150) * finalOpacity})`;
+          if (dist < 180) {
+            ctx.strokeStyle = `rgba(0, 255, 255, ${(1 - dist / 180) * opacity * 0.5})`;
             ctx.lineWidth = 0.5;
             ctx.beginPath();
             ctx.moveTo(node.x, node.y);
@@ -222,19 +204,26 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
         }
       });
 
-      // Render Food (Bit)
-      ctx.fillStyle = '#00ff46';
+      // Render Food (Year)
+      ctx.fillStyle = '#00faff';
       ctx.shadowBlur = 15;
-      ctx.shadowColor = '#00ff46';
-      ctx.font = `${GRID_SIZE}px monospace`;
-      ctx.fillText(Math.random() > 0.5 ? '1' : '0', food.x * GRID_SIZE, food.y * GRID_SIZE + GRID_SIZE);
+      ctx.shadowColor = '#00faff';
+      ctx.font = `bold ${GRID_SIZE * 0.8}px 'Courier New', monospace`;
+      ctx.textAlign = 'center';
+      ctx.fillText(currentEvent.year.toString(), food.x * GRID_SIZE + GRID_SIZE/2, food.y * GRID_SIZE + GRID_SIZE/1.2);
 
       // Render Snake
       snake.forEach((part, index) => {
-        const opacity = 1 - (index / snake.length) * 0.5;
-        ctx.fillStyle = `rgba(0, 255, 70, ${opacity})`;
-        ctx.shadowBlur = index === 0 ? 20 : 0;
-        ctx.fillRect(part.x * GRID_SIZE, part.y * GRID_SIZE, GRID_SIZE - 2, GRID_SIZE - 2);
+        const isHead = index === 0;
+        const opacity = 1 - (index / snake.length) * 0.6;
+        ctx.fillStyle = isHead ? '#00faff' : `rgba(0, 200, 255, ${opacity})`;
+        ctx.shadowBlur = isHead ? 20 : 0;
+        
+        // Forme un peu plus travaillée pour le serpent
+        const r = isHead ? 6 : 4;
+        ctx.beginPath();
+        ctx.roundRect(part.x * GRID_SIZE + 1, part.y * GRID_SIZE + 1, GRID_SIZE - 2, GRID_SIZE - 2, r);
+        ctx.fill();
       });
 
       ctx.shadowBlur = 0;
@@ -243,39 +232,52 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
 
     render();
     return () => cancelAnimationFrame(animationFrameId);
-  }, [snake, food, initNeuralNet]);
+  }, [snake, food, currentEvent, initNeuralNet]);
 
   const restart = () => {
     setSnake(INITIAL_SNAKE);
     setDir({ x: 0, y: -1 });
     setScore(0);
+    setNextEventIndex(0);
+    setLastCollectedEvent(null);
     setIsGameOver(false);
   };
 
   return (
-    <div className={`neural-snake-overlay ${isGlitching ? 'glitching' : ''}`}>
-      <div className="matrix-bg"></div>
-      
+    <div className={`chronos-snake-overlay ${isGlitching ? 'glitching' : ''}`}>
       <div className="snake-ui">
-        <div className="snake-stats">
-          <div className="stat-item">
-            <span className="label">SCORE:</span>
-            <span className="value">{score.toString().padStart(6, '0')}</span>
+        <div className="snake-header">
+          <div className="chronos-target">
+            <span className="target-label">OBJECTIF TEMPOREL :</span>
+            <span className="target-year">{currentEvent.year}</span>
           </div>
-          <div className="stat-item">
-            <span className="label">HIGH:</span>
-            <span className="value">{highScore.toString().padStart(6, '0')}</span>
+          
+          <div className="snake-stats">
+            <div className="stat-item">
+              <span className="label">SCORE</span>
+              <span className="value">{score.toString().padStart(6, '0')}</span>
+            </div>
+            <div className="stat-item">
+              <span className="label">RECORD</span>
+              <span className="value">{highScore.toString().padStart(6, '0')}</span>
+            </div>
           </div>
+          
+          <button className="snake-close" onClick={onClose}>[X]</button>
         </div>
-        
-        <button className="snake-close" onClick={onClose} title="EXIT TERMINAL">
-          [X]
-        </button>
+
+        {showEventTitle && (
+          <div className="event-popup">
+            <div className="event-popup-year">{HISTORICAL_EVENTS[(nextEventIndex - 1) % HISTORICAL_EVENTS.length].year}</div>
+            <div className="event-popup-title">{lastCollectedEvent}</div>
+            <div className="event-popup-bonus">+ BONUS TEMPOREL</div>
+          </div>
+        )}
       </div>
 
       <canvas ref={canvasRef} className="snake-canvas" />
 
-      {/* Touch Controls (D-Pad) */}
+      {/* D-Pad Tactile */}
       <div className="snake-dpad">
         <button className="dpad-btn up" onClick={() => dir.y === 0 && setDir({ x: 0, y: -1 })}>▲</button>
         <div className="dpad-row">
@@ -289,17 +291,20 @@ export const NeuralSnake: React.FC<NeuralSnakeProps> = ({ onClose }) => {
         <div className="snake-game-over">
           <h2 className="glitch" data-text="SYSTEM CRITICAL">SYSTEM CRITICAL</h2>
           <p>Neural Connection Terminated</p>
+          <div className="game-over-stats">
+            <p>Score final : {score}</p>
+            <p>Événements collectés : {nextEventIndex}</p>
+          </div>
           <div className="game-over-actions">
-            <button onClick={restart} className="btn-retro">REBOOT_SYSTEM</button>
-            <button onClick={onClose} className="btn-retro">SHUTDOWN</button>
+            <button onClick={restart} className="btn-retro">RESTAURER LE SYSTÈME</button>
+            <button onClick={onClose} className="btn-retro">QUITTER</button>
           </div>
         </div>
       )}
 
       <div className="snake-controls-hint">
-        ARROWS TO MOVE | ESC TO EXIT
+        COLLECTE LES DATES DANS L'ORDRE | ÉCHAP POUR QUITTER
       </div>
     </div>
   );
 };
-

@@ -6,7 +6,8 @@ import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Card, Badge } from '../components/ui'
 import { GlitchText, HolographicCard, TimeIcon } from '../components'
-import { NeuralSnake } from '../components/EasterEgg/NeuralSnake'
+import { ChronosSnake } from '../components/EasterEgg/ChronosSnake'
+import { GlitchTerminal } from '../components/EasterEgg/GlitchTerminal'
 import { getChapters, getQuiz } from '../api/client'
 import { useGameStore } from '../store/gameStore'
 import type { Chapter, ChapterId } from '../types'
@@ -19,10 +20,16 @@ export function Home() {
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   
-  // Easter Egg State
-  const [clickCount, setClickCount] = useState(0)
-  const [showEasterEgg, setShowEasterEgg] = useState(false)
-  const lastClickTime = useRef<number>(0)
+  // Easter Egg 1: Chronos Snake
+  const [snakeClickCount, setSnakeClickCount] = useState(0)
+  const [showSnake, setShowSnake] = useState(false)
+  const [glitchActive, setGlitchActive] = useState(false)
+  const lastSnakeClickTime = useRef<number>(0)
+
+  // Easter Egg 2: Glitch Terminal
+  const [terminalClickCount, setTerminalClickCount] = useState(0)
+  const [showTerminal, setShowTerminal] = useState(false)
+  const lastTerminalClickTime = useRef<number>(0)
 
   const { setChapter, setQuizItems, startGame, resetGame, setIsLoading: setStoreIsLoading } = useGameStore()
 
@@ -30,6 +37,28 @@ export function Home() {
     resetGame()
     loadChapters()
   }, [resetGame])
+
+  useEffect(() => {
+    if (snakeClickCount >= 5) {
+      setGlitchActive(true)
+      setTimeout(() => {
+        setShowSnake(true)
+        setGlitchActive(false)
+        setSnakeClickCount(0)
+      }, 500)
+    }
+  }, [snakeClickCount])
+
+  useEffect(() => {
+    if (terminalClickCount >= 5) {
+      setGlitchActive(true)
+      setTimeout(() => {
+        setShowTerminal(true)
+        setGlitchActive(false)
+        setTerminalClickCount(0)
+      }, 500)
+    }
+  }, [terminalClickCount])
 
   const loadChapters = async () => {
     try {
@@ -73,25 +102,30 @@ export function Home() {
 
   const handleLogoClick = () => {
     const now = Date.now()
-    if (now - lastClickTime.current < 2000) {
-      const newCount = clickCount + 1
-      if (newCount >= 5) {
-        setShowEasterEgg(true)
-        setClickCount(0)
-      } else {
-        setClickCount(newCount)
-      }
+    if (now - lastSnakeClickTime.current < 300) {
+      setSnakeClickCount(prev => prev + 1)
     } else {
-      setClickCount(1)
+      setSnakeClickCount(1)
     }
-    lastClickTime.current = now
+    lastSnakeClickTime.current = now
+  }
+
+  const handleSubtitleClick = () => {
+    const now = Date.now()
+    if (now - lastTerminalClickTime.current < 300) {
+      setTerminalClickCount(prev => prev + 1)
+    } else {
+      setTerminalClickCount(1)
+    }
+    lastTerminalClickTime.current = now
   }
 
   const selectedChapterData = chapters.find(c => c.id === selectedChapter)
 
   return (
-    <div className="home-page">
-      {showEasterEgg && <NeuralSnake onClose={() => setShowEasterEgg(false)} />}
+    <div className={`home-page ${glitchActive ? 'glitch-active' : ''}`}>
+      {showSnake && <ChronosSnake onClose={() => setShowSnake(false)} />}
+      {showTerminal && <GlitchTerminal onClose={() => setShowTerminal(false)} />}
       
       {/* Header */}
       <header className="home-header">
@@ -107,7 +141,7 @@ export function Home() {
             glow={true}
           />
         </div>
-        <p className="home-subtitle">
+        <p className="home-subtitle" onClick={handleSubtitleClick} style={{ cursor: 'pointer', userSelect: 'none' }}>
           Deviens un agent temporel et reconstruis l'histoire de l'Intelligence Artificielle !
         </p>
       </header>

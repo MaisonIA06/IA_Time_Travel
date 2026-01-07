@@ -223,6 +223,21 @@
   font-size: var(--text-sm);
 }
 
+/* Effet de transition pour l'Easter Egg */
+.glitch-active {
+  animation: screen-shake 0.2s infinite;
+  filter: hue-rotate(90deg) contrast(1.5);
+  overflow: hidden;
+}
+
+@keyframes screen-shake {
+  0% { transform: translate(0,0); }
+  25% { transform: translate(5px, 5px); }
+  50% { transform: translate(-5px, -5px); }
+  75% { transform: translate(5px, -5px); }
+  100% { transform: translate(0,0); }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .home-page {
