@@ -118,5 +118,95 @@
       "people": ["OpenAI"],
       "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/560px-ChatGPT_logo.svg.png"
     }
+  },
+  {
+    "model": "timeline.event",
+    "pk": 11,
+    "fields": {
+      "year": 1936,
+      "title": "Alan Turing : Machine de Turing",
+      "description_short": "Alan Turing invente la machine de Turing, une machine abstraite qui peut résoudre des problèmes de calcul.",
+      "explanation": "La machine de Turing est un modèle théorique de machine qui peut résoudre des problèmes de calcul. Elle est considérée comme le père de l'IA.",
+      "chapter": "chapter_1",
+      "difficulty": 1,
+      "tags": ["théorie", "calcul"],
+      "people": ["Alan Turing"],
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Alan_Turing_Aged_16.jpg/440px-Alan_Turing_Aged_16.jpg"
+    }
+  },
+  {
+    "model": "timeline.event",
+    "pk": 12,
+    "fields": {
+      "year": 1943,
+      "title": "Warren McCulloch et Walter Pitts : Le modèle de neurone artificiel",
+      "description_short": "Warren McCulloch et Walter Pitts inventent le modèle de neurone artificiel, une machine abstraite qui peut résoudre des problèmes de calcul.",
+      "explanation": "Le modèle de neurone artificiel est un modèle théorique de machine qui peut résoudre des problèmes de calcul.",
+      "chapter": "chapter_1",
+      "difficulty": 1,
+      "tags": ["neurone", "calcul"],
+      "people": ["Warren McCulloch", "Walter Pitts"],
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/54/Warren_McCulloch_and_Walter_Pitts.jpg/440px-Warren_McCulloch_and_Walter_Pitts.jpg"
+    }
+  },
+  {
+    "model": "timeline.event",
+    "pk": 13,
+    "fields": {
+      "year": 1972,
+      "title": "PROLOG : Le langage de programmation logique",
+      "description_short": "PROLOG est un langage de programmation logique qui permet de résoudre des problèmes de logique.",
+      "explanation": "PROLOG est un langage de programmation logique qui permet de résoudre des problèmes de logique.",
+      "chapter": "chapter_1",
+      "difficulty": 1,
+      "tags": ["logique", "programmation"],
+      "people": ["Alain Colmerauer"],
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Alain_Colmerauer.jpg/440px-Alain_Colmerauer.jpg"
+    }
+  },
+  {
+    "model": "timeline.event",
+    "pk": 14,
+    "fields": {
+      "year": 1980,
+      "title": "1980: Avenement des systèmes experts",
+      "description_short": "Les systèmes experts sont devenus une nouvelle façon de résoudre des problèmes de médecine.",
+      "explanation": "Les systèmes experts sont devenus une nouvelle façon de résoudre des problèmes de médecine.",
+      "chapter": "chapter_1",
+      "difficulty": 1,
+      "tags": ["système", "expert"],
+      "people": ["Feigenbaum", "Shortliffe"],
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f1/Feigenbaum_Shortliffe.jpg/440px-Feigenbaum_Shortliffe.jpg"
+    }
+  },
+  {
+    "model": "timeline.event",
+    "pk": 15,
+    "fields": {
+      "year": 2018,
+      "title": "Prix Turing : Le prix le plus prestigieux de l'IA",
+      "description_short": "Le prix Turing est le prix le plus prestigieux de l'IA. Il est décerné par l'Association for Computing Machinery (ACM) et le Institute of Electrical and Electronics Engineers (IEEE).",
+      "explanation": "Le prix Turing est le prix le plus prestigieux de l'IA. Il est décerné par l'Association for Computing Machinery (ACM) et le Institute of Electrical and Electronics Engineers (IEEE).",
+      "chapter": "chapter_1",
+      "difficulty": 1,
+      "tags": ["prix", "prestige"],
+      "people": ["Alan Turing"],
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Alan_Turing_Aged_26.jpg/440px-Alan_Turing_Aged_26.jpg"
+    }
+  },
+  {
+    "model": "timeline.event",
+    "pk": 16,
+    "fields": {
+      "year": 2024,
+      "title": "Prix Nobel de physique : Le Deep Learning",
+      "description_short": "Le prix Nobel de physique est décerné à l'IA qui a permis de découvrir la structure du cerveau.",
+      "explanation": "Le prix Nobel de physique est décerné à l'IA qui a permis de découvrir la structure du cerveau.",
+      "chapter": "chapter_1",
+      "difficulty": 1,
+      "tags": ["prix", "physique"],
+      "people": ["Alan Turing"],
+      "image_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Alan_Turing_Aged_26.jpg/440px-Alan_Turing_Aged_26.jpg"
+    }
   }
 ]

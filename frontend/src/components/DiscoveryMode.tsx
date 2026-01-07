@@ -50,7 +50,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
       </Card>
       
       <div className="discovery-teacher-note">
-        <p><strong>Note pour l'animateur :</strong> Prenez le temps d'expliquer l'importance de cette date avant de passer à la suite.</p>
+        <p><strong>Note pour les élèves :</strong> Prenez le temps de lire la description et de comprendre l'événement.</p>
       </div>
     </div>
   )
