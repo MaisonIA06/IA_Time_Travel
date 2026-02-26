@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=L'Aventure Temporelle de l'IA
+GenericName=IA Time Travel
+Comment=Jeu pedagogique sur l'histoire de l'Intelligence Artificielle
+Exec=/home/mia/Bureau/IA_Time_Travel/launch-game.sh
+Icon=/home/mia/Bureau/IA_Time_Travel/ia-time-travel.svg
+Terminal=false
+Categories=Game;
+StartupNotify=true
+Keywords=IA;AI;jeu;game;education;histoire;
