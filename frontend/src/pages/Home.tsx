@@ -9,7 +9,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui'
-import { Stamp, FlipYear, Dial } from '../components/instrument'
+import { Stamp, FlipYear } from '../components/instrument'
 import { ChronosSnake } from '../components/EasterEgg/ChronosSnake'
 import { GlitchTerminal } from '../components/EasterEgg/GlitchTerminal'
 import { getChapters, getQuiz } from '../api/client'
@@ -289,11 +289,8 @@ export function Home() {
           </div>
         </div>
 
-        {/* Cadrans + journal */}
+        {/* Journal de bord seul (cadrans retirés) */}
         <div className="home-instrument__bottom">
-          <Dial value={power} label="Énergie" color="var(--mai-red-lovelace)" size={86} />
-          <Dial value={0.66} label="Flux" color="var(--mai-blue-deep)" size={86} />
-          <Dial value={0.84} label="Stabilité" color="var(--mai-ink)" size={86} />
           <div className="home-journal">
             <span className="label">Journal de bord</span>
             <div className="home-journal__body">

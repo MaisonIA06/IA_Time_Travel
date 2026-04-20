@@ -131,10 +131,11 @@
 .home-instrument {
   position: relative;
   z-index: 2;
-  padding: 32px 16px 32px 48px;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+  background: var(--mai-paper-warm);
+  padding: 36px;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 20px;
 }
 
 .home-instrument__bandeau {
@@ -290,13 +291,12 @@
   margin-top: 4px;
 }
 
-/* ==== Bottom strip : 3 cadrans + journal ==== */
+/* ==== Bottom strip : journal seul (cadrans retirés) ==== */
 .home-instrument__bottom {
   display: grid;
-  grid-template-columns: repeat(3, auto) 1.4fr;
+  grid-template-columns: 1fr;
   gap: 12px;
-  align-items: center;
-  justify-content: start;
+  align-items: stretch;
 }
 
 .home-journal {
