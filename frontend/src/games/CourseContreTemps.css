@@ -1,300 +1,286 @@
 /**
- * Styles CourseContreTemps - Speed-quiz energique
+ * Course contre le Temps — layout plein écran (header / timer bar / main / footer).
+ * Référence : design_handoff / TimeRaceGame.
  */
 
-.cct-game {
-  max-width: 640px;
-  margin: 0 auto;
+.cct {
+  position: absolute;
+  inset: 0;
+  background: var(--mai-paper);
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 0;
+  overflow: hidden;
+}
+
+/* ==================== HEADER ==================== */
+.cct__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  padding: 18px 36px;
+  border-bottom: 2px solid var(--mai-ink);
+  flex-wrap: wrap;
+}
+
+.cct__title {
+  font-family: var(--mai-font-title);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2vw, 1.625rem);
+  line-height: 1.15;
+  letter-spacing: var(--mai-tracking-tight);
+  color: var(--mai-ink);
+  margin-top: 4px;
+  max-width: 520px;
+}
+
+.cct__header-stats {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.cct__clock {
+  font-family: var(--mai-font-mono);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  letter-spacing: 0.08em;
+  color: var(--mai-ink);
+}
+.cct__clock.is-urgent {
+  color: var(--mai-red-lovelace);
+  animation: cct-pulse 0.9s infinite;
+}
+@keyframes cct-pulse {
+  0%, 60%, 100% { opacity: 1; }
+  70%, 90% { opacity: 0.35; }
+}
+
+.cct__score {
+  font-family: var(--mai-font-mono);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--mai-red-lovelace);
+  letter-spacing: 0.05em;
+}
+
+/* ==================== TIMER BAR ==================== */
+.cct__timer-bar {
+  height: 12px;
+  background: #FFFFFF;
+  border-bottom: 2px solid var(--mai-ink);
+  position: relative;
+  overflow: hidden;
+}
+.cct__timer-fill {
+  height: 100%;
+  background: var(--mai-green-bloom);
+  transition: width 100ms linear;
+}
+.cct__timer-fill.is-urgent { background: var(--mai-red-lovelace); }
+
+/* ==================== MAIN ==================== */
+.cct__main {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 20px;
+  padding: 28px 36px;
+  align-items: stretch;
+  overflow: hidden;
+}
+
+.cct__event {
+  background: var(--mai-paper-warm);
+  border: 3px solid var(--mai-ink);
+  padding: 28px;
+  box-shadow: 6px 6px 0 var(--mai-ink);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: background-color 180ms var(--mai-transition-base);
+  overflow: hidden;
+}
+.cct__event.is-correct { background: var(--mai-green-neura); }
+.cct__event.is-wrong   { background: var(--mai-red-auria); }
+
+.cct__event-title {
+  font-family: var(--mai-font-title);
+  font-weight: 700;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem);
+  line-height: 0.95;
+  letter-spacing: var(--mai-tracking-tight);
+  color: var(--mai-ink);
+}
+
+.cct__event-subtitle {
+  font-family: var(--mai-font-title);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--mai-red-lovelace);
+  margin: 0;
+  max-width: none;
+}
+
+.cct__event-short {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--mai-ink);
+  max-width: none;
+}
+
+/* ==================== OPTIONS ==================== */
+.cct__options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.cct__option {
+  border: 3px solid var(--mai-ink);
+  background: #FFFFFF;
+  color: var(--mai-ink);
+  padding: 16px 18px;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--mai-ink);
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: space-between;
+  min-height: 110px;
+  transition: transform var(--mai-transition-fast),
+              box-shadow var(--mai-transition-fast),
+              background-color 180ms var(--mai-transition-base);
+}
+
+.cct__option:not(:disabled):hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--mai-ink);
+}
+.cct__option:not(:disabled):active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--mai-ink);
+}
+.cct__option:disabled { cursor: default; }
+
+.cct__option--correct {
+  background: var(--mai-green-bloom);
+}
+.cct__option--wrong {
+  background: var(--mai-red-auria);
+  box-shadow: 4px 4px 0 var(--mai-red-lovelace);
+}
+.cct__option--muted {
+  background: var(--mai-paper-warm);
+  opacity: 0.7;
+  box-shadow: 2px 2px 0 var(--mai-ink);
+}
+
+.cct__option-label {
+  font-family: var(--mai-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--mai-ink-soft);
+}
+
+/* ==================== FOOTER ==================== */
+.cct__footer {
+  padding: 14px 36px;
+  border-top: 2px solid var(--mai-ink);
+  background: var(--mai-paper-warm);
+  font-family: var(--mai-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--mai-ink-soft);
+}
+
+/* ==================== COUNTDOWN ==================== */
+.cct--countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 64px;
   text-align: center;
 }
 
-/* ===== Compte a rebours ===== */
-.cct-countdown {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
+.cct__intro {
+  font-family: var(--mai-font-mono);
+  font-size: 13px;
+  letter-spacing: var(--mai-tracking-wide);
+  text-transform: uppercase;
+  color: var(--mai-ink-soft);
 }
 
-.cct-intro {
-  font-family: var(--font-display);
-  color: var(--aa-text-muted);
-  font-size: var(--text-lg);
-  margin: 0;
-}
-
-.cct-countdown-number {
-  font-family: var(--font-display);
-  font-size: 6rem;
+.cct__countdown-number {
+  font-family: var(--mai-font-mono);
   font-weight: 700;
-  color: var(--aa-accent);
-  text-shadow: 0 0 40px var(--aa-glow-strong);
-  margin: var(--space-4) 0;
-  animation: cct-pop 0.7s ease both;
+  font-size: clamp(6rem, 15vw, 12rem);
+  line-height: 1;
+  color: var(--mai-blue-deep);
+  animation: cct-pop 0.7s cubic-bezier(0.2, 0.8, 0.2, 1.2);
 }
 
 @keyframes cct-pop {
-  0% {
-    opacity: 0;
-    transform: scale(0.4);
-  }
-  40% {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
+  0%   { transform: scale(0.5); opacity: 0; }
+  60%  { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
 }
 
-.cct-hint {
-  font-size: var(--text-sm);
-  color: var(--aa-text-dim);
-  margin: 0;
+.cct__hint {
+  font-family: var(--mai-font-mono);
+  font-size: 12px;
+  letter-spacing: var(--mai-tracking-mono);
+  text-transform: uppercase;
+  color: var(--mai-ink-soft);
 }
 
-/* ===== Entete ===== */
-.cct-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--space-4);
-  margin-bottom: var(--space-3);
-}
-
-.cct-timer {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  padding: var(--space-2) var(--space-4);
-  background: var(--aa-bg-secondary);
-  border: 1px solid var(--aa-border);
-  border-radius: var(--radius-full);
-  font-family: var(--font-display);
-  color: var(--aa-accent);
-  transition: color var(--transition-fast), border-color var(--transition-fast);
-}
-
-.cct-timer.urgent {
-  color: var(--aa-error);
-  border-color: var(--aa-error);
-  animation: cct-pulse 0.9s ease-in-out infinite;
-}
-
-.cct-timer-value {
-  font-size: var(--text-xl);
-  font-variant-numeric: tabular-nums;
-  font-weight: 700;
-}
-
-@keyframes cct-pulse {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 var(--aa-error-glow);
-  }
-  50% {
-    transform: scale(1.05);
-    box-shadow: 0 0 18px 2px var(--aa-error-glow);
-  }
-}
-
-/* ===== Barre globale ===== */
-.cct-global-bar {
-  height: 6px;
-  background: var(--aa-bg-secondary);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-  margin-bottom: var(--space-4);
-}
-
-.cct-global-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--aa-accent), var(--aa-accent-secondary));
-  transition: width 100ms linear;
-}
-
-.cct-global-fill.urgent {
-  background: linear-gradient(90deg, var(--aa-error), var(--aa-accent-tertiary));
-}
-
-/* ===== Stats ===== */
-.cct-stats {
-  display: flex;
-  justify-content: space-between;
-  font-family: var(--font-display);
-  font-size: var(--text-sm);
-  color: var(--aa-text-muted);
-  margin-bottom: var(--space-4);
-}
-
-/* ===== Question ===== */
-.cct-question {
+/* ==================== FINISHED ==================== */
+.cct--finished {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
-  animation: fade-in var(--transition-normal);
-}
-
-.cct-question-bar {
-  height: 3px;
-  background: var(--aa-bg-secondary);
-  border-radius: var(--radius-full);
-  overflow: hidden;
-}
-
-.cct-question-fill {
-  height: 100%;
-  background: var(--aa-accent-secondary);
-  transition: width 100ms linear;
-}
-
-.cct-prompt {
-  font-size: var(--text-xl);
-  color: var(--aa-text);
-  line-height: 1.4;
-  margin: 0;
-  padding: var(--space-4);
-  background: var(--aa-bg-secondary);
-  border: 1px solid var(--aa-border);
-  border-radius: var(--radius-lg);
-}
-
-/* ===== Options ===== */
-.cct-options {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-3);
-}
-
-.cct-option {
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  font-family: var(--font-display);
-  font-size: var(--text-lg);
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  gap: 16px;
+  padding: 64px;
+  text-align: center;
 }
 
-.cct-option:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-md), 0 0 16px var(--aa-glow);
-}
-
-.cct-option-key {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  border-radius: var(--radius-sm);
-  background: var(--aa-bg);
-  color: var(--aa-accent);
-  font-size: var(--text-xs);
+.cct__result-title {
+  font-family: var(--mai-font-title);
   font-weight: 700;
-  border: 1px solid var(--aa-border);
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: var(--mai-ink);
+  letter-spacing: var(--mai-tracking-tight);
 }
 
-.cct-option-year {
-  font-size: var(--text-lg);
-  font-weight: 600;
+.cct__result-score {
+  font-family: var(--mai-font-mono);
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: var(--mai-red-lovelace);
+  letter-spacing: 0.05em;
 }
 
-.cct-option-correct {
-  background: var(--aa-success) !important;
-  color: white !important;
-  animation: success-pop 0.4s ease;
+.cct__result-hint {
+  font-size: 16px;
+  color: var(--mai-ink-soft);
 }
 
-.cct-option-wrong {
-  background: var(--aa-error) !important;
-  color: white !important;
-  animation: shake 0.4s ease;
-}
-
-/* ===== Feedback ===== */
-.cct-feedback {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  padding: var(--space-3) var(--space-4);
-  border-radius: var(--radius-full);
-  font-family: var(--font-display);
-  font-size: var(--text-base);
-  animation: fade-in 0.2s ease;
-  align-self: center;
-}
-
-.cct-feedback.correct {
-  background: rgba(16, 185, 129, 0.15);
-  border: 1px solid var(--aa-success);
-  color: var(--aa-success);
-}
-
-.cct-feedback.wrong {
-  background: rgba(239, 68, 68, 0.15);
-  border: 1px solid var(--aa-error);
-  color: var(--aa-error);
-}
-
-/* ===== Skip ===== */
-.cct-skip {
-  margin-top: var(--space-4);
-}
-
-/* ===== Resultat ===== */
-.cct-result {
-  animation: slide-up 0.4s ease;
-}
-
-.cct-result-icon {
-  margin-bottom: var(--space-3);
-}
-
-.cct-result h2 {
-  font-family: var(--font-display);
-  font-size: var(--text-3xl);
-  color: var(--aa-accent);
-  margin: 0 0 var(--space-3);
-}
-
-.cct-result-score {
-  font-family: var(--font-display);
-  font-size: var(--text-2xl);
-  color: var(--aa-text);
-  margin: 0 0 var(--space-2);
-}
-
-.cct-result-points {
-  font-size: var(--text-xl);
-  color: var(--aa-success);
-  margin: 0 0 var(--space-4);
-}
-
-.cct-result-hint {
-  color: var(--aa-text-muted);
-  margin: 0 0 var(--space-3);
-}
-
-.cct-result-meta {
-  font-size: var(--text-xs);
-  color: var(--aa-text-dim);
-  margin: 0;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 640px) {
-  .cct-options {
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 900px) {
+  .cct__main {
     grid-template-columns: 1fr;
+    padding: 20px;
   }
+  .cct__header { padding: 14px 20px; }
+  .cct__footer { padding: 14px 20px; }
+}
 
-  .cct-prompt {
-    font-size: var(--text-lg);
-  }
-
-  .cct-countdown-number {
-    font-size: 4.5rem;
-  }
+@media (max-width: 560px) {
+  .cct__options { grid-template-columns: 1fr; }
 }
