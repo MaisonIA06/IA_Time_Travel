@@ -3,8 +3,7 @@
  * Ref : design_handoff_mia_retro_futurist §8.
  */
 
-import { useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import './InstrumentChrome.css'
 
 interface Readout {
@@ -57,36 +56,54 @@ export function InstrumentTop({ readouts }: InstrumentTopProps) {
   )
 }
 
-const NAV_ITEMS = [
-  { to: '/', label: 'Accueil' },
-  { to: '/museum', label: 'Archives' },
-] as const
+/**
+ * Ticker défilant dans la barre du bas. Énonce le statut de la machine,
+ * cite quelques jalons historiques, et rappelle l'identité MIA. L'utilisateur
+ * peut enrichir la liste MESSAGES ci-dessous.
+ */
+const MESSAGES = [
+  'Unité Chronologique · Opérationnelle',
+  'Condensateurs à 100%',
+  'Coordonnées verrouillées — 1843 ↔ 2024',
+  "Mission : reconstituer la frise de l'IA",
+  'd\'Ada Lovelace (1843) à ChatGPT (2022)',
+  "La Maison de l'IA · Sophia-Antipolis · 2026",
+  'Unité Chronologique · Opérationnelle',
+]
 
 export function InstrumentBottom() {
-  const navigate = useNavigate()
   const location = useLocation()
+  const sessionDate = new Date().toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  })
 
-  const current = useMemo(() => {
-    const match = NAV_ITEMS.find((it) => it.to === location.pathname)
-    return match?.label ?? 'Session'
-  }, [location.pathname])
+  const crumbLabel =
+    location.pathname === '/museum'
+      ? 'NAV / ARCHIVES'
+      : location.pathname === '/game'
+        ? 'NAV / MISSION'
+        : location.pathname === '/end'
+          ? 'NAV / RAPPORT'
+          : 'NAV / ACCUEIL'
 
   return (
     <footer className="instrument-bottom">
-      <span className="crumb-label">NAV / {current.toUpperCase()}</span>
-      <nav className="screen-crumbs" aria-label="Navigation instrument">
-        {NAV_ITEMS.map((item) => (
-          <button
-            key={item.to}
-            type="button"
-            className={location.pathname === item.to ? 'on' : ''}
-            onClick={() => navigate(item.to)}
-          >
-            {item.label}
-          </button>
-        ))}
-      </nav>
-      <span className="mia-tag">MIA · 2026</span>
+      <span className="crumb-label">{crumbLabel}</span>
+      <div className="ticker" aria-hidden="true">
+        <div className="ticker__track">
+          {[...MESSAGES, ...MESSAGES].map((msg, i) => (
+            <span key={i} className="ticker__item">
+              <span className="ticker__dot">◆</span>
+              {msg}
+            </span>
+          ))}
+        </div>
+      </div>
+      <span className="mia-tag">
+        SESSION {sessionDate} · MIA 2026
+      </span>
     </footer>
   )
 }
