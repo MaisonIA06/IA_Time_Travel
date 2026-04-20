@@ -10,13 +10,14 @@
   grid-template-columns: 1.1fr 1fr;
   gap: 0;
   overflow-y: auto;
-  /* Fond en 2 bandes verticales (papier clair à gauche, warm à droite) avec
-     séparateur ink au milieu. La frontière est à 1.1 / (1.1 + 1) = ~52.38%. */
+  /* Fond : transparent à gauche (laisse passer la grille millimétrée globale
+     bleutée de Overlays.paper-bg), warm opaque à droite, séparateur ink au
+     milieu (~52.38% = 1.1 / 2.1). */
   background:
     linear-gradient(
       to right,
-      var(--mai-paper) 0%,
-      var(--mai-paper) calc(52.38% - 1.5px),
+      transparent 0%,
+      transparent calc(52.38% - 1.5px),
       var(--mai-ink) calc(52.38% - 1.5px),
       var(--mai-ink) calc(52.38% + 1.5px),
       var(--mai-paper-warm) calc(52.38% + 1.5px),
@@ -32,27 +33,9 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
-  overflow: hidden;
+  /* Pas de background : laisse passer la grille millimétrée + le grain bleutés
+     rendus par Overlays (paper-bg + grain) dans le viewport. */
 }
-
-/* Grille millimétrée — uniquement sur la colonne gauche */
-.home-paper::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, rgba(22, 52, 88, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(22, 52, 88, 0.05) 1px, transparent 1px),
-    linear-gradient(to right, rgba(22, 52, 88, 0.10) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(22, 52, 88, 0.10) 1px, transparent 1px);
-  background-size: 16px 16px, 16px 16px, 80px 80px, 80px 80px;
-  mix-blend-mode: multiply;
-  opacity: 0.8;
-  z-index: 0;
-}
-
-.home-paper > * { position: relative; z-index: 1; }
 
 .home-paper__dossier {
   display: flex;
