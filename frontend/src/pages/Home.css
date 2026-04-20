@@ -176,96 +176,171 @@
   background: var(--mai-green-bloom);
 }
 
-/* Écran central dark — cadran radar */
+/* ==== Écran radar dark — cadran central ==== */
 .home-radar {
   flex: 1;
-  min-height: 340px;
+  min-height: 380px;
   position: relative;
   background: var(--mai-ink);
   border: 3px solid var(--mai-ink);
   overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  box-shadow: 5px 5px 0 var(--mai-red-lovelace);
 }
 
-.home-radar__rings {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/* 4 rings concentriques */
 .home-radar__ring {
-  position: absolute;
-  border-radius: 50%;
-  border: 1px solid rgba(229, 234, 168, 0.22);
-}
-.home-radar__ring--1 { width: 90%; height: 90%; }
-.home-radar__ring--2 { width: 68%; height: 68%; }
-.home-radar__ring--3 { width: 46%; height: 46%; }
-.home-radar__ring--4 { width: 24%; height: 24%; }
-
-.home-radar__sweep {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 50%;
-  height: 2px;
-  background: linear-gradient(to right, var(--mai-green-bloom), transparent);
-  transform-origin: 0 50%;
-  animation: radar-sweep 8s linear infinite;
-}
-@keyframes radar-sweep {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.home-radar__point {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;
-}
-.home-radar__point-dot {
-  width: 10px;
-  height: 10px;
   border-radius: 50%;
-  background: var(--mai-green-bloom);
-  border: 2px solid #FFFFFF;
-  box-shadow: 0 0 0 3px rgba(229, 234, 168, 0.18);
+  border: 1.5px solid rgba(229, 234, 168, 0.25);
+  pointer-events: none;
 }
+
+/* Aiguille verte qui tourne (gradient vers transparent en bas) */
+.home-radar__needle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 55%;
+  background: linear-gradient(to top, transparent, var(--mai-green-bloom));
+  transform-origin: 50% 0%;
+  transform: translate(-50%, 0);
+  animation: radar-spin 8s linear infinite;
+  pointer-events: none;
+}
+@keyframes radar-spin {
+  from { transform: translate(-50%, 0) rotate(0deg); }
+  to   { transform: translate(-50%, 0) rotate(360deg); }
+}
+
+/* Points événements répartis en cercle */
+.home-radar__point {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--mai-ink);
+  z-index: 3;
+}
+.home-radar__point--terra { background: var(--mai-red-auria); }
+.home-radar__point--green { background: var(--mai-green-bloom); }
+.home-radar__point--blue  { background: var(--mai-blue-lumen); }
+
+.home-radar__point::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(229, 234, 168, 0.4);
+  transform: translate(-50%, -50%);
+  animation: radar-pulse 2.4s ease-out infinite;
+  animation-delay: var(--pulse-delay, 0s);
+  pointer-events: none;
+}
+
+@keyframes radar-pulse {
+  0%   { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
+  100% { transform: translate(-50%, -50%) scale(2.4); opacity: 0; }
+}
+
 .home-radar__point-year {
+  position: absolute;
+  left: 50%;
+  top: 160%;
+  transform: translateX(-50%);
   font-family: var(--mai-font-mono);
   font-size: 10px;
   color: var(--mai-blue-lumen);
   letter-spacing: 0.1em;
+  white-space: nowrap;
 }
 
+/* Centre : DESTINATION / FlipYear / destination finale */
 .home-radar__center {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  color: #FFFFFF;
+  text-align: center;
 }
 .home-radar__label {
   font-family: var(--mai-font-mono);
   font-size: 10px;
   letter-spacing: var(--mai-tracking-ultra);
+  text-transform: uppercase;
   color: var(--mai-blue-lumen);
+  margin-bottom: 2px;
 }
 .home-radar__destination {
   font-family: var(--mai-font-mono);
   font-size: 11px;
   color: var(--mai-green-bloom);
-  letter-spacing: 0.4em;
+  letter-spacing: 0.3em;
+  margin-top: 4px;
+}
+
+/* ==== Bottom strip : 3 cadrans + journal ==== */
+.home-instrument__bottom {
+  display: grid;
+  grid-template-columns: repeat(3, auto) 1.4fr;
+  gap: 12px;
+  align-items: center;
+  justify-content: start;
+}
+
+.home-journal {
+  border: 2px solid var(--mai-ink);
+  background: #FFFFFF;
+  padding: 10px 12px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 6px;
+}
+.home-journal__body {
+  font-family: var(--mai-font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  color: var(--mai-ink-soft);
+  display: flex;
+  flex-direction: column;
+}
+.home-journal__entry::before {
+  content: "> ";
+  color: var(--mai-red-lovelace);
+  font-weight: 700;
+}
+
+.home-instrument__empty {
+  margin-top: 12px;
+  color: var(--mai-red-lovelace);
+}
+.home-instrument__caption {
+  font-family: var(--mai-font-mono);
+  font-size: 10px;
+  letter-spacing: var(--mai-tracking-wide);
+  text-transform: uppercase;
+  color: var(--mai-ink-soft);
+  margin: 4px 0 0;
+}
+
+.home-loading--overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(245, 242, 236, 0.85);
+  z-index: 5;
 }
 
 /* Journal de bord (3 lignes mono) */

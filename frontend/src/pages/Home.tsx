@@ -9,7 +9,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button } from '../components/ui'
-import { Stamp, FlipYear } from '../components/instrument'
+import { Stamp, FlipYear, Dial } from '../components/instrument'
 import { ChronosSnake } from '../components/EasterEgg/ChronosSnake'
 import { GlitchTerminal } from '../components/EasterEgg/GlitchTerminal'
 import { getChapters, getQuiz } from '../api/client'
@@ -18,11 +18,14 @@ import { useMuseumEgg } from '../hooks/useMuseumEgg'
 import type { Chapter, ChapterId } from '../types'
 import './Home.css'
 
-const MISSION_DATES = [1843, 1950, 1966, 1997, 2016, 2022]
+const MISSION_DATES = [1843, 1943, 1950, 1956, 1966, 1972, 1980, 1997, 2009, 2011, 2016, 2018, 2022, 2024]
+const MISSION_TONES: Array<'terra' | 'green' | 'blue'> = [
+  'terra', 'blue', 'green', 'terra', 'green', 'blue', 'terra', 'green', 'blue', 'terra', 'green', 'blue', 'terra', 'green',
+]
 const JOURNAL = [
   'Condensateurs en charge…',
-  'Alignement chronomètre : 0.00',
-  'Prêt à l\'activation. En attente de l\'agent.',
+  'Coordonnées verrouillées',
+  'Prêt pour le saut temporel',
 ]
 
 export function Home() {
@@ -136,6 +139,12 @@ export function Home() {
   const selectedChapterData = chapters.find(c => c.id === selectedChapter)
   const selectedIsEmpty = selectedChapterData?.event_count === 0
   const totalEvents = chapters.reduce((sum, c) => sum + c.event_count, 0)
+  const [power, setPower] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setPower(p => Math.min(1, p + 0.012)), 80)
+    return () => clearInterval(t)
+  }, [])
+  const ledsOn = Math.round(power * 5)
 
   return (
     <div className={`home-page ${glitchActive ? 'glitch-active' : ''}`}>
@@ -219,6 +228,7 @@ export function Home() {
 
       {/* ==================== COLONNE DROITE (instrument) ==================== */}
       <section className="home-instrument">
+        {/* Bandeau CHRONOS-06 */}
         <div className="home-instrument__bandeau">
           <div>
             <div className="home-instrument__bandeau-label">
@@ -230,78 +240,95 @@ export function Home() {
             {[0, 1, 2, 3, 4].map(i => (
               <span
                 key={i}
-                className={`home-instrument__led ${i < 4 ? 'home-instrument__led--on' : ''}`}
+                className={`home-instrument__led ${i < ledsOn ? 'home-instrument__led--on' : ''}`}
               />
             ))}
           </div>
         </div>
 
-        {isLoading ? (
-          <div className="home-loading">
+        {/* Écran radar — cadran circulaire avec aiguille qui tourne */}
+        <div className="home-radar">
+          {[0, 1, 2, 3].map(i => (
+            <span
+              key={i}
+              className="home-radar__ring"
+              style={{
+                width: `${(i + 1) * 26}%`,
+                height: `${(i + 1) * 26}%`,
+              }}
+              aria-hidden
+            />
+          ))}
+          <span className="home-radar__needle" aria-hidden />
+
+          {MISSION_DATES.map((year, i) => {
+            const a = (i / MISSION_DATES.length) * Math.PI * 2 - Math.PI / 2
+            const r = 44 // pourcent
+            const x = 50 + Math.cos(a) * r
+            const y = 50 + Math.sin(a) * r
+            const tone = MISSION_TONES[i % MISSION_TONES.length]
+            return (
+              <span
+                key={year}
+                className={`home-radar__point home-radar__point--${tone}`}
+                style={{
+                  left: `${x}%`,
+                  top: `${y}%`,
+                  ['--pulse-delay' as string]: `${i * 0.2}s`,
+                }}
+              >
+                <span className="home-radar__point-year">{year}</span>
+              </span>
+            )
+          })}
+
+          <div className="home-radar__center">
+            <span className="home-radar__label">Destination</span>
+            <FlipYear value={1843} size={52} />
+            <span className="home-radar__destination">↔ 2 0 2 4</span>
+          </div>
+        </div>
+
+        {/* Cadrans + journal */}
+        <div className="home-instrument__bottom">
+          <Dial value={power} label="Énergie" color="var(--mai-red-lovelace)" size={86} />
+          <Dial value={0.66} label="Flux" color="var(--mai-blue-deep)" size={86} />
+          <Dial value={0.84} label="Stabilité" color="var(--mai-ink)" size={86} />
+          <div className="home-journal">
+            <span className="label">Journal de bord</span>
+            <div className="home-journal__body">
+              {JOURNAL.map((line, i) => (
+                <span key={i} className="home-journal__entry">{line}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* État (loading / error) en overlay */}
+        {isLoading && (
+          <div className="home-loading home-loading--overlay">
             <span className="home-spinner" />
             <p>Chargement des époques…</p>
           </div>
-        ) : error ? (
+        )}
+        {error && (
           <div className="home-error" role="alert">
             <p>{error}</p>
             <Button variant="ghost" onClick={loadChapters}>Réessayer</Button>
           </div>
-        ) : (
-          <div className="home-chapters home-chapters--single">
-            <div className="home-chapters__title">
-              Mission disponible — Chapitre unique
-            </div>
-            {chapters.map((chapter) => {
-              const isSelected = selectedChapter === chapter.id
-              const isEmpty = chapter.event_count === 0
-              return (
-                <button
-                  key={chapter.id}
-                  type="button"
-                  className={`chapter-card chapter-card--solo ${isSelected ? 'is-selected' : ''} ${isEmpty ? 'is-empty' : ''}`}
-                  onClick={() => !isEmpty && setSelectedChapter(chapter.id)}
-                  aria-pressed={isSelected}
-                  disabled={isEmpty}
-                >
-                  <span className="chapter-number">Ch. 01 · 1843 → 2024</span>
-                  <h3 className="chapter-name">{chapter.name}</h3>
-                  <span className="chapter-meta">
-                    {isEmpty
-                      ? 'Bientôt disponible'
-                      : `${chapter.event_count} époques à reconstituer`}
-                  </span>
-                </button>
-              )
-            })}
-          </div>
         )}
 
-        <div className="home-journal">
-          {JOURNAL.map((line, i) => (
-            <span key={i} className="home-journal__entry">{line}</span>
-          ))}
-        </div>
+        {/* Auto-selection : le seul chapitre est déjà sélectionné (voir loadChapters).
+            Si l'utilisateur est arrivé sans sélection (erreur), on affiche un CTA discret. */}
+        {!isLoading && !error && (!selectedChapter || selectedIsEmpty) && (
+          <p className="label home-instrument__empty">
+            Aucune mission active — contacte la centrale MIA.
+          </p>
+        )}
 
-        {/* Radar discret en overlay (décoratif, masqué sur petits écrans) */}
-        <div style={{ display: 'none' }}>
-          {MISSION_DATES.map((year, i) => {
-            const angle = (i / MISSION_DATES.length) * 360
-            const radius = 42
-            const x = 50 + radius * Math.cos((angle * Math.PI) / 180)
-            const y = 50 + radius * Math.sin((angle * Math.PI) / 180)
-            return (
-              <div
-                key={year}
-                className="home-radar__point"
-                style={{ left: `${x}%`, top: `${y}%` }}
-              >
-                <span className="home-radar__point-dot" />
-                <span className="home-radar__point-year">{year}</span>
-              </div>
-            )
-          })}
-          <FlipYear value={1843} size={44} />
-        </div>
+        <p className="home-instrument__caption">
+          Mission : {totalEvents} époques · d'Ada Lovelace à ChatGPT
+        </p>
       </section>
     </div>
   )
