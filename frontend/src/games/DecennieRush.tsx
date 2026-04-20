@@ -1,22 +1,14 @@
 /**
- * Mini-jeu DecennieRush - Identifier tous les événements d'une décennie donnée
+ * DecennieRush — identifier tous les événements d'une décennie donnée.
  *
- * Pédagogie : permet d'associer chaque événement à la période (décennie) à
- * laquelle il appartient. Le joueur doit sélectionner tous et seulement les
- * événements qui appartiennent à la décennie affichée, en moins de 30 secondes.
+ * Design brutaliste MIA cohérent avec Duel des dates (§ handoff §4b).
+ * Layout : header + timer bar + grid 6 cartes + footer.
  */
 
-import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
-import { Button, Card, Badge } from '../components/ui'
-import { CheckIcon, CrossIcon, ValidateIcon, TimeIcon } from '../components/icons'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { Stamp } from '../components/instrument'
 import type { QuizItem } from '../types'
 import './DecennieRush.css'
-
-interface DecennieRushProps {
-  items: QuizItem[]
-  onComplete: (bonusPoints: number) => void
-  onSkip?: () => void
-}
 
 type CardStatus = 'good' | 'wrong' | 'missed' | 'ignored'
 
@@ -29,64 +21,61 @@ const SCORE_MIN = 0
 const SCORE_MAX = 250
 
 const yearToDecade = (year: number): number => Math.floor(year / 10) * 10
-
 const shuffle = <T,>(array: T[]): T[] => [...array].sort(() => Math.random() - 0.5)
+
+interface DecennieRushProps {
+  items: QuizItem[]
+  onComplete: (bonusPoints: number) => void
+  onSkip?: () => void
+}
 
 interface RoundSetup {
   decade: number
   cards: QuizItem[]
 }
 
-/**
- * Construit une manche : choisit une décennie comptant au moins MIN_IN_DECADE
- * événements, puis assemble 6 cartes (3-4 de cette décennie + le reste
- * d'autres décennies). Retourne null si le pool est insuffisant.
- */
 function buildRound(items: QuizItem[]): RoundSetup | null {
   if (items.length < CARD_COUNT) return null
-
   const byDecade = new Map<number, QuizItem[]>()
   for (const item of items) {
-    const decade = yearToDecade(item.year_correct)
-    const bucket = byDecade.get(decade) ?? []
+    const d = yearToDecade(item.year_correct)
+    const bucket = byDecade.get(d) ?? []
     bucket.push(item)
-    byDecade.set(decade, bucket)
+    byDecade.set(d, bucket)
   }
-
-  const eligibleDecades = [...byDecade.entries()].filter(
-    ([, list]) => list.length >= MIN_IN_DECADE
-  )
-  if (eligibleDecades.length === 0) return null
-
-  const [decade, insiders] = eligibleDecades[
-    Math.floor(Math.random() * eligibleDecades.length)
-  ]
+  const eligible = [...byDecade.entries()].filter(([, l]) => l.length >= MIN_IN_DECADE)
+  if (eligible.length === 0) return null
+  const [decade, insiders] = eligible[Math.floor(Math.random() * eligible.length)]
 
   const maxInsiders = Math.min(MAX_IN_DECADE, insiders.length)
-  const targetInsiders = Math.min(
+  const target = Math.min(
     maxInsiders,
-    Math.max(MIN_IN_DECADE, Math.floor(Math.random() * (maxInsiders - MIN_IN_DECADE + 1)) + MIN_IN_DECADE)
+    Math.max(
+      MIN_IN_DECADE,
+      Math.floor(Math.random() * (maxInsiders - MIN_IN_DECADE + 1)) + MIN_IN_DECADE
+    )
   )
-
   const outsiders = items.filter((i) => yearToDecade(i.year_correct) !== decade)
-  const neededOutsiders = CARD_COUNT - targetInsiders
-  if (outsiders.length < neededOutsiders) {
-    // Pas assez d'outsiders : on remplit avec plus d'insiders si possible.
-    const fallbackInsiders = Math.min(insiders.length, CARD_COUNT)
-    const fallbackOutsiders = CARD_COUNT - fallbackInsiders
-    if (fallbackOutsiders > outsiders.length) return null
-    const picked = [
-      ...shuffle(insiders).slice(0, fallbackInsiders),
-      ...shuffle(outsiders).slice(0, fallbackOutsiders)
-    ]
-    return { decade, cards: shuffle(picked) }
+  const needed = CARD_COUNT - target
+  if (outsiders.length < needed) {
+    const fbInsiders = Math.min(insiders.length, CARD_COUNT)
+    const fbOutsiders = CARD_COUNT - fbInsiders
+    if (fbOutsiders > outsiders.length) return null
+    return {
+      decade,
+      cards: shuffle([
+        ...shuffle(insiders).slice(0, fbInsiders),
+        ...shuffle(outsiders).slice(0, fbOutsiders),
+      ]),
+    }
   }
-
-  const picked = [
-    ...shuffle(insiders).slice(0, targetInsiders),
-    ...shuffle(outsiders).slice(0, neededOutsiders)
-  ]
-  return { decade, cards: shuffle(picked) }
+  return {
+    decade,
+    cards: shuffle([
+      ...shuffle(insiders).slice(0, target),
+      ...shuffle(outsiders).slice(0, needed),
+    ]),
+  }
 }
 
 function resolveStatus(item: QuizItem, decade: number, selected: Set<number>): CardStatus {
@@ -100,7 +89,6 @@ function resolveStatus(item: QuizItem, decade: number, selected: Set<number>): C
 
 export function DecennieRush({ items, onComplete, onSkip }: DecennieRushProps) {
   const round = useMemo(() => buildRound(items), [items])
-
   const [selected, setSelected] = useState<Set<number>>(new Set())
   const [timeLeft, setTimeLeft] = useState(TIMER_SECONDS)
   const [summary, setSummary] = useState<{
@@ -113,7 +101,6 @@ export function DecennieRush({ items, onComplete, onSkip }: DecennieRushProps) {
   const completedRef = useRef(false)
   const isFinished = summary !== null
 
-  // Timer décroissant — se fige lorsque la manche est terminée.
   useEffect(() => {
     if (isFinished || !round) return
     const tick = window.setInterval(() => {
@@ -129,25 +116,21 @@ export function DecennieRush({ items, onComplete, onSkip }: DecennieRushProps) {
     let missed = 0
     const statuses = new Map<number, CardStatus>()
     for (const card of round.cards) {
-      const status = resolveStatus(card, round.decade, selected)
-      statuses.set(card.event_id, status)
-      if (status === 'good') corrects++
-      else if (status === 'wrong') errors++
-      else if (status === 'missed') missed++
+      const s = resolveStatus(card, round.decade, selected)
+      statuses.set(card.event_id, s)
+      if (s === 'good') corrects++
+      else if (s === 'wrong') errors++
+      else if (s === 'missed') missed++
     }
     const net = corrects - errors
     const bonus = Math.min(SCORE_MAX, Math.max(SCORE_MIN, net * POINTS_PER_NET))
     setSummary({ corrects, errors, missed, bonus, statuses })
   }, [round, selected, summary])
 
-  // Fin automatique lorsque le timer atteint 0.
   useEffect(() => {
-    if (timeLeft <= 0 && !summary && round) {
-      handleValidate()
-    }
+    if (timeLeft <= 0 && !summary && round) handleValidate()
   }, [timeLeft, summary, round, handleValidate])
 
-  // Appel unique de onComplete après le feedback.
   useEffect(() => {
     if (!summary || completedRef.current) return
     completedRef.current = true
@@ -155,132 +138,132 @@ export function DecennieRush({ items, onComplete, onSkip }: DecennieRushProps) {
     return () => window.clearTimeout(id)
   }, [summary, onComplete])
 
-  const toggleCard = useCallback((id: number) => {
-    if (isFinished) return
-    setSelected((prev) => {
-      const next = new Set(prev)
-      if (next.has(id)) next.delete(id)
-      else next.add(id)
-      return next
-    })
-  }, [isFinished])
+  const toggleCard = useCallback(
+    (id: number) => {
+      if (isFinished) return
+      setSelected((prev) => {
+        const next = new Set(prev)
+        if (next.has(id)) next.delete(id)
+        else next.add(id)
+        return next
+      })
+    },
+    [isFinished]
+  )
 
   if (!round) {
     return (
-      <Card variant="glass" padding="lg" className="decennie-rush">
-        <div className="dr-fallback">
-          <h2>Mini-jeu indisponible</h2>
-          <p>Pas assez d'événements dans une même décennie pour cette manche.</p>
-          {onSkip && (
-            <Button variant="primary" onClick={onSkip}>
-              Continuer
-            </Button>
-          )}
-        </div>
-      </Card>
+      <div className="dr dr--empty">
+        <h2>Mini-jeu indisponible</h2>
+        <p>Pas assez d'événements dans une même décennie pour cette manche.</p>
+        {onSkip && (
+          <button type="button" className="btn btn-primary" onClick={onSkip}>
+            Continuer
+          </button>
+        )}
+      </div>
     )
   }
 
   const timerPercent = Math.max(0, (timeLeft / TIMER_SECONDS) * 100)
   const timerLow = timeLeft <= 10
+  const insiderCount = round.cards.filter(
+    (c) => yearToDecade(c.year_correct) === round.decade
+  ).length
 
   return (
-    <Card variant="glass" padding="lg" className="decennie-rush">
-      <div className="dr-header">
-        <Badge variant="purple" size="lg" glow>
-          Décennie Rush
-        </Badge>
-        <h2 className="dr-decade">Les années {round.decade}</h2>
-        <p className="dr-instruction">
-          Sélectionne tous les événements qui se sont produits dans cette décennie.
-        </p>
-      </div>
-
-      <div className={`dr-timer ${timerLow ? 'low' : ''}`} aria-live="polite">
-        <TimeIcon size={18} />
-        <span className="dr-timer-value">{Math.max(0, timeLeft)}s</span>
-        <div className="dr-timer-bar">
-          <div
-            className="dr-timer-fill"
-            style={{ width: `${timerPercent}%` }}
-          />
+    <div className="dr">
+      <header className="dr__header">
+        <div>
+          <span className="label label--accent">Décennie Rush</span>
+          <h2 className="dr__title">
+            Les années <em>{round.decade}</em>
+          </h2>
+          <p className="dr__instruction">
+            Sélectionne tous les événements qui se sont produits dans cette décennie.
+          </p>
         </div>
+        <div className="dr__stats">
+          <span className="dr__stat">
+            {selected.size}/{insiderCount} sélectionnés
+          </span>
+          <span className={`dr__stat dr__timer ${timerLow ? 'is-low' : ''}`}>
+            ⏱ {Math.max(0, timeLeft)}s
+          </span>
+        </div>
+      </header>
+
+      <div className="dr__timer-bar">
+        <div
+          className={`dr__timer-fill ${timerLow ? 'is-low' : ''}`}
+          style={{ width: `${timerPercent}%` }}
+        />
       </div>
 
-      <div className="dr-grid" role="group" aria-label="Cartes d'événements">
+      <main className="dr__grid" role="group" aria-label="Cartes d'événements">
         {round.cards.map((card) => {
           const isSelected = selected.has(card.event_id)
           const status = summary?.statuses.get(card.event_id)
-          const stateClass = status ? `dr-${status}` : isSelected ? 'dr-selected' : ''
+          const classes = ['dr__card']
+          if (status === 'good') classes.push('dr__card--good')
+          else if (status === 'wrong') classes.push('dr__card--wrong')
+          else if (status === 'missed') classes.push('dr__card--missed')
+          else if (isSelected) classes.push('dr__card--selected')
+
           return (
             <button
               key={card.event_id}
               type="button"
-              className={`dr-card ${stateClass}`}
+              className={classes.join(' ')}
               onClick={() => toggleCard(card.event_id)}
               disabled={isFinished}
               aria-pressed={isSelected}
             >
-              {card.image_url && (
-                <div
-                  className="dr-card-image"
-                  style={{ backgroundImage: `url(${card.image_url})` }}
-                  aria-hidden="true"
-                />
+              <span className="label">Archive n° {card.event_id}</span>
+              <span className="dr__card-title">{card.prompt}</span>
+              {status && (
+                <span className="dr__card-marker">
+                  {status === 'good' && '✓'}
+                  {status === 'wrong' && '✗'}
+                  {status === 'missed' && '△'}
+                </span>
               )}
-              <div className="dr-card-body">
-                <span className="dr-card-title">{card.prompt}</span>
-                {status && (
-                  <span className="dr-card-marker">
-                    {status === 'good' && <CheckIcon size={18} color="var(--aa-success)" />}
-                    {status === 'wrong' && <CrossIcon size={18} color="var(--aa-error)" />}
-                    {status === 'missed' && (
-                      <span className="dr-marker-missed" aria-label="Oublié">△</span>
-                    )}
-                  </span>
-                )}
-                {isFinished && (
-                  <span className="dr-card-year">
-                    {card.year_correct}
-                  </span>
-                )}
-              </div>
+              <span className="dr__card-year">
+                {isFinished ? card.year_correct : '?'}
+              </span>
             </button>
           )
         })}
-      </div>
+      </main>
 
       {summary ? (
-        <div className="dr-summary" role="status" aria-live="polite">
-          <div className="dr-summary-stats">
-            <span className="dr-stat dr-stat-good">
-              <CheckIcon size={16} color="var(--aa-success)" /> {summary.corrects} bons
+        <div className="dr__summary" role="status">
+          <div className="dr__summary-stats">
+            <span className="dr__stat-chip dr__stat-chip--good">
+              ✓ {summary.corrects} bons
             </span>
-            <span className="dr-stat dr-stat-wrong">
-              <CrossIcon size={16} color="var(--aa-error)" /> {summary.errors} erreurs
+            <span className="dr__stat-chip dr__stat-chip--wrong">
+              ✗ {summary.errors} erreurs
             </span>
-            <span className="dr-stat dr-stat-miss">
+            <span className="dr__stat-chip dr__stat-chip--miss">
               △ {summary.missed} oubliés
             </span>
           </div>
-          <div className="dr-summary-bonus">
-            <Badge variant="accent" size="lg" glow>
-              +{summary.bonus} pts bonus
-            </Badge>
-          </div>
+          <Stamp color={summary.bonus > 0 ? 'ink' : 'red'} rotate={-3}>
+            +{summary.bonus} pts
+          </Stamp>
         </div>
       ) : (
-        <div className="dr-actions">
-          <Button variant="primary" size="lg" onClick={handleValidate}>
-            <ValidateIcon size={20} /> Valider ({selected.size})
-          </Button>
-          {onSkip && (
-            <Button variant="ghost" size="md" onClick={onSkip}>
-              Passer
-            </Button>
-          )}
-        </div>
+        <footer className="dr__footer">
+          <span>
+            Cliquez les événements de cette décennie — +{POINTS_PER_NET} pts par bonne
+            réponse, malus par erreur
+          </span>
+          <button type="button" className="btn btn-primary btn-sm" onClick={handleValidate}>
+            Valider ({selected.size})
+          </button>
+        </footer>
       )}
-    </Card>
+    </div>
   )
 }
