@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<title>L'Aventure Temporelle de l'IA — Redesign MIA</title>
+<meta name="viewport" content="width=1440, initial-scale=1"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="assets/data.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<script type="text/babel" src="assets/components.jsx"></script>
+<script type="text/babel" src="assets/screen-home.jsx"></script>
+<script type="text/babel" src="assets/screen-discovery.jsx"></script>
+<script type="text/babel" src="assets/screen-quiz.jsx"></script>
+<script type="text/babel" src="assets/screen-minigames.jsx"></script>
+<script type="text/babel" src="assets/screen-result-museum.jsx"></script>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+const TWEAKS_DEFAULT = /*EDITMODE-BEGIN*/{
+  "crt": true,
+  "grain": true,
+  "palette": "mia"
+}/*EDITMODE-END*/;
+
+function App() {
+  const saved = (() => {
+    try { return JSON.parse(localStorage.getItem("mia_state") || "null"); } catch { return null; }
+  })();
+  const [state, setState] = useState(saved || {
+    view: "home",
+    discoveryIdx: 0,
+    quizIdx: 0,
+    score: 0, streak: 0, correctCount: 0,
+    miniGame: "duel",
+  });
+  const [tweaks, setTweaks] = useState(TWEAKS_DEFAULT);
+  const [tweaksOpen, setTweaksOpen] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem("mia_state", JSON.stringify(state));
+  }, [state]);
+
+  // Tweak mode wiring
+  useEffect(() => {
+    const handler = (ev) => {
+      if (ev.data?.type === "__activate_edit_mode") setTweaksOpen(true);
+      if (ev.data?.type === "__deactivate_edit_mode") setTweaksOpen(false);
+    };
+    window.addEventListener("message", handler);
+    window.parent.postMessage({ type: "__edit_mode_available" }, "*");
+    return () => window.removeEventListener("message", handler);
+  }, []);
+
+  const setTweak = (k, v) => {
+    setTweaks(t => {
+      const nx = { ...t, [k]: v };
+      window.parent.postMessage({ type: "__edit_mode_set_keys", edits: { [k]: v } }, "*");
+      return nx;
+    });
+  };
+
+  const views = [
+    { id: "home", label: "Accueil" },
+    { id: "discovery", label: "Découverte" },
+    { id: "quiz", label: "Quiz" },
+    { id: "minigames", label: "Mini-jeux" },
+    { id: "result", label: "Résultats" },
+    { id: "museum", label: "Archives" },
+  ];
+
+  const renderView = () => {
+    switch(state.view) {
+      case "home": return <HomeScreen
+        onStart={() => setState(s => ({ ...s, view: "discovery", discoveryIdx: 0 }))}
+        onNav={(v) => setState(s => ({ ...s, view: v }))}
+      />;
+      case "discovery": return <DiscoveryScreen
+        idx={state.discoveryIdx}
+        setIdx={(fn) => setState(s => ({ ...s, discoveryIdx: typeof fn === "function" ? fn(s.discoveryIdx) : fn }))}
+        onNext={() => setState(s => ({ ...s, discoveryIdx: Math.min(window.EVENTS.length - 1, s.discoveryIdx + 1) }))}
+        onToQuiz={() => setState(s => ({ ...s, view: "quiz", quizIdx: 0, score: 0, streak: 0, correctCount: 0 }))}
+      />;
+      case "quiz": return <QuizScreen state={state} setState={setState}/>;
+      case "minigames": return <MiniGamesHub state={state} setState={setState}/>;
+      case "result": return <ResultScreen state={state} setState={setState}/>;
+      case "museum": return <MuseumScreen setState={setState}/>;
+      default: return null;
+    }
+  };
+
+  return (
+    <div className="stage" data-screen-label={views.find(v => v.id === state.view)?.label}>
+      <div className="paper-bg"/>
+      {tweaks.grain && <div className="grain"/>}
+
+      {/* TOP CHROME */}
+      <header className="instrument-top">
+        <div className="brandmark">
+          <div className="brand-seal">M</div>
+          <div>
+            <div style={{ fontSize: 10, letterSpacing: "0.3em", color: "var(--ink-soft)" }}>MIA · MISSION IA</div>
+            <div>L'Aventure Temporelle de l'IA</div>
+          </div>
+        </div>
+        <div className="inst-title">
+          UNITÉ CHRONOLOGIQUE · MODÈLE <b>CHRONOS-06</b> · ÉDITION 2026
+        </div>
+        <div className="inst-readouts">
+          <div className="readout ok"><span className="dot"/>SYS OK</div>
+          <div className="readout"><span className="dot"/>REC · {String(new Date().getSeconds()).padStart(2,"0")}</div>
+          <div className="readout ok"><span className="dot"/>{state.score} PTS</div>
+        </div>
+      </header>
+
+      <main className="viewport">
+        {renderView()}
+        <Corners/>
+      </main>
+
+      {/* BOTTOM CHROME */}
+      <footer className="instrument-bottom">
+        <div>NAV / {state.view.toUpperCase()}</div>
+        <div className="screen-crumbs">
+          {views.map(v => (
+            <button key={v.id} className={v.id === state.view ? "on" : ""} onClick={() => setState(s => ({ ...s, view: v.id }))}>
+              {v.label}
+            </button>
+          ))}
+        </div>
+        <div>MIA · 2026</div>
+      </footer>
+
+      <div className={"crt" + (tweaks.crt ? "" : " off")}/>
+
+      {/* Tweaks panel */}
+      {tweaksOpen && (
+        <div style={{
+          position: "fixed", right: 18, bottom: 68, zIndex: 200,
+          width: 300, background: "white", border: "3px solid var(--ink)",
+          boxShadow: "8px 8px 0 var(--red-lovelace)",
+          padding: 16, display: "flex", flexDirection: "column", gap: 12,
+          fontFamily: "var(--f-display)",
+        }}>
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <div>
+              <Label accent>Panneau</Label>
+              <div style={{ fontWeight: 700, fontSize: 20 }}>Tweaks</div>
+            </div>
+            <button onClick={() => setTweaksOpen(false)} style={{ border: "2px solid var(--ink)", background: "white", padding: "4px 8px", cursor: "pointer", fontFamily: "inherit" }}>✕</button>
+          </div>
+          <label style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 14 }}>
+            <span>Scanlines CRT</span>
+            <input type="checkbox" checked={tweaks.crt} onChange={e => setTweak("crt", e.target.checked)}/>
+          </label>
+          <label style={{ display: "flex", justifyContent: "space-between", alignItems: "center", fontSize: 14 }}>
+            <span>Grain papier</span>
+            <input type="checkbox" checked={tweaks.grain} onChange={e => setTweak("grain", e.target.checked)}/>
+          </label>
+          <div>
+            <Label>Vue rapide</Label>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginTop: 6 }}>
+              {views.map(v => (
+                <button key={v.id} onClick={() => setState(s => ({ ...s, view: v.id }))} style={{
+                  border: "2px solid var(--ink)",
+                  background: v.id === state.view ? "var(--ink)" : "white",
+                  color: v.id === state.view ? "white" : "var(--ink)",
+                  padding: "4px 8px", fontSize: 11, cursor: "pointer",
+                  fontFamily: "var(--f-mono)", letterSpacing: "0.14em", textTransform: "uppercase",
+                }}>{v.label}</button>
+              ))}
+            </div>
+          </div>
+          <button className="btn" onClick={() => { localStorage.removeItem("mia_state"); location.reload(); }}>
+            Réinitialiser la session
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

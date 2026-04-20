@@ -1,0 +1,24 @@
+/**
+ * App layout — stage fixe full-bleed, viewport défilable au centre.
+ */
+
+.stage {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background: var(--mai-paper);
+  color: var(--mai-ink);
+  overflow: hidden;
+}
+
+.viewport {
+  position: relative;
+  overflow: auto;
+}
+
+/* Transitions wrapper */
+.viewport > *:not(.paper-bg):not(.grain):not(.crt):not(.corner) {
+  position: relative;
+  z-index: 2;
+}

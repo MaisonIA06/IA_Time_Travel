@@ -1,0 +1,13 @@
+.corner {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  border: 3px solid var(--mai-ink);
+  pointer-events: none;
+  z-index: 8;
+}
+
+.corner--tl { top: 8px; left: 8px;  border-right: none;  border-bottom: none; }
+.corner--tr { top: 8px; right: 8px; border-left: none;   border-bottom: none; }
+.corner--bl { bottom: 8px; left: 8px;  border-right: none; border-top: none; }
+.corner--br { bottom: 8px; right: 8px; border-left: none;  border-top: none; }

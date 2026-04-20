@@ -1,0 +1,28 @@
+.stamp {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 3px solid currentColor;
+  font-family: var(--mai-font-mono);
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  font-size: 14px;
+  opacity: 0.9;
+  white-space: nowrap;
+}
+
+.stamp::before,
+.stamp::after {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin: 0 6px;
+}
+
+.stamp--red   { color: var(--mai-red-lovelace); }
+.stamp--ink   { color: var(--mai-ink); }
+.stamp--green { color: #5F8A2E; }

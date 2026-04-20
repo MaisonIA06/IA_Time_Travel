@@ -1,132 +1,113 @@
 /**
- * Button — brutaliste scientifique.
- * Ombres décalées carrées, bordures épaisses, pas d'arrondi.
+ * Button — rétro-futuriste MIA (CHRONOS-06).
+ * Bordure 3px, ombre dure décalée, hover translate -2/-2.
  */
 
 .btn {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 0.625rem;
-  font-family: var(--mai-font-title);
-  font-weight: 900; /* Pogonia Black */
-  letter-spacing: var(--mai-tracking-wide);
+  gap: 10px;
+  padding: 14px 22px;
+  border: 3px solid var(--mai-ink);
+  background: #FFFFFF;
+  color: var(--mai-ink);
+  font-family: var(--mai-font-body);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  border: var(--mai-border-width-thick) solid var(--mai-blue-deep);
-  border-radius: var(--mai-radius-sm);
   cursor: pointer;
-  transition: transform var(--mai-transition-fast),
-              box-shadow var(--mai-transition-fast),
-              background-color var(--mai-transition-fast),
-              color var(--mai-transition-fast);
-  position: relative;
-  color: var(--mai-blue-deep);
-  background: var(--mai-bg);
-  box-shadow: var(--mai-shadow-sm);
+  box-shadow: 5px 5px 0 var(--mai-ink);
+  transition: transform 120ms, box-shadow 120ms, background-color 120ms, color 120ms;
   user-select: none;
-}
-
-.btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
 }
 
 .btn:not(:disabled):hover {
   transform: translate(-2px, -2px);
-  box-shadow: var(--mai-shadow-md);
+  box-shadow: 7px 7px 0 var(--mai-ink);
 }
-
 .btn:not(:disabled):active {
   transform: translate(2px, 2px);
-  box-shadow: var(--mai-shadow-none);
+  box-shadow: 2px 2px 0 var(--mai-ink);
+}
+
+.btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  box-shadow: 3px 3px 0 var(--mai-ink);
+  transform: none;
 }
 
 .btn:focus-visible {
-  outline: 3px solid var(--mai-accent);
-  outline-offset: 4px;
+  outline: 3px solid var(--mai-red-lovelace);
+  outline-offset: 3px;
 }
 
-/* Sizes : padding généreux, typographie imposante */
+/* Sizes */
 .btn-sm {
-  padding: 0.5rem 1rem;
-  font-size: 0.75rem;
-  border-width: var(--mai-border-width);
+  padding: 8px 14px;
+  font-size: 11px;
+  border-width: 2px;
+  box-shadow: 3px 3px 0 var(--mai-ink);
 }
+.btn-sm:not(:disabled):hover { box-shadow: 5px 5px 0 var(--mai-ink); }
+.btn-sm:not(:disabled):active { box-shadow: 1px 1px 0 var(--mai-ink); }
+
 .btn-md {
-  padding: 0.875rem 1.75rem;
-  font-size: 0.9375rem;
-}
-.btn-lg {
-  padding: 1.125rem 2.5rem;
-  font-size: 1.125rem;
-}
-.btn-full {
-  width: 100%;
+  padding: 14px 22px;
+  font-size: 14px;
 }
 
-/* Variantes : la variante définit la couleur du fond + des ombres */
+.btn-lg {
+  padding: 18px 28px;
+  font-size: 15px;
+}
+
+.btn-full { width: 100%; }
+
+/* Variants */
 .btn-primary {
   background: var(--mai-blue-deep);
-  color: var(--mai-text-inverse);
+  color: #FFFFFF;
+  box-shadow: 5px 5px 0 var(--mai-red-lovelace);
 }
-.btn-primary:not(:disabled):hover {
-  background: var(--mai-accent);
-  border-color: var(--mai-accent);
-  box-shadow: 6px 6px 0 0 var(--mai-blue-deep);
-}
+.btn-primary:not(:disabled):hover { box-shadow: 7px 7px 0 var(--mai-red-lovelace); }
+.btn-primary:not(:disabled):active { box-shadow: 2px 2px 0 var(--mai-red-lovelace); }
 
 .btn-secondary {
-  background: var(--mai-accent);
-  color: var(--mai-text-inverse);
-  border-color: var(--mai-accent);
-  box-shadow: 3px 3px 0 0 var(--mai-blue-deep);
-}
-.btn-secondary:not(:disabled):hover {
-  background: var(--mai-red-terra);
-  border-color: var(--mai-blue-deep);
-  box-shadow: 6px 6px 0 0 var(--mai-blue-deep);
+  background: var(--mai-red-lovelace);
+  color: #FFFFFF;
+  border-color: var(--mai-ink);
+  box-shadow: 5px 5px 0 var(--mai-ink);
 }
 
 .btn-success {
   background: var(--mai-green-bloom);
-  color: var(--mai-blue-deep);
+  color: var(--mai-ink);
 }
 
 .btn-danger {
-  background: var(--mai-accent);
-  color: var(--mai-text-inverse);
-  border-color: var(--mai-accent);
+  background: var(--mai-red-lovelace);
+  color: #FFFFFF;
 }
 
-/* Outline : fond transparent, bord plein, hover = inversion */
 .btn-outline {
   background: transparent;
-  color: var(--mai-blue-deep);
-  box-shadow: 3px 3px 0 0 var(--mai-blue-deep);
-}
-.btn-outline:not(:disabled):hover {
-  background: var(--mai-blue-deep);
-  color: var(--mai-text-inverse);
+  color: var(--mai-ink);
 }
 
-/* Ghost : pas de bordure ni ombre, texte seulement, souligne au hover */
 .btn-ghost {
   background: transparent;
-  color: var(--mai-blue-deep);
-  border: none;
   box-shadow: none;
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 4px;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
+  border-color: var(--mai-ink);
 }
 .btn-ghost:not(:disabled):hover {
-  color: var(--mai-accent);
-  transform: none;
-  background: var(--mai-green-bloom);
+  background: var(--mai-ink);
+  color: #FFFFFF;
+  box-shadow: 4px 4px 0 var(--mai-red-lovelace);
+}
+.btn-ghost:not(:disabled):active {
+  box-shadow: 1px 1px 0 var(--mai-red-lovelace);
 }
 
 /* Icons */
@@ -145,9 +126,6 @@
   border: 2px solid transparent;
   border-top-color: currentColor;
   border-radius: 50%;
-  animation: spin 0.7s linear infinite;
+  animation: btn-spin 0.7s linear infinite;
 }
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes btn-spin { to { transform: rotate(360deg); } }

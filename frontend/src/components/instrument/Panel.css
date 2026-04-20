@@ -1,0 +1,12 @@
+.panel {
+  border: 3px solid var(--mai-ink);
+  padding: 2rem;
+}
+
+.panel--white  { background: #FFFFFF; color: var(--mai-ink); }
+.panel--paper  { background: var(--mai-paper-warm); color: var(--mai-ink); }
+.panel--dark   { background: var(--mai-blue-deep); color: #FFFFFF; }
+
+.panel--shadow-ink    { box-shadow: 8px 8px 0 var(--mai-ink); }
+.panel--shadow-accent { box-shadow: 8px 8px 0 var(--mai-red-lovelace); }
+.panel--shadow-none   { box-shadow: none; }

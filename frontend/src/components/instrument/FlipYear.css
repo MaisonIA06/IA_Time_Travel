@@ -1,0 +1,33 @@
+.flip-year {
+  display: inline-flex;
+  gap: 0.16em;
+  font-family: var(--mai-font-mono);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.flip-digit {
+  position: relative;
+  display: inline-block;
+  width: 0.8em;
+  text-align: center;
+  background: var(--mai-ink);
+  color: var(--mai-green-bloom);
+  padding: 0.12em 0.1em;
+  border: 3px solid var(--mai-ink);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.15),
+              inset 0 -2px 0 rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+  line-height: 1;
+}
+
+.flip-digit::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 49.5%;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}

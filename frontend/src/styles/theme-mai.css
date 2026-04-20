@@ -1,11 +1,12 @@
 /**
- * theme-mai.css — Tokens brutalistes scientifiques.
- * Direction design C : contrastes massifs, aplats nets, zéro ombre molle,
- * ombres "hard" décalées, typographie Pogonia poussée à ses extrêmes.
+ * theme-mai.css — Redesign rétro-futuriste × brutalisme MIA.
+ * Source : design_handoff_mia_retro_futurist.
+ * Direction : instrument scientifique CHRONOS-06 (papier millimétré, flip-digits,
+ * cadrans, tampons, overlay CRT).
  */
 
 :root {
-  /* === Palette officielle MIA (intacte) === */
+  /* === Palette MIA officielle (inchangée) === */
   --mai-blue-deep:     #163458;
   --mai-blue-quantum:  #98A8C6;
   --mai-blue-lumen:    #C2D4EF;
@@ -18,15 +19,21 @@
   --mai-green-bloom:   #E5EAA8;
   --mai-green-neura:   #F1F4D0;
 
-  /* === Sémantique === */
-  --mai-bg:            #FFFFFF;
-  --mai-bg-alt:        #F5F2EC;
-  --mai-bg-dark:       var(--mai-blue-deep);
-  --mai-bg-paper:      #FAF7F0;
+  /* === Nouveaux tokens papier/instrument === */
+  --mai-paper:         #F5F2EC;
+  --mai-paper-warm:    #EFE9DA;
+  --mai-paper-deep:    #E8E0CC;
+  --mai-ink:           #0F2238;
+  --mai-ink-soft:      #2B4062;
 
-  --mai-text:          var(--mai-blue-deep);
+  /* === Sémantique (dérivée) === */
+  --mai-bg:            var(--mai-paper);
+  --mai-bg-alt:        var(--mai-paper-warm);
+  --mai-bg-dark:       var(--mai-ink);
+
+  --mai-text:          var(--mai-ink);
   --mai-text-inverse:  #FFFFFF;
-  --mai-text-muted:    #4A5E7A;
+  --mai-text-muted:    var(--mai-ink-soft);
 
   --mai-primary:       var(--mai-blue-deep);
   --mai-accent:        var(--mai-red-lovelace);
@@ -35,42 +42,45 @@
   --mai-success:       #5F8A2E;
   --mai-error:         var(--mai-red-lovelace);
 
-  --mai-border:        var(--mai-blue-deep);
-  --mai-border-soft:   var(--mai-gray-matter);
+  --mai-border:        var(--mai-ink);
+  --mai-border-soft:   rgba(15, 34, 56, 0.25);
 
-  /* === Typographies (Pogonia uniquement) === */
-  --mai-font-body:  'Pogonia', ui-sans-serif, system-ui, sans-serif;
-  --mai-font-title: 'Pogonia', ui-sans-serif, system-ui, sans-serif;
+  /* === Typographies ===
+     Pogonia pour titres/body (marque MIA). JetBrains Mono pour les chiffres,
+     labels, sorties instrument. */
+  --mai-font-title: 'Pogonia', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --mai-font-body:  'Pogonia', 'Space Grotesk', ui-sans-serif, system-ui, sans-serif;
+  --mai-font-mono:  'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
-  --mai-text-display: clamp(4rem, 11vw, 10rem);
-  --mai-text-h1:      clamp(2.5rem, 6vw, 5rem);
-  --mai-text-h2:      clamp(1.75rem, 3.5vw, 2.75rem);
+  --mai-text-display: clamp(3rem, 7vw, 6rem);
+  --mai-text-h1:      clamp(2.2rem, 3.6vw, 3.2rem);
+  --mai-text-h2:      clamp(1.75rem, 3vw, 2.5rem);
   --mai-text-h3:      clamp(1.25rem, 2vw, 1.75rem);
   --mai-text-body:    1rem;
   --mai-text-small:   0.875rem;
-  --mai-text-mono:    0.75rem;
+  --mai-text-mono:    0.6875rem;
 
-  /* === Rayons : brutalisme strict === */
+  /* === Rayons : STRICTEMENT 0 === */
   --mai-radius-sm:   0;
-  --mai-radius-md:   2px;
-  --mai-radius-lg:   4px;
+  --mai-radius-md:   0;
+  --mai-radius-lg:   0;
   --mai-radius-pill: 0;
 
-  /* === Bordures nettes === */
+  /* === Bordures === */
   --mai-border-width:       2px;
-  --mai-border-width-thick: 4px;
+  --mai-border-width-thick: 3px;
 
-  /* === Ombres brutalistes (carrées, décalées, pas de flou) === */
-  --mai-shadow-sm:     3px 3px 0 0 var(--mai-blue-deep);
-  --mai-shadow-md:     6px 6px 0 0 var(--mai-blue-deep);
-  --mai-shadow-lg:     10px 10px 0 0 var(--mai-blue-deep);
+  /* === Ombres dures (aucun flou) === */
+  --mai-shadow-sm:     3px 3px 0 0 var(--mai-ink);
+  --mai-shadow-md:     6px 6px 0 0 var(--mai-ink);
+  --mai-shadow-lg:     10px 10px 0 0 var(--mai-ink);
   --mai-shadow-accent: 6px 6px 0 0 var(--mai-red-lovelace);
   --mai-shadow-none:   0 0 0 0 transparent;
 
-  /* === Transitions rapides === */
-  --mai-transition-fast: 100ms cubic-bezier(0.2, 0, 0, 1);
-  --mai-transition-base: 150ms cubic-bezier(0.2, 0, 0, 1);
-  --mai-transition-slow: 250ms cubic-bezier(0.2, 0, 0, 1);
+  /* === Transitions === */
+  --mai-transition-fast: 120ms cubic-bezier(0.2, 0, 0, 1);
+  --mai-transition-base: 200ms cubic-bezier(0.2, 0, 0, 1);
+  --mai-transition-slow: 380ms cubic-bezier(0.2, 0, 0, 1);
 
   /* === Espacement === */
   --mai-space-1: 0.25rem;
@@ -85,16 +95,17 @@
   --mai-space-32: 8rem;
 
   /* === Tracking === */
-  --mai-tracking-tight: -0.02em;
+  --mai-tracking-tight: -0.035em;
   --mai-tracking-normal: 0;
-  --mai-tracking-wide: 0.08em;
-  --mai-tracking-ultra: 0.24em;
+  --mai-tracking-mono:   0.16em;
+  --mai-tracking-wide:   0.20em;
+  --mai-tracking-ultra:  0.30em;
 }
 
 [data-theme='dark'] {
-  --mai-bg:           var(--mai-blue-deep);
-  --mai-bg-alt:       #0F2847;
-  --mai-bg-paper:     #0F2847;
+  --mai-bg:           var(--mai-ink);
+  --mai-bg-alt:       #132a48;
+  --mai-bg-dark:      var(--mai-ink);
   --mai-text:         #FFFFFF;
   --mai-text-muted:   var(--mai-blue-lumen);
   --mai-border:       #FFFFFF;
