@@ -32,7 +32,27 @@
   display: flex;
   flex-direction: column;
   gap: 24px;
+  overflow: hidden;
 }
+
+/* Grille millimétrée — uniquement sur la colonne gauche */
+.home-paper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(22, 52, 88, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(22, 52, 88, 0.05) 1px, transparent 1px),
+    linear-gradient(to right, rgba(22, 52, 88, 0.10) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(22, 52, 88, 0.10) 1px, transparent 1px);
+  background-size: 16px 16px, 16px 16px, 80px 80px, 80px 80px;
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+  z-index: 0;
+}
+
+.home-paper > * { position: relative; z-index: 1; }
 
 .home-paper__dossier {
   display: flex;
