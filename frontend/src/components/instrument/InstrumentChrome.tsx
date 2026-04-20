@@ -59,8 +59,6 @@ export function InstrumentTop({ readouts }: InstrumentTopProps) {
 
 const NAV_ITEMS = [
   { to: '/', label: 'Accueil' },
-  { to: '/game', label: 'Partie' },
-  { to: '/end', label: 'Résultats' },
   { to: '/museum', label: 'Archives' },
 ] as const
 
