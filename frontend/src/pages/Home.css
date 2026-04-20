@@ -9,6 +9,8 @@
   grid-template-columns: 1.1fr 1fr;
   min-height: 100%;
   gap: 0;
+  /* Fond warm par défaut (colonne droite). La colonne gauche repasse en papier clair. */
+  background: var(--mai-paper-warm);
 }
 
 /* ==================== COLONNE GAUCHE (papier) ==================== */
@@ -17,6 +19,7 @@
   z-index: 2;
   padding: 56px 56px 36px;
   border-right: 3px solid var(--mai-ink);
+  background: var(--mai-paper);
   display: flex;
   flex-direction: column;
   gap: 24px;
