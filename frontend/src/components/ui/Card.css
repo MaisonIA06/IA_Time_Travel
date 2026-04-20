@@ -1,91 +1,82 @@
 /**
- * Styles Card — tokens --mai-* uniquement, pas de HEX.
+ * Card — brutaliste scientifique.
+ * Bordures épaisses, ombres carrées décalées, zéro arrondi doux.
  */
 
 .card {
-  border-radius: var(--mai-radius-lg);
-  transition: background-color var(--mai-transition-base),
-              border-color var(--mai-transition-base),
-              box-shadow var(--mai-transition-base),
-              transform var(--mai-transition-base);
+  border-radius: var(--mai-radius-sm);
+  transition: transform var(--mai-transition-fast),
+              box-shadow var(--mai-transition-fast),
+              background-color var(--mai-transition-fast),
+              border-color var(--mai-transition-fast);
   color: var(--mai-text);
+  position: relative;
 }
 
 /* Variants */
 .card-default {
   background: var(--mai-bg);
-  border: 1px solid var(--mai-border);
+  border: var(--mai-border-width) solid var(--mai-blue-deep);
 }
 
 .card-glass {
-  background: color-mix(in srgb, var(--mai-bg) 80%, transparent);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--mai-border-soft);
+  background: var(--mai-bg-paper);
+  border: var(--mai-border-width) solid var(--mai-blue-deep);
 }
 
 .card-bordered {
   background: transparent;
-  border: 2px solid var(--mai-border);
+  border: var(--mai-border-width-thick) solid var(--mai-blue-deep);
 }
 
 .card-elevated {
   background: var(--mai-bg);
-  border: 1px solid var(--mai-border);
-  box-shadow: var(--mai-shadow-lg);
+  border: var(--mai-border-width-thick) solid var(--mai-blue-deep);
+  box-shadow: var(--mai-shadow-md);
 }
 
 /* Padding */
 .card-p-none { padding: 0; }
-.card-p-sm { padding: var(--space-3); }
-.card-p-md { padding: var(--space-5); }
-.card-p-lg { padding: var(--space-8); }
+.card-p-sm   { padding: 1rem; }
+.card-p-md   { padding: 1.75rem; }
+.card-p-lg   { padding: 2.5rem; }
+.card-p-xl   { padding: 3.5rem; }
 
 /* Hoverable */
 .card-hoverable {
   cursor: pointer;
 }
-
 .card-hoverable:hover {
-  transform: translateY(-4px);
+  transform: translate(-3px, -3px);
+  box-shadow: var(--mai-shadow-lg);
   border-color: var(--mai-accent);
-  box-shadow: var(--mai-shadow-md);
+}
+.card-hoverable:active {
+  transform: translate(2px, 2px);
+  box-shadow: var(--mai-shadow-none);
 }
 
-/* Glow variants (map vers la palette MIA) */
-.card-glow-accent:hover {
-  border-color: var(--mai-accent);
-  box-shadow: var(--mai-shadow-md);
-}
-
-.card-glow-purple:hover {
-  border-color: var(--mai-blue-quantum);
-  box-shadow: var(--mai-shadow-md);
-}
-
+/* Glow variants */
+.card-glow-accent  { box-shadow: var(--mai-shadow-accent); }
+.card-glow-purple  { border-color: var(--mai-blue-quantum); }
 .card-glow-success {
-  border-color: var(--mai-success);
-  box-shadow: var(--mai-shadow-sm);
+  border-color: var(--mai-blue-deep);
+  background: var(--mai-green-bloom);
 }
-
-.card-glow-error {
-  border-color: var(--mai-error);
-  box-shadow: var(--mai-shadow-sm);
+.card-glow-error   {
+  border-color: var(--mai-accent);
+  box-shadow: var(--mai-shadow-accent);
 }
 
 /* Sub-components */
 .card-header {
-  padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--mai-border);
-  margin-bottom: var(--space-4);
+  padding-bottom: 1rem;
+  border-bottom: var(--mai-border-width) solid var(--mai-blue-deep);
+  margin-bottom: 1rem;
 }
-
-.card-body {
-  flex: 1;
-}
-
+.card-body { flex: 1; }
 .card-footer {
-  padding-top: var(--space-4);
-  border-top: 1px solid var(--mai-border);
-  margin-top: var(--space-4);
+  padding-top: 1rem;
+  border-top: var(--mai-border-width) solid var(--mai-blue-deep);
+  margin-top: 1rem;
 }

@@ -1,72 +1,105 @@
 /**
- * theme-mai.draft.css — Brouillon de tokens CSS pour la charte La Maison de l'IA.
- *
- * Le worker A1 intègre ce fichier dans frontend/src/styles/theme-mai.css
- * et l'importe dans frontend/src/styles/global.css.
- *
- * Source des couleurs : /home/mia/Bureau/IA_Time_Travel/design/charte/charte-mia.pdf (v.2026).
- * Police : uniquement Pogonia (décision utilisateur — "Like that" et "Space Odyssey"
- * ne seront pas utilisées dans cette version).
+ * theme-mai.css — Tokens brutalistes scientifiques.
+ * Direction design C : contrastes massifs, aplats nets, zéro ombre molle,
+ * ombres "hard" décalées, typographie Pogonia poussée à ses extrêmes.
  */
 
 :root {
-  /* === Palette brute — 9 couleurs identité === */
-  --mai-blue-deep:     #163458; /* INSTITUTIONNELLE */
+  /* === Palette officielle MIA (intacte) === */
+  --mai-blue-deep:     #163458;
   --mai-blue-quantum:  #98A8C6;
   --mai-blue-lumen:    #C2D4EF;
 
-  --mai-red-lovelace:  #994845; /* FÉDÉRATRICE — couleur obligatoire du "IA" du logo */
+  --mai-red-lovelace:  #994845;
   --mai-red-terra:     #AE6557;
   --mai-red-auria:     #F2B2A5;
 
   --mai-gray-matter:   #C0C0BE;
-  --mai-green-bloom:   #E5EAA8; /* INSPIRANTE — mise en lumière texte */
+  --mai-green-bloom:   #E5EAA8;
   --mai-green-neura:   #F1F4D0;
 
-  /* === Couleurs sémantiques (dérivées) === */
+  /* === Sémantique === */
   --mai-bg:            #FFFFFF;
-  --mai-bg-alt:        var(--mai-green-neura);
+  --mai-bg-alt:        #F5F2EC;
   --mai-bg-dark:       var(--mai-blue-deep);
+  --mai-bg-paper:      #FAF7F0;
 
   --mai-text:          var(--mai-blue-deep);
   --mai-text-inverse:  #FFFFFF;
-  --mai-text-muted:    #5A6B82;
+  --mai-text-muted:    #4A5E7A;
 
   --mai-primary:       var(--mai-blue-deep);
   --mai-accent:        var(--mai-red-lovelace);
   --mai-highlight:     var(--mai-green-bloom);
 
-  --mai-success:       #6B8A2E; /* dérivé saturé de Data Bloom pour feedback lisible */
+  --mai-success:       #5F8A2E;
   --mai-error:         var(--mai-red-lovelace);
-  --mai-border:        var(--mai-gray-matter);
-  --mai-border-soft:   var(--mai-blue-lumen);
 
-  /* === Typographies — Pogonia uniquement === */
-  /* 9 OTF fournies dans design/charte/POGONIA/ (Thin, ExtraLight, Light, Regular,
-     Medium, Semibold, Bold, ExtraBold, Black). Le worker A1 convertit en WOFF2 et
-     les place dans frontend/public/fonts/pogonia/ avec @font-face correspondants. */
-  --mai-font-body:  'Pogonia', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --mai-font-title: 'Pogonia', system-ui, sans-serif; /* graisses Bold/Black pour titres */
+  --mai-border:        var(--mai-blue-deep);
+  --mai-border-soft:   var(--mai-gray-matter);
 
-  /* === Rayons, ombres, transitions === */
-  --mai-radius-sm: 4px;
-  --mai-radius-md: 8px;
-  --mai-radius-lg: 16px;
-  --mai-radius-pill: 999px;
+  /* === Typographies (Pogonia uniquement) === */
+  --mai-font-body:  'Pogonia', ui-sans-serif, system-ui, sans-serif;
+  --mai-font-title: 'Pogonia', ui-sans-serif, system-ui, sans-serif;
 
-  --mai-shadow-sm: 0 1px 2px rgba(22, 52, 88, 0.08);
-  --mai-shadow-md: 0 4px 12px rgba(22, 52, 88, 0.12);
-  --mai-shadow-lg: 0 12px 32px rgba(22, 52, 88, 0.18);
+  --mai-text-display: clamp(4rem, 11vw, 10rem);
+  --mai-text-h1:      clamp(2.5rem, 6vw, 5rem);
+  --mai-text-h2:      clamp(1.75rem, 3.5vw, 2.75rem);
+  --mai-text-h3:      clamp(1.25rem, 2vw, 1.75rem);
+  --mai-text-body:    1rem;
+  --mai-text-small:   0.875rem;
+  --mai-text-mono:    0.75rem;
 
-  --mai-transition-fast: 120ms ease-out;
-  --mai-transition-base: 200ms ease-out;
-  --mai-transition-slow: 400ms ease-out;
+  /* === Rayons : brutalisme strict === */
+  --mai-radius-sm:   0;
+  --mai-radius-md:   2px;
+  --mai-radius-lg:   4px;
+  --mai-radius-pill: 0;
+
+  /* === Bordures nettes === */
+  --mai-border-width:       2px;
+  --mai-border-width-thick: 4px;
+
+  /* === Ombres brutalistes (carrées, décalées, pas de flou) === */
+  --mai-shadow-sm:     3px 3px 0 0 var(--mai-blue-deep);
+  --mai-shadow-md:     6px 6px 0 0 var(--mai-blue-deep);
+  --mai-shadow-lg:     10px 10px 0 0 var(--mai-blue-deep);
+  --mai-shadow-accent: 6px 6px 0 0 var(--mai-red-lovelace);
+  --mai-shadow-none:   0 0 0 0 transparent;
+
+  /* === Transitions rapides === */
+  --mai-transition-fast: 100ms cubic-bezier(0.2, 0, 0, 1);
+  --mai-transition-base: 150ms cubic-bezier(0.2, 0, 0, 1);
+  --mai-transition-slow: 250ms cubic-bezier(0.2, 0, 0, 1);
+
+  /* === Espacement === */
+  --mai-space-1: 0.25rem;
+  --mai-space-2: 0.5rem;
+  --mai-space-3: 0.75rem;
+  --mai-space-4: 1rem;
+  --mai-space-6: 1.5rem;
+  --mai-space-8: 2rem;
+  --mai-space-12: 3rem;
+  --mai-space-16: 4rem;
+  --mai-space-24: 6rem;
+  --mai-space-32: 8rem;
+
+  /* === Tracking === */
+  --mai-tracking-tight: -0.02em;
+  --mai-tracking-normal: 0;
+  --mai-tracking-wide: 0.08em;
+  --mai-tracking-ultra: 0.24em;
 }
 
 [data-theme='dark'] {
   --mai-bg:           var(--mai-blue-deep);
   --mai-bg-alt:       #0F2847;
+  --mai-bg-paper:     #0F2847;
   --mai-text:         #FFFFFF;
   --mai-text-muted:   var(--mai-blue-lumen);
-  --mai-border:       rgba(255, 255, 255, 0.12);
+  --mai-border:       #FFFFFF;
+  --mai-border-soft:  rgba(255, 255, 255, 0.2);
+  --mai-shadow-sm:    3px 3px 0 0 #FFFFFF;
+  --mai-shadow-md:    6px 6px 0 0 #FFFFFF;
+  --mai-shadow-lg:    10px 10px 0 0 #FFFFFF;
 }

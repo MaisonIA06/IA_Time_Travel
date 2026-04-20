@@ -1,12 +1,9 @@
 /**
- * Styles globaux - IA Time Traveler
+ * Styles globaux — IA Time Traveler (direction brutaliste scientifique).
  *
- * Note : fonts.css et theme-mai.css sont importés en premier depuis main.tsx,
- * avant ce fichier. Ils définissent la famille Pogonia et les tokens --mai-*
- * de la charte La Maison de l'IA, consommés par les primitives UI.
+ * fonts.css et theme-mai.css sont importés avant ce fichier depuis main.tsx.
  */
 
-/* Reset et base */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -20,17 +17,16 @@ html {
 
 body {
   font-family: var(--mai-font-body);
-  font-weight: 400;
-  background-color: var(--aa-bg);
-  color: var(--aa-text);
-  line-height: 1.6;
+  font-weight: 300; /* Pogonia Light par défaut — contraste avec les Black */
+  background-color: var(--mai-bg);
+  color: var(--mai-text);
+  line-height: 1.55;
   min-height: 100vh;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Application container */
 .app {
   position: relative;
   min-height: 100vh;
@@ -40,136 +36,144 @@ body {
 
 .main-content {
   position: relative;
-  z-index: var(--z-base);
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding: var(--space-4);
-  max-width: 1400px;
-  margin: 0 auto;
   width: 100%;
 }
 
-/* Typography */
+/* Titres : Pogonia Black, tracking serré, uppercase */
 h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.2;
-  color: var(--aa-text);
+  font-family: var(--mai-font-title);
+  font-weight: 900; /* Black */
+  line-height: 0.95;
+  letter-spacing: var(--mai-tracking-tight);
+  color: var(--mai-text);
+  text-transform: none;
 }
 
-h1 { font-size: var(--text-4xl); }
-h2 { font-size: var(--text-3xl); }
-h3 { font-size: var(--text-2xl); }
-h4 { font-size: var(--text-xl); }
-h5 { font-size: var(--text-lg); }
-h6 { font-size: var(--text-base); }
+h1 { font-size: var(--mai-text-h1); }
+h2 { font-size: var(--mai-text-h2); }
+h3 { font-size: var(--mai-text-h3); }
 
 p {
-  margin-bottom: var(--space-4);
-  color: var(--aa-text-muted);
+  font-weight: 300;
+  color: var(--mai-text);
+  max-width: 65ch;
 }
 
 a {
-  color: var(--aa-accent);
-  text-decoration: none;
-  transition: color var(--transition-fast);
+  color: var(--mai-accent);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: color var(--mai-transition-fast);
 }
 
 a:hover {
-  color: var(--aa-accent-secondary);
+  color: var(--mai-blue-deep);
+  background-color: var(--mai-green-bloom);
 }
 
-/* Focus styles pour accessibilité */
+/* Focus visible bien dur — brutalisme */
 :focus-visible {
-  outline: 2px solid var(--aa-accent);
-  outline-offset: 2px;
+  outline: 3px solid var(--mai-accent);
+  outline-offset: 3px;
 }
 
-/* Selection */
 ::selection {
-  background-color: var(--aa-accent);
-  color: var(--aa-bg);
+  background-color: var(--mai-green-bloom);
+  color: var(--mai-blue-deep);
 }
 
-/* Scrollbar personnalisée */
+/* Scrollbar brutaliste */
 ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
 }
-
 ::-webkit-scrollbar-track {
-  background: var(--aa-bg-secondary);
+  background: var(--mai-bg-alt);
+  border-left: 2px solid var(--mai-blue-deep);
 }
-
 ::-webkit-scrollbar-thumb {
-  background: var(--aa-border);
-  border-radius: var(--radius-full);
+  background: var(--mai-blue-deep);
+  border: 2px solid var(--mai-blue-deep);
+  border-radius: 0;
 }
-
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--aa-accent);
+  background: var(--mai-accent);
 }
 
-/* Utility classes */
+/* Utilitaires */
 .text-center { text-align: center; }
 .text-left { text-align: left; }
 .text-right { text-align: right; }
 
-.text-accent { color: var(--aa-accent); }
-.text-muted { color: var(--aa-text-muted); }
-.text-success { color: var(--aa-success); }
-.text-error { color: var(--aa-error); }
+.text-accent { color: var(--mai-accent); }
+.text-muted { color: var(--mai-text-muted); }
+.text-success { color: var(--mai-success); }
+.text-error { color: var(--mai-error); }
 
-.font-display { font-family: var(--font-display); }
-.font-body { font-family: var(--font-body); }
+.uppercase { text-transform: uppercase; letter-spacing: var(--mai-tracking-wide); }
+.tracking-ultra { letter-spacing: var(--mai-tracking-ultra); }
 
 .flex { display: flex; }
 .flex-col { flex-direction: column; }
 .items-center { align-items: center; }
 .justify-center { justify-content: center; }
 .justify-between { justify-content: space-between; }
-.gap-2 { gap: var(--space-2); }
-.gap-4 { gap: var(--space-4); }
-.gap-6 { gap: var(--space-6); }
 
-/* Animations */
-.animate-fade-in {
-  animation: fade-in var(--transition-normal) ease forwards;
+/* Étiquette de caption en Pogonia Semibold + uppercase + tracking large */
+.caption {
+  font-size: var(--mai-text-mono);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--mai-tracking-ultra);
+  color: var(--mai-text-muted);
 }
 
-.animate-slide-up {
-  animation: slide-up var(--transition-normal) ease forwards;
+/* Bloc monumental : titre énorme Pogonia Black, prêt à poser partout */
+.monumental {
+  font-family: var(--mai-font-title);
+  font-weight: 900;
+  font-size: var(--mai-text-display);
+  line-height: 0.9;
+  letter-spacing: var(--mai-tracking-tight);
+  color: var(--mai-blue-deep);
 }
 
-.animate-glow {
-  animation: glow-pulse 2s ease-in-out infinite;
+/* Style "filet" : ligne horizontale brutale utilisée comme séparateur */
+.rule {
+  border: 0;
+  border-top: var(--mai-border-width-thick) solid var(--mai-blue-deep);
+  margin: var(--mai-space-8) 0;
+  width: 100%;
+}
+
+/* Animations sobres (quick cuts, pas de glow) */
+@keyframes mai-slide-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes mai-slide-in-left {
+  from { opacity: 0; transform: translateX(-24px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes mai-pop {
+  0% { transform: scale(0.96); }
+  60% { transform: scale(1.02); }
+  100% { transform: scale(1); }
 }
 
 /* Page transitions */
 .page-enter {
   opacity: 0;
-  transform: translateY(10px);
 }
-
 .page-enter-active {
   opacity: 1;
-  transform: translateY(0);
-  transition: all var(--transition-normal);
+  transition: opacity var(--mai-transition-slow);
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  html {
-    font-size: 14px;
-  }
-
-  .main-content {
-    padding: var(--space-3);
-  }
-
-  h1 { font-size: var(--text-3xl); }
-  h2 { font-size: var(--text-2xl); }
-  h3 { font-size: var(--text-xl); }
+  html { font-size: 15px; }
 }
-

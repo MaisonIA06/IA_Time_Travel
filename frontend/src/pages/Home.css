@@ -1,85 +1,168 @@
 /**
- * Home — charte La Maison de l'IA
+ * Home — brutaliste scientifique, ambiance "musée d'avant-garde".
  */
 
 .home-page {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 2.5rem;
-  padding: 2rem 1.5rem;
-  max-width: 1040px;
-  margin: 0 auto;
   background: var(--mai-bg);
   color: var(--mai-text);
   font-family: var(--mai-font-body);
+  position: relative;
 }
 
-/* ===== Hero ===== */
+/* ==== Hero : bandeau Deep Blue occupant 60vh ==== */
 .home-hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 1rem;
-  padding-top: 1rem;
+  position: relative;
+  background: var(--mai-blue-deep);
+  color: var(--mai-text-inverse);
+  padding: 2rem clamp(1.5rem, 5vw, 4rem);
+  border-bottom: var(--mai-border-width-thick) solid var(--mai-blue-deep);
+  overflow: hidden;
+  min-height: 72vh;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem 2rem;
+  align-items: start;
 }
 
+/* Logo MIA compact en haut-gauche */
 .home-logo {
+  grid-column: 1;
+  grid-row: 1;
   border: none;
   background: transparent;
   padding: 0;
   cursor: pointer;
   display: inline-flex;
-  border-radius: var(--mai-radius-pill);
-  transition: transform var(--mai-transition-base);
+  align-items: center;
+  gap: 0.75rem;
+  color: inherit;
+  transition: opacity var(--mai-transition-fast);
 }
-
 .home-logo:hover {
-  transform: translateY(-2px) scale(1.02);
+  opacity: 0.75;
 }
-
 .home-logo:focus-visible {
   outline: 3px solid var(--mai-accent);
   outline-offset: 4px;
 }
-
 .home-logo-img {
-  width: 180px;
-  height: 180px;
+  width: 60px;
+  height: 60px;
   object-fit: contain;
   user-select: none;
   -webkit-user-drag: none;
-  filter: drop-shadow(var(--mai-shadow-md));
+  background: var(--mai-text-inverse);
+  border-radius: 50%;
+  padding: 4px;
 }
 
+/* Caption à droite du logo */
+.home-hero__caption {
+  grid-column: 2;
+  grid-row: 1;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: var(--mai-tracking-ultra);
+  color: var(--mai-green-bloom);
+  align-self: center;
+  justify-self: end;
+}
+
+/* Titre monumental "IA TIME TRAVELER" */
 .home-title {
+  grid-column: 1 / -1;
+  grid-row: 2;
   font-family: var(--mai-font-title);
-  font-weight: 700;
-  font-size: clamp(2rem, 4vw, 3rem);
-  color: var(--mai-primary);
+  font-weight: 900;
+  font-size: var(--mai-text-display);
+  line-height: 0.88;
+  letter-spacing: var(--mai-tracking-tight);
+  color: var(--mai-text-inverse);
   margin: 0;
-  letter-spacing: -0.01em;
+  align-self: end;
+  text-transform: uppercase;
+  animation: mai-slide-up 600ms var(--mai-transition-base) backwards;
+}
+.home-title__break {
+  display: block;
+}
+.home-title__ia {
+  color: var(--mai-red-lovelace); /* le "IA" TOUJOURS terracotta */
 }
 
+/* Sous-titre manifeste */
 .home-subtitle {
-  font-size: 1.125rem;
-  color: var(--mai-text-muted);
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.55;
+  grid-column: 1 / -1;
+  grid-row: 3;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 60ch;
+  margin: 0;
   cursor: pointer;
   user-select: none;
+  animation: mai-slide-up 800ms var(--mai-transition-base) 150ms backwards;
+}
+.home-subtitle__lead {
+  font-family: var(--mai-font-title);
+  font-weight: 300; /* Pogonia Light : contraste maximal avec le titre Black */
+  font-size: clamp(1.125rem, 2vw, 1.5rem);
+  line-height: 1.4;
+  color: var(--mai-text-inverse);
+}
+.home-subtitle__lead strong {
+  font-weight: 900;
+  background: var(--mai-green-bloom);
+  color: var(--mai-blue-deep);
+  padding: 0.1em 0.35em;
+  margin-right: 0.1em;
 }
 
-/* ===== Content ===== */
+/* ==== Contenu principal ==== */
 .home-content {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
+  padding: 3rem clamp(1.5rem, 5vw, 4rem) 5rem;
 }
 
+.home-section__label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--mai-tracking-ultra);
+  color: var(--mai-accent);
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.home-section__label::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 3px;
+  background: var(--mai-accent);
+}
+
+.home-section-title {
+  font-family: var(--mai-font-title);
+  font-weight: 900;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 0.95;
+  letter-spacing: var(--mai-tracking-tight);
+  color: var(--mai-blue-deep);
+  margin: 0 0 2rem;
+  text-transform: uppercase;
+}
+
+/* ==== Loading ==== */
 .home-loading {
   display: flex;
   flex-direction: column;
@@ -88,202 +171,228 @@
   padding: 3rem 1rem;
   color: var(--mai-text-muted);
 }
-
 .home-spinner {
   width: 40px;
   height: 40px;
-  border: 3px solid var(--mai-border-soft);
+  border: 4px solid var(--mai-blue-deep);
   border-top-color: var(--mai-accent);
-  border-radius: 50%;
-  animation: mai-spin 1s linear infinite;
+  animation: mai-spin 0.9s linear infinite;
 }
-
 @keyframes mai-spin {
   to { transform: rotate(360deg); }
 }
 
 .home-error {
-  text-align: center;
   padding: 2rem;
-  border: 1px solid var(--mai-border);
-  border-radius: var(--mai-radius-lg);
-  background: var(--mai-bg-alt);
+  border: var(--mai-border-width-thick) solid var(--mai-accent);
+  background: var(--mai-red-auria);
+  color: var(--mai-blue-deep);
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1rem;
+  max-width: 600px;
 }
+.home-error p { margin: 0; font-weight: 600; }
 
-.home-error p {
-  color: var(--mai-accent);
-  margin: 0;
-}
-
-/* ===== Sections ===== */
-.home-section-title {
-  font-family: var(--mai-font-title);
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: var(--mai-primary);
-  text-align: center;
-  margin: 0 0 1.5rem;
-}
-
-/* ===== Chapter grid ===== */
+/* ==== Grille des chapitres ==== */
 .chapter-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
 }
 
 .chapter-card {
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  gap: 0.75rem;
-  padding: 1.5rem 1rem;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 1rem;
+  min-height: 200px;
+  padding: 1.75rem 1.5rem 1.25rem;
   background: var(--mai-bg);
-  border: 1.5px solid var(--mai-border);
-  border-radius: var(--mai-radius-lg);
+  border: var(--mai-border-width-thick) solid var(--mai-blue-deep);
+  border-radius: var(--mai-radius-sm);
   color: var(--mai-text);
   font-family: var(--mai-font-body);
+  text-align: left;
   cursor: pointer;
-  transition:
-    transform var(--mai-transition-base),
-    border-color var(--mai-transition-base),
-    box-shadow var(--mai-transition-base),
-    background var(--mai-transition-base);
+  transition: transform var(--mai-transition-fast),
+              box-shadow var(--mai-transition-fast),
+              background-color var(--mai-transition-fast),
+              color var(--mai-transition-fast);
   box-shadow: var(--mai-shadow-sm);
+  overflow: hidden;
 }
 
-.chapter-card:hover {
-  transform: translateY(-3px);
-  border-color: var(--mai-blue-quantum);
-  box-shadow: var(--mai-shadow-md);
+/* Filigrane numéro énorme dans le fond de la carte */
+.chapter-card::before {
+  content: attr(data-number);
+  position: absolute;
+  right: -0.1em;
+  bottom: -0.35em;
+  font-family: var(--mai-font-title);
+  font-weight: 900;
+  font-size: 12rem;
+  line-height: 0.75;
+  color: var(--mai-blue-lumen);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+  transition: color var(--mai-transition-fast), opacity var(--mai-transition-fast);
 }
 
+.chapter-card > * { position: relative; z-index: 1; }
+
+.chapter-card:hover:not(:disabled) {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--mai-shadow-lg);
+}
+.chapter-card:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: var(--mai-shadow-none);
+}
 .chapter-card:focus-visible {
   outline: 3px solid var(--mai-accent);
-  outline-offset: 2px;
+  outline-offset: 4px;
 }
 
 .chapter-card.is-selected {
-  border-color: var(--mai-accent);
+  background: var(--mai-blue-deep);
+  color: var(--mai-text-inverse);
+  box-shadow: var(--mai-shadow-accent);
+  border-color: var(--mai-blue-deep);
+}
+.chapter-card.is-selected::before {
+  color: var(--mai-red-lovelace);
+  opacity: 0.85;
+}
+
+.chapter-card.is-empty {
+  opacity: 0.5;
+  cursor: not-allowed;
   background: var(--mai-bg-alt);
-  box-shadow: var(--mai-shadow-md);
+  box-shadow: none;
 }
 
 .chapter-number {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--mai-blue-lumen);
-  color: var(--mai-primary);
   font-family: var(--mai-font-title);
-  font-weight: 700;
-  font-size: 1rem;
-  transition: background var(--mai-transition-base), color var(--mai-transition-base);
-}
-
-.chapter-card.is-selected .chapter-number {
-  background: var(--mai-accent);
-  color: var(--mai-text-inverse);
+  font-weight: 900;
+  font-size: 0.75rem;
+  letter-spacing: var(--mai-tracking-ultra);
+  text-transform: uppercase;
+  color: inherit;
+  opacity: 0.7;
 }
 
 .chapter-name {
   font-family: var(--mai-font-title);
-  font-weight: 600;
-  font-size: 1.05rem;
-  color: var(--mai-primary);
+  font-weight: 900;
+  font-size: 1.25rem;
+  line-height: 1.1;
+  color: inherit;
   margin: 0;
-  line-height: 1.3;
 }
 
 .chapter-meta {
-  display: inline-block;
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--mai-radius-pill);
-  background: var(--mai-highlight);
-  color: var(--mai-primary);
-  font-size: 0.8rem;
-  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: var(--mai-tracking-wide);
+  color: inherit;
+  opacity: 0.85;
+  justify-self: start;
+  border-top: 2px solid currentColor;
+  padding-top: 0.625rem;
+  width: 100%;
 }
 
-/* ===== Action ===== */
+/* ==== Action ==== */
 .home-action {
   display: flex;
   flex-direction: column;
-  align-items: center;
   gap: 1rem;
+  padding: 2rem;
+  background: var(--mai-green-bloom);
+  border: var(--mai-border-width-thick) solid var(--mai-blue-deep);
+  box-shadow: var(--mai-shadow-md);
+}
+
+.home-action__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .btn-play-adventure {
-  min-width: 240px;
+  min-width: 280px;
+  font-size: 1.125rem !important;
 }
 
 .home-info {
   margin: 0;
-  color: var(--mai-text-muted);
-  font-size: 0.95rem;
+  color: var(--mai-blue-deep);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  max-width: 36ch;
 }
-
 .home-info strong {
-  color: var(--mai-primary);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: var(--mai-tracking-wide);
 }
 
-/* ===== Footer ===== */
+/* ==== Footer ==== */
 .home-footer {
+  padding: 2rem clamp(1.5rem, 5vw, 4rem);
+  background: var(--mai-blue-deep);
+  color: var(--mai-blue-lumen);
+  font-size: 0.75rem;
+  letter-spacing: var(--mai-tracking-wide);
+  text-transform: uppercase;
   text-align: center;
-  padding-top: 1rem;
-  color: var(--mai-text-muted);
-  font-size: 0.85rem;
 }
+.home-footer p { margin: 0; }
 
-.home-footer p {
-  margin: 0;
-}
-
-/* ===== Easter Egg glitch ===== */
+/* ==== Easter egg glitch ==== */
 .glitch-active {
   animation: home-shake 0.2s infinite;
-  filter: hue-rotate(90deg) contrast(1.5);
-  overflow: hidden;
+  filter: contrast(1.5) invert(0.1);
 }
-
 @keyframes home-shake {
-  0% { transform: translate(0, 0); }
-  25% { transform: translate(5px, 5px); }
-  50% { transform: translate(-5px, -5px); }
-  75% { transform: translate(5px, -5px); }
-  100% { transform: translate(0, 0); }
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(4px, -2px); }
+  50% { transform: translate(-4px, 3px); }
+  75% { transform: translate(3px, 4px); }
 }
 
-/* ===== Responsive ===== */
+/* ==== Responsive ==== */
 @media (max-width: 640px) {
-  .home-page {
-    padding: 1.25rem 1rem;
-    gap: 1.75rem;
+  .home-hero {
+    min-height: 60vh;
+    padding: 1.5rem;
   }
-
-  .home-logo-img {
-    width: 140px;
-    height: 140px;
-  }
-
   .home-title {
-    font-size: 1.75rem;
+    font-size: clamp(3rem, 14vw, 5rem);
   }
-
-  .home-subtitle {
-    font-size: 1rem;
+  .home-content {
+    padding: 2rem 1rem 3rem;
+    gap: 2rem;
   }
-
   .chapter-grid {
     grid-template-columns: 1fr;
+  }
+  .chapter-card::before {
+    font-size: 8rem;
+  }
+  .home-action__row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .btn-play-adventure {
+    width: 100%;
   }
 }

@@ -154,10 +154,19 @@ export function Home() {
           />
         </button>
 
-        <h1 className="home-title">IA Time Traveler</h1>
-        <p className="home-subtitle" onClick={handleSubtitleClick}>
-          Deviens un agent temporel et reconstruis l'histoire de l'Intelligence Artificielle.
-        </p>
+        <span className="home-hero__caption">La Maison de l'IA — Sophia-Antipolis / 2026</span>
+
+        <h1 className="home-title">
+          <span className="home-title__break">Time</span>
+          <span className="home-title__break">Traveler<span className="home-title__ia">/IA</span></span>
+        </h1>
+
+        <div className="home-subtitle" onClick={handleSubtitleClick}>
+          <p className="home-subtitle__lead">
+            <strong>Agent temporel</strong> recruté.
+            Remonte le fil de l'Intelligence Artificielle, de 1843 à aujourd'hui, et reconstitue sa frise.
+          </p>
+        </div>
       </header>
 
       <main className="home-content">
@@ -176,11 +185,13 @@ export function Home() {
         ) : (
           <>
             <section className="home-section">
-              <h2 className="home-section-title">Choisis ton chapitre</h2>
+              <div className="home-section__label">Étape 01 — Choix de mission</div>
+              <h2 className="home-section-title">Choisis ton chapitre.</h2>
               <div className="chapter-grid">
                 {chapters.map((chapter, index) => {
                   const isSelected = selectedChapter === chapter.id
                   const isEmpty = chapter.event_count === 0
+                  const num = String(index + 1).padStart(2, '0')
                   return (
                     <button
                       key={chapter.id}
@@ -190,11 +201,12 @@ export function Home() {
                       aria-pressed={isSelected}
                       aria-disabled={isEmpty}
                       disabled={isEmpty}
+                      data-number={num}
                     >
-                      <span className="chapter-number">{String(index + 1).padStart(2, '0')}</span>
+                      <span className="chapter-number">Chapitre {num}</span>
                       <h3 className="chapter-name">{chapter.name}</h3>
                       <span className="chapter-meta">
-                        {isEmpty ? 'Bientôt disponible' : `${chapter.event_count} étapes`}
+                        {isEmpty ? 'Bientôt disponible' : `${chapter.event_count} étapes à reconstituer`}
                       </span>
                     </button>
                   )
@@ -203,29 +215,30 @@ export function Home() {
             </section>
 
             <section className="home-action">
-              <Button
-                variant="primary"
-                size="lg"
-                onClick={handlePlayAdventure}
-                disabled={!selectedChapter || selectedIsEmpty}
-                className="btn-play-adventure"
-              >
-                Lancer l'aventure
-              </Button>
-              {selectedChapterData && !selectedIsEmpty && (
-                <p className="home-info">
-                  <strong>{selectedChapterData.name}</strong>
-                  {' — '}
-                  {selectedChapterData.event_count} événements à découvrir.
-                </p>
-              )}
+              <div className="home-section__label">Étape 02 — Activation</div>
+              <div className="home-action__row">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  onClick={handlePlayAdventure}
+                  disabled={!selectedChapter || selectedIsEmpty}
+                  className="btn-play-adventure"
+                >
+                  Lancer l'aventure →
+                </Button>
+                {selectedChapterData && !selectedIsEmpty && (
+                  <p className="home-info">
+                    Mission sélectionnée : <strong>{selectedChapterData.name}</strong>, {selectedChapterData.event_count} événements à reconstituer.
+                  </p>
+                )}
+              </div>
             </section>
           </>
         )}
       </main>
 
       <footer className="home-footer">
-        <p>Un jeu éducatif de La Maison de l'IA pour découvrir l'histoire de l'Intelligence Artificielle.</p>
+        <p>Jeu éducatif · La Maison de l'IA · Sophia-Antipolis · 2026</p>
       </footer>
     </div>
   )
