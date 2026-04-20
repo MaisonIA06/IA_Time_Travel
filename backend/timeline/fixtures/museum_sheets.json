@@ -333,5 +333,99 @@
       ],
       "print_layout_hint": "portrait"
     }
+  },
+  {
+    "model": "timeline.museumsheet",
+    "pk": 15,
+    "fields": {
+      "event": 17,
+      "context_long": "1986. Depuis les années 60, on sait modéliser un neurone seul. Mais comment faire pour qu'un réseau entier apprenne ? Un article signé David Rumelhart, Geoffrey Hinton et Ronald Williams propose une réponse élégante : « la rétropropagation du gradient ». L'idée : faire passer l'erreur en sens inverse à travers le réseau, couche par couche, pour ajuster chaque poids. Cela fonctionne étonnamment bien. Sauf que les machines de l'époque ne sont pas assez puissantes, et les jeux de données pas assez gros. L'idée va dormir 20 ans... avant de réveiller le deep learning.",
+      "key_figures": [
+        {"name": "David Rumelhart (1942-2011)", "role": "Psychologue cognitiviste", "mini_bio": "Co-auteur du livre « Parallel Distributed Processing » (1986), bible du connexionnisme. Un prix porte aujourd'hui son nom."},
+        {"name": "Geoffrey Hinton (né en 1947)", "role": "Informaticien britannique", "mini_bio": "Persévérera sur les réseaux de neurones pendant les décennies « d'hiver ». Prix Turing 2018, Nobel de physique 2024."}
+      ],
+      "anecdote": "La rétropropagation avait déjà été découverte plusieurs fois avant 1986 (notamment par Paul Werbos en 1974), mais personne ne l'avait appliquée aux réseaux de neurones. C'est en partie une redécouverte !",
+      "educator_tips": [
+        "Métaphore : un élève qui fait une erreur à une addition. Il remonte le calcul étape par étape pour trouver où il s'est trompé. C'est exactement la rétropropagation.",
+        "Demander : « Pourquoi a-t-il fallu 20 ans pour que cette idée marche vraiment ? » → réponse : il manquait la puissance de calcul et les données.",
+        "Relier au Nobel 2024 : les idées des années 1980 ont donné le prix le plus prestigieux de la science en 2024.",
+        "Vocabulaire : « gradient » = la pente. On descend la pente de l'erreur vers zéro."
+      ],
+      "resources": [
+        {"label": "Rétropropagation — Wikipédia", "url": "https://fr.wikipedia.org/wiki/R%C3%A9tropropagation_du_gradient"},
+        {"label": "Article original (Nature 1986)", "url": "https://www.nature.com/articles/323533a0"}
+      ],
+      "print_layout_hint": "portrait"
+    }
+  },
+  {
+    "model": "timeline.museumsheet",
+    "pk": 16,
+    "fields": {
+      "event": 18,
+      "context_long": "1989, Bell Labs, New Jersey. Yann LeCun, jeune chercheur français de 29 ans fraîchement débarqué des États-Unis, s'intéresse à un problème concret : comment faire lire à une machine les chiffres manuscrits sur les chèques ? Il invente une architecture de réseau de neurones inspirée du cortex visuel du chat : les « réseaux convolutifs ». Son système LeNet apprend à reconnaître les chiffres 0-9. AT&T l'industrialise et l'installe dans toute la Poste américaine : en 1998, 10 % des chèques du pays sont lus par LeNet. Personne n'imagine encore qu'en 2012, ses petits-enfants algorithmiques conquerront le monde.",
+      "key_figures": [
+        {"name": "Yann LeCun (né en 1960)", "role": "Informaticien français", "mini_bio": "Né à Paris, docteur à Pierre-et-Marie-Curie. Aujourd'hui chef scientifique IA chez Meta et professeur à NYU. Prix Turing 2018."}
+      ],
+      "anecdote": "LeNet a été installé pour lire les codes postaux et les montants sur les chèques aux États-Unis. Pendant 20 ans, un réseau de neurones français a lu plus de courrier que n'importe quel humain — sans que personne ne le sache.",
+      "educator_tips": [
+        "Montrer le jeu de données MNIST (chiffres manuscrits) — facile à trouver en ligne. Les élèves peuvent deviner si certains chiffres sont lisibles ou pas.",
+        "Expliquer la « convolution » : un petit filtre qui glisse sur l'image pour détecter des formes simples (bords, angles, courbes), puis d'autres filtres combinent ces formes pour reconnaître des chiffres.",
+        "Fierté française : LeCun est parisien, il a fait son doctorat en France. La France a produit plusieurs pionniers de l'IA.",
+        "Aujourd'hui, un réseau convolutif tourne dans chaque application qui reconnaît un visage ou un objet sur une photo."
+      ],
+      "resources": [
+        {"label": "Réseau convolutif — Wikipédia", "url": "https://fr.wikipedia.org/wiki/R%C3%A9seau_neuronal_convolutif"},
+        {"label": "Yann LeCun — chaire Collège de France", "url": "https://www.college-de-france.fr/chaire/yann-lecun-informatique-et-sciences-numeriques-chaire-annuelle"}
+      ],
+      "print_layout_hint": "portrait"
+    }
+  },
+  {
+    "model": "timeline.museumsheet",
+    "pk": 17,
+    "fields": {
+      "event": 19,
+      "context_long": "2006. Cela fait 20 ans que les réseaux de neurones sont considérés comme une voie sans issue : on n'arrive pas à entraîner des réseaux profonds (plus de 2-3 couches). Geoffrey Hinton, obstiné, publie avec Ruslan Salakhutdinov une méthode pour pré-entraîner chaque couche séparément avant de les combiner. Cela fonctionne. Il invente le terme « Deep Learning » pour rebaptiser le domaine et lui redonner une identité. 6 ans plus tard, en 2012, son étudiant Alex Krizhevsky écrase la compétition ImageNet avec un réseau profond. L'ère moderne de l'IA est lancée.",
+      "key_figures": [
+        {"name": "Geoffrey Hinton (né en 1947)", "role": "Université de Toronto", "mini_bio": "Britannique installé au Canada. Surnommé « le parrain du deep learning ». A quitté Google en 2023 pour alerter sur les risques de l'IA. Prix Turing 2018, Nobel 2024."},
+        {"name": "Ruslan Salakhutdinov (né en 1979)", "role": "Élève de Hinton", "mini_bio": "Aujourd'hui professeur à Carnegie Mellon, a dirigé la recherche IA chez Apple."}
+      ],
+      "anecdote": "En 2012, le réseau de l'étudiant de Hinton — nommé AlexNet — gagne la compétition ImageNet avec un écart énorme sur les méthodes traditionnelles. Google achète la startup DNNresearch de Hinton quelques mois plus tard pour 44 millions de dollars.",
+      "educator_tips": [
+        "Introduire le terme « deep learning » : « deep » = profond = beaucoup de couches superposées de neurones.",
+        "Parler de persévérance : Hinton a tenu 20 ans dans un domaine moqué, et a gagné à la fin. Beau récit à partager.",
+        "Relier les 2 prix : le même Hinton reçoit le prix Turing en 2018 puis le Nobel de physique en 2024. Double reconnaissance rare.",
+        "Question : pourquoi ça n'a pas marché avant 2006 ? → pas assez de données, pas assez de GPU."
+      ],
+      "resources": [
+        {"label": "Deep Learning — Wikipédia", "url": "https://fr.wikipedia.org/wiki/Apprentissage_profond"},
+        {"label": "Geoffrey Hinton raconte (vidéo)", "url": "https://www.youtube.com/watch?v=izrG6AH0pjk"}
+      ],
+      "print_layout_hint": "portrait"
+    }
+  },
+  {
+    "model": "timeline.museumsheet",
+    "pk": 18,
+    "fields": {
+      "event": 20,
+      "context_long": "Stanford, 2009. Fei-Fei Li, jeune professeure sino-américaine, a une intuition : l'IA ne manque pas d'algorithmes, elle manque de données. Elle lance un projet démentiel : constituer une base de 14 millions d'images étiquetées à la main par des humains, organisée en 20 000 catégories. Pour les payer, elle utilise Amazon Mechanical Turk et embauche des milliers de petites mains à travers le monde. C'est ImageNet. En 2012, un réseau de neurones profond l'écrase la compétition ImageNet, déclenchant la révolution du deep learning. Sans ImageNet, pas de reconnaissance d'images moderne, pas de voitures autonomes, pas de diagnostic médical par IA.",
+      "key_figures": [
+        {"name": "Fei-Fei Li (née en 1976)", "role": "Professeure à Stanford", "mini_bio": "Née en Chine, arrivée aux USA à 15 ans. A dirigé le laboratoire IA de Stanford. Aujourd'hui co-directrice de l'institut HAI (Human-Centered AI)."}
+      ],
+      "anecdote": "Pour étiqueter les 14 millions d'images d'ImageNet, Fei-Fei Li a employé des milliers d'anonymes sur Mechanical Turk. Ces travailleurs invisibles ont rendu possible toute l'IA moderne — et sont rarement mentionnés.",
+      "educator_tips": [
+        "Montrer un échantillon d'ImageNet en ligne (les images sont libres d'accès en consultation).",
+        "Discussion : « D'où viennent les données qui entraînent l'IA ? ». Spoiler : de l'Internet + de travailleurs humains sous-payés qui étiquettent.",
+        "Question : pourquoi les images devaient-elles être étiquetées par des humains ? → pour que la machine ait un exemple correct à imiter.",
+        "Fei-Fei Li milite aujourd'hui pour une IA « human-centered », centrée sur l'humain."
+      ],
+      "resources": [
+        {"label": "ImageNet — Wikipédia", "url": "https://fr.wikipedia.org/wiki/ImageNet"},
+        {"label": "Fei-Fei Li TED Talk", "url": "https://www.ted.com/talks/fei_fei_li_how_we_re_teaching_computers_to_understand_pictures"}
+      ],
+      "print_layout_hint": "portrait"
+    }
   }
 ]
