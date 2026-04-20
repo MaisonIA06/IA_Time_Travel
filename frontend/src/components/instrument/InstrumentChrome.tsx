@@ -62,13 +62,9 @@ export function InstrumentTop({ readouts }: InstrumentTopProps) {
  * peut enrichir la liste MESSAGES ci-dessous.
  */
 const MESSAGES = [
-  'Unité Chronologique · Opérationnelle',
-  'Condensateurs à 100%',
-  'Coordonnées verrouillées — 1843 ↔ 2024',
   "Mission : reconstituer la frise de l'IA",
   'd\'Ada Lovelace (1843) à ChatGPT (2022)',
   "La Maison de l'IA · Sophia-Antipolis · 2026",
-  'Unité Chronologique · Opérationnelle',
 ]
 
 export function InstrumentBottom() {
