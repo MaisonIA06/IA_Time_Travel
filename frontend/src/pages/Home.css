@@ -107,7 +107,7 @@
 /* Strip stats 4 colonnes */
 .home-paper__stats {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   border-top: 2px solid var(--mai-ink);
   border-bottom: 2px solid var(--mai-ink);
   margin-top: 16px;

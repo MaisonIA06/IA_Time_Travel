@@ -189,7 +189,7 @@ export function Home() {
 
         <p className="home-paper__intro">
           Une expédition chronologique à travers près de 180 ans d'Intelligence Artificielle,
-          conçue pour les agents temporels de 11 à 15 ans et leurs médiateurs.
+          conçue pour les agents temporels et leurs médiateurs.
         </p>
 
         <div className="home-paper__cta">
@@ -218,10 +218,6 @@ export function Home() {
           <div className="home-paper__stat">
             <strong>20'</strong>
             <span>Durée</span>
-          </div>
-          <div className="home-paper__stat">
-            <strong>11-15</strong>
-            <span>Âges</span>
           </div>
         </div>
       </section>
