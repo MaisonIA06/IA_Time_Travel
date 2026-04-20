@@ -104,12 +104,11 @@
   border: 2px solid var(--mai-ink);
   height: 180px;
   overflow: hidden;
-  margin-top: auto;
-  margin-bottom: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--mai-paper-warm);
+  margin: auto 0;
 }
 
 .duel__card-media img {
@@ -151,7 +150,10 @@
   align-items: center;
   gap: 12px;
   min-height: 48px;
+  margin-top: auto;
 }
+
+.duel__card-masked { margin-top: auto; }
 
 .duel__card-masked {
   font-family: var(--mai-font-mono);
