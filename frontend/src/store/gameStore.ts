@@ -88,6 +88,7 @@ interface GameState {
 
   nextQuestion: () => void
   nextDiscovery: () => void
+  prevDiscovery: () => void
 
   triggerMiniGame: (type: MiniGameType) => void
   completeMiniGame: (bonusPoints: number) => void
@@ -271,6 +272,10 @@ export const useGameStore = create<GameState>((set, get) => ({
     } else {
       set({ currentIndex: newIndex })
     }
+  },
+
+  prevDiscovery: () => {
+    set(s => ({ currentIndex: Math.max(0, s.currentIndex - 1) }))
   },
 
   triggerMiniGame: (type) => set({

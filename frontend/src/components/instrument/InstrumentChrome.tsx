@@ -26,7 +26,12 @@ export function InstrumentTop({ readouts }: InstrumentTopProps) {
   return (
     <header className="instrument-top">
       <div className="brandmark">
-        <span className="brand-seal" aria-hidden="true">M</span>
+        <img
+          src="/macaron-mia-bleu.png"
+          alt="La Maison de l'IA"
+          className="brand-seal"
+          draggable={false}
+        />
         <div className="brandmark__text">
           <span className="brandmark__eyebrow">MIA · Mission IA</span>
           <span className="brandmark__title">L'Aventure Temporelle de l'IA</span>
