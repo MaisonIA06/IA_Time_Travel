@@ -9,8 +9,19 @@
   grid-template-columns: 1.1fr 1fr;
   min-height: 100%;
   gap: 0;
-  /* Fond warm par défaut (colonne droite). La colonne gauche repasse en papier clair. */
-  background: var(--mai-paper-warm);
+  /* Fond en 2 bandes verticales (papier clair à gauche, warm à droite) avec
+     séparateur ink au milieu. Couvre toute la hauteur scrollable, indépendamment
+     du contenu. La frontière est à 1.1 / (1.1 + 1) = ~52.38%. */
+  background:
+    linear-gradient(
+      to right,
+      var(--mai-paper) 0%,
+      var(--mai-paper) calc(52.38% - 1.5px),
+      var(--mai-ink) calc(52.38% - 1.5px),
+      var(--mai-ink) calc(52.38% + 1.5px),
+      var(--mai-paper-warm) calc(52.38% + 1.5px),
+      var(--mai-paper-warm) 100%
+    );
 }
 
 /* ==================== COLONNE GAUCHE (papier) ==================== */
@@ -18,8 +29,6 @@
   position: relative;
   z-index: 2;
   padding: 56px 56px 36px;
-  border-right: 3px solid var(--mai-ink);
-  background: var(--mai-paper);
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -123,7 +132,6 @@
 .home-instrument {
   position: relative;
   z-index: 2;
-  background: var(--mai-paper-warm);
   padding: 36px;
   display: grid;
   grid-template-rows: auto 1fr auto;
@@ -508,10 +516,14 @@
   .home-page {
     grid-template-columns: 1fr;
     gap: 0;
+    /* En responsive mono-colonne, bande haute papier + bande basse warm avec
+       séparateur horizontal. On fait simple : fond warm entier, et la colonne
+       gauche applique son propre fond papier. */
+    background: var(--mai-paper-warm);
   }
   .home-paper {
     padding: 24px;
-    border-right: none;
+    background: var(--mai-paper);
     border-bottom: 3px solid var(--mai-ink);
   }
   .home-instrument { padding: 24px; }
