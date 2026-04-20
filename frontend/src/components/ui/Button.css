@@ -1,5 +1,5 @@
 /**
- * Styles Button - Effets néon et glow
+ * Styles Button — tokens --mai-* uniquement, pas de HEX.
  */
 
 .btn {
@@ -7,16 +7,20 @@
   align-items: center;
   justify-content: center;
   gap: var(--space-2);
-  font-family: var(--font-display);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border: none;
-  border-radius: var(--radius-md);
+  font-family: var(--mai-font-title);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  border: 1px solid transparent;
+  border-radius: var(--mai-radius-md);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background-color var(--mai-transition-fast),
+              color var(--mai-transition-fast),
+              border-color var(--mai-transition-fast),
+              box-shadow var(--mai-transition-fast),
+              transform var(--mai-transition-fast);
   position: relative;
   overflow: hidden;
+  color: var(--mai-text-inverse);
 }
 
 .btn:disabled {
@@ -25,7 +29,7 @@
 }
 
 .btn:focus-visible {
-  outline: 2px solid var(--aa-accent);
+  outline: 2px solid var(--mai-accent);
   outline-offset: 2px;
 }
 
@@ -49,82 +53,66 @@
   width: 100%;
 }
 
-/* Primary - Accent glow */
-.btn-primary {
-  background: linear-gradient(135deg, var(--aa-accent), var(--aa-accent-secondary));
-  color: var(--aa-bg);
-  box-shadow: 0 4px 15px var(--aa-glow);
+/* Variantes pleines (primary/secondary/success/danger) : fond + ombre + lift
+   partagent le même comportement hover/active. */
+.btn-primary,
+.btn-secondary,
+.btn-success,
+.btn-danger {
+  color: var(--mai-text-inverse);
+  box-shadow: var(--mai-shadow-sm);
 }
 
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px var(--aa-glow-strong);
+.btn-primary:hover:not(:disabled),
+.btn-secondary:hover:not(:disabled),
+.btn-success:hover:not(:disabled),
+.btn-danger:hover:not(:disabled) {
+  box-shadow: var(--mai-shadow-md);
+  transform: translateY(-1px);
 }
 
-.btn-primary:active:not(:disabled) {
+.btn-primary:active:not(:disabled),
+.btn-secondary:active:not(:disabled),
+.btn-success:active:not(:disabled),
+.btn-danger:active:not(:disabled) {
   transform: translateY(0);
+  box-shadow: var(--mai-shadow-sm);
 }
 
-/* Secondary */
-.btn-secondary {
-  background: var(--aa-bg-secondary);
-  color: var(--aa-text);
-  border: 1px solid var(--aa-border);
-}
+/* Couleurs spécifiques à chaque variante */
+.btn-primary               { background: var(--mai-primary); }
+.btn-primary:hover:not(:disabled)   { background: color-mix(in srgb, var(--mai-primary) 85%, black); }
 
-.btn-secondary:hover:not(:disabled) {
-  background: var(--aa-bg-tertiary);
-  border-color: var(--aa-accent);
-  box-shadow: 0 0 15px var(--aa-glow);
-}
+.btn-secondary             { background: var(--mai-accent); }
+.btn-secondary:hover:not(:disabled) { background: var(--mai-red-terra); }
 
-/* Outline */
+.btn-success               { background: var(--mai-success); }
+
+.btn-danger                { background: var(--mai-error); }
+.btn-danger:hover:not(:disabled)    { background: var(--mai-red-terra); }
+
+/* Outline — bord Deep Blue, fond transparent */
 .btn-outline {
   background: transparent;
-  color: var(--aa-accent);
-  border: 2px solid var(--aa-accent);
+  color: var(--mai-primary);
+  border-color: var(--mai-primary);
 }
 
 .btn-outline:hover:not(:disabled) {
-  background: var(--aa-accent);
-  color: var(--aa-bg);
-  box-shadow: 0 0 20px var(--aa-glow);
+  background: var(--mai-primary);
+  color: var(--mai-text-inverse);
 }
 
-/* Ghost */
+/* Ghost — lien sans fond */
 .btn-ghost {
   background: transparent;
-  color: var(--aa-text-muted);
-  border: none;
+  color: var(--mai-text-muted);
+  border-color: transparent;
 }
 
 .btn-ghost:hover:not(:disabled) {
-  color: var(--aa-accent);
-  background: rgba(0, 212, 255, 0.1);
-}
-
-/* Success */
-.btn-success {
-  background: var(--aa-success);
-  color: var(--aa-bg);
-  box-shadow: 0 4px 15px var(--aa-success-glow);
-}
-
-.btn-success:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px var(--aa-success-glow);
-}
-
-/* Danger */
-.btn-danger {
-  background: var(--aa-error);
-  color: white;
-  box-shadow: 0 4px 15px var(--aa-error-glow);
-}
-
-.btn-danger:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 25px var(--aa-error-glow);
+  color: var(--mai-primary);
+  background: var(--mai-bg-alt);
 }
 
 /* Icons */
@@ -154,4 +142,3 @@
     transform: rotate(360deg);
   }
 }
-

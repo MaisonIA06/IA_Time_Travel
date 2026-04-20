@@ -61,22 +61,6 @@ export function QuestionTransition({
       <div className={`question-content question-content--${phase}`}>
         {displayContent}
       </div>
-
-      {/* Effet de particules lors de la transition */}
-      {phase !== 'idle' && (
-        <div className="question-particles">
-          {Array.from({ length: 12 }, (_, i) => (
-            <div
-              key={i}
-              className="question-particle"
-              style={{
-                '--angle': `${(i / 12) * 360}deg`,
-                '--delay': `${i * 0.03}s`
-              } as React.CSSProperties}
-            />
-          ))}
-        </div>
-      )}
     </div>
   )
 }

@@ -1,38 +1,39 @@
 /**
- * Styles EventCard - Glassmorphism
+ * Styles EventCard — charte MIA
+ * Ombres douces, couleurs institutionnelles, aucun effet glow/glitch.
  */
 
 .event-card {
   position: relative;
-  background: var(--aa-glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--aa-border);
-  border-radius: var(--radius-xl);
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border);
+  border-radius: var(--mai-radius-lg);
   padding: var(--space-6);
-  transition: all var(--transition-normal);
+  box-shadow: var(--mai-shadow-sm);
+  transition: box-shadow var(--mai-transition-base),
+              border-color var(--mai-transition-base),
+              transform var(--mai-transition-base);
   overflow: hidden;
+  color: var(--mai-text);
 }
 
+/* Hint visuel discret (remplace le glow cyber) */
 .event-card-glow {
   position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(
-    circle,
-    rgba(0, 212, 255, 0.1) 0%,
-    transparent 70%
-  );
-  opacity: 0;
-  transition: opacity var(--transition-normal);
+  inset: 0;
   pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--mai-bg-alt) 100%
+  );
+  transition: opacity var(--mai-transition-base);
 }
 
 .event-card:hover .event-card-glow,
 .event-card.revealed .event-card-glow {
-  opacity: 1;
+  opacity: 0.35;
 }
 
 .event-card.clickable {
@@ -40,9 +41,9 @@
 }
 
 .event-card.clickable:hover {
-  transform: translateY(-4px);
-  border-color: var(--aa-accent);
-  box-shadow: var(--shadow-glow);
+  transform: translateY(-2px);
+  border-color: var(--mai-border-soft);
+  box-shadow: var(--mai-shadow-md);
 }
 
 .event-card.draggable {
@@ -53,35 +54,33 @@
   cursor: grabbing;
 }
 
-/* États correct/incorrect */
+/* Etats correct / incorrect — sobres, sans animation chaotique */
 .event-card.correct {
-  border-color: var(--aa-success);
-  box-shadow: 0 0 30px var(--aa-success-glow);
-  animation: success-pop var(--transition-normal) ease;
+  border-color: var(--mai-success);
+  box-shadow: var(--mai-shadow-md);
 }
 
 .event-card.correct .event-card-glow {
-  background: radial-gradient(
-    circle,
-    rgba(16, 185, 129, 0.2) 0%,
-    transparent 70%
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--mai-green-neura) 100%
   );
-  opacity: 1;
+  opacity: 0.6;
 }
 
 .event-card.incorrect {
-  border-color: var(--aa-error);
-  box-shadow: 0 0 30px var(--aa-error-glow);
-  animation: shake 0.5s ease;
+  border-color: var(--mai-error);
+  box-shadow: var(--mai-shadow-md);
 }
 
 .event-card.incorrect .event-card-glow {
-  background: radial-gradient(
-    circle,
-    rgba(239, 68, 68, 0.2) 0%,
-    transparent 70%
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--mai-red-auria) 100%
   );
-  opacity: 1;
+  opacity: 0.35;
 }
 
 /* Contenu */
@@ -95,21 +94,24 @@
   align-items: center;
   justify-content: center;
   margin-bottom: var(--space-3);
+  padding: var(--space-1) var(--space-3);
+  background: var(--mai-highlight);
+  color: var(--mai-primary);
+  border-radius: var(--mai-radius-pill);
 }
 
 .year-value {
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
   font-size: var(--text-2xl);
   font-weight: 700;
-  color: var(--aa-accent);
-  text-shadow: 0 0 20px var(--aa-glow);
+  color: var(--mai-primary);
 }
 
 .event-title {
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
   font-size: var(--text-xl);
   font-weight: 600;
-  color: var(--aa-text);
+  color: var(--mai-text);
   margin-bottom: var(--space-3);
   line-height: 1.3;
 }
@@ -123,7 +125,7 @@
 
 .event-description {
   font-size: var(--text-sm);
-  color: var(--aa-text-muted);
+  color: var(--mai-text-muted);
   line-height: 1.6;
   margin-bottom: var(--space-3);
 }
@@ -137,16 +139,16 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--aa-bg-tertiary);
-  border: 1px solid var(--aa-border);
+  background: transparent;
+  border: 1px solid var(--mai-border);
 }
 
 .difficulty-dot.active {
-  background: var(--aa-accent-secondary);
-  border-color: var(--aa-accent-secondary);
+  background: var(--mai-accent);
+  border-color: var(--mai-accent);
 }
 
-/* Indicateur de résultat */
+/* Indicateur de resultat */
 .event-result {
   position: absolute;
   top: var(--space-4);
@@ -157,18 +159,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-xl);
   font-weight: bold;
+  box-shadow: var(--mai-shadow-sm);
 }
 
 .event-result.success {
-  background: var(--aa-success);
-  color: white;
+  background: var(--mai-success);
+  color: var(--mai-text-inverse);
 }
 
 .event-result.error {
-  background: var(--aa-error);
-  color: white;
+  background: var(--mai-error);
+  color: var(--mai-text-inverse);
 }
 
 /* Version mini */
@@ -177,31 +179,32 @@
   align-items: center;
   gap: var(--space-3);
   padding: var(--space-2) var(--space-3);
-  background: var(--aa-bg-secondary);
-  border: 1px solid var(--aa-border);
-  border-radius: var(--radius-md);
+  background: var(--mai-bg-alt);
+  border: 1px solid var(--mai-border);
+  border-radius: var(--mai-radius-md);
+  color: var(--mai-text);
 }
 
 .event-card-mini.correct {
-  border-color: var(--aa-success);
-  background: rgba(16, 185, 129, 0.1);
+  border-color: var(--mai-success);
+  background: var(--mai-green-neura);
 }
 
 .event-card-mini.incorrect {
-  border-color: var(--aa-error);
-  background: rgba(239, 68, 68, 0.1);
+  border-color: var(--mai-error);
+  background: var(--mai-red-auria);
 }
 
 .mini-year {
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
   font-weight: 600;
-  color: var(--aa-accent);
+  color: var(--mai-primary);
   min-width: 50px;
 }
 
 .mini-title {
   font-size: var(--text-sm);
-  color: var(--aa-text);
+  color: var(--mai-text);
   flex: 1;
 }
 
@@ -219,4 +222,3 @@
     font-size: var(--text-xl);
   }
 }
-

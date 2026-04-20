@@ -1,5 +1,9 @@
 /**
  * Styles globaux - IA Time Traveler
+ *
+ * Note : fonts.css et theme-mai.css sont importés en premier depuis main.tsx,
+ * avant ce fichier. Ils définissent la famille Pogonia et les tokens --mai-*
+ * de la charte La Maison de l'IA, consommés par les primitives UI.
  */
 
 /* Reset et base */
@@ -15,7 +19,7 @@ html {
 }
 
 body {
-  font-family: var(--font-body);
+  font-family: var(--mai-font-body);
   font-weight: 400;
   background-color: var(--aa-bg);
   color: var(--aa-text);

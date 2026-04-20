@@ -25,17 +25,17 @@ services:
       sh -c "python manage.py makemigrations timeline --noinput &&
              python manage.py migrate --noinput &&
              python manage.py loaddata events &&
+             python manage.py loaddata museum_sheets &&
              python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./backend:/app
     ports:
       - "8000:8000"
     environment:
+      - DJANGO_SETTINGS_MODULE=config.settings.dev
       - DEBUG=${DEBUG:-True}
       - SECRET_KEY=${SECRET_KEY:-dev-secret-key-change-in-production}
       - DATABASE_URL=postgres://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@db:5432/${POSTGRES_DB:-ia_timetravel}
-      # En mode DEBUG, le backend accepte toutes les connexions (voir settings.py)
-      # Ces variables peuvent être définies pour restreindre en production
     depends_on:
       db:
         condition: service_healthy
@@ -43,7 +43,7 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     container_name: ia_timetravel_frontend
     volumes:
       - ./frontend:/app
@@ -51,12 +51,9 @@ services:
     ports:
       - "5173:5173"
     environment:
-      # VITE_API_URL n'est pas défini pour utiliser le hostname dynamique
-      # Cela permet aux appareils distants d'accéder à l'API via l'IP locale
       - NODE_ENV=development
     depends_on:
       - backend
 
 volumes:
   postgres_data:
-

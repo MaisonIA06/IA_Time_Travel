@@ -1,0 +1,352 @@
+/**
+ * MuseumSheet.css — styles d'une fiche muséale.
+ * Utilise EXCLUSIVEMENT les tokens --mai-* de theme-mai.css.
+ */
+
+.museum-sheet {
+  background: var(--mai-bg);
+  color: var(--mai-text);
+  font-family: var(--mai-font-body);
+  border: 1px solid var(--mai-border-soft);
+  border-radius: var(--mai-radius-lg);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  box-shadow: var(--mai-shadow-md);
+  line-height: 1.65;
+  max-width: 72ch;
+  margin: 0 auto;
+}
+
+.museum-sheet__header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--mai-accent);
+}
+
+.museum-sheet__year {
+  font-family: var(--mai-font-title);
+  font-weight: 800;
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  color: var(--mai-accent);
+  background: var(--mai-bg-alt);
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--mai-radius-md);
+  line-height: 1;
+  letter-spacing: 0.02em;
+}
+
+.museum-sheet__title {
+  font-family: var(--mai-font-title);
+  font-weight: 700;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  color: var(--mai-primary);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.museum-sheet__print-btn {
+  font-family: var(--mai-font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: var(--mai-primary);
+  color: var(--mai-text-inverse);
+  border: none;
+  border-radius: var(--mai-radius-pill);
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  transition: background var(--mai-transition-base), transform var(--mai-transition-fast);
+  white-space: nowrap;
+}
+
+.museum-sheet__print-btn:hover {
+  background: var(--mai-accent);
+  transform: translateY(-1px);
+}
+
+.museum-sheet__print-btn:focus-visible {
+  outline: 2px solid var(--mai-accent);
+  outline-offset: 2px;
+}
+
+.museum-sheet__section {
+  margin-bottom: 1.75rem;
+}
+
+.museum-sheet__section:last-child {
+  margin-bottom: 0;
+}
+
+.museum-sheet__section-title {
+  font-family: var(--mai-font-title);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--mai-primary);
+  margin-bottom: 0.75rem;
+  padding-left: 0.5rem;
+  border-left: 4px solid var(--mai-accent);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.museum-sheet__context p {
+  color: var(--mai-text);
+  font-size: 1rem;
+  margin: 0;
+  text-align: justify;
+  hyphens: auto;
+}
+
+.museum-sheet__figures {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.75rem;
+}
+
+.museum-sheet__figure-card {
+  background: var(--mai-bg-alt);
+  border-left: 3px solid var(--mai-accent);
+  border-radius: var(--mai-radius-md);
+  padding: 0.9rem 1rem;
+}
+
+.museum-sheet__figure-name {
+  font-family: var(--mai-font-title);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--mai-primary);
+  margin: 0 0 0.15rem 0;
+}
+
+.museum-sheet__figure-role {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--mai-text-muted);
+  margin: 0 0 0.4rem 0;
+}
+
+.museum-sheet__figure-bio {
+  font-size: 0.9rem;
+  color: var(--mai-text);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.museum-sheet__anecdote-wrap {
+  background: linear-gradient(135deg, var(--mai-highlight) 0%, var(--mai-green-neura) 100%);
+  border-radius: var(--mai-radius-md);
+  padding: 1rem 1.25rem;
+}
+
+.museum-sheet__anecdote-wrap .museum-sheet__section-title {
+  border-left-color: var(--mai-primary);
+  padding-left: 0.5rem;
+}
+
+.museum-sheet__anecdote {
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-style: italic;
+  color: var(--mai-primary);
+  font-size: 1.02rem;
+  line-height: 1.55;
+}
+
+.museum-sheet__anecdote p {
+  margin: 0;
+}
+
+.museum-sheet__educator {
+  background: var(--mai-bg-alt);
+  border: 1px dashed var(--mai-accent);
+  border-radius: var(--mai-radius-md);
+  padding: 1rem 1.25rem;
+}
+
+.museum-sheet__educator-badge {
+  font-family: var(--mai-font-body);
+  font-weight: 600;
+  font-size: 0.7rem;
+  background: var(--mai-accent);
+  color: var(--mai-text-inverse);
+  padding: 0.15rem 0.55rem;
+  border-radius: var(--mai-radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.museum-sheet__tips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.museum-sheet__tips li {
+  position: relative;
+  padding-left: 1.5rem;
+  color: var(--mai-text);
+  font-size: 0.95rem;
+}
+
+.museum-sheet__tips li::before {
+  content: '•';
+  position: absolute;
+  left: 0.4rem;
+  top: 0;
+  color: var(--mai-accent);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.3;
+}
+
+.museum-sheet__resources {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.museum-sheet__resources li {
+  padding-left: 1.25rem;
+  position: relative;
+}
+
+.museum-sheet__resources li::before {
+  content: '↗';
+  position: absolute;
+  left: 0;
+  color: var(--mai-accent);
+  font-weight: 700;
+}
+
+.museum-sheet__resource-link {
+  color: var(--mai-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--mai-border-soft);
+  transition: color var(--mai-transition-fast);
+}
+
+.museum-sheet__resource-link:hover,
+.museum-sheet__resource-link:focus-visible {
+  color: var(--mai-accent);
+  text-decoration-color: var(--mai-accent);
+}
+
+/* === Mode impression A4 portrait === */
+@media print {
+  .museum-sheet {
+    max-width: none;
+    margin: 0;
+    padding: 1.2cm 1.4cm;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    background: #ffffff;
+    color: #000000;
+    font-size: 11pt;
+    line-height: 1.45;
+    break-inside: avoid;
+  }
+
+  .museum-sheet__header {
+    grid-template-columns: auto 1fr;
+    border-bottom: 2px solid #000000;
+    padding-bottom: 0.5cm;
+    margin-bottom: 0.7cm;
+  }
+
+  .museum-sheet__year {
+    background: transparent;
+    color: #000000;
+    font-size: 20pt;
+    padding: 0;
+    border: 2px solid #000000;
+    padding: 0.1cm 0.3cm;
+  }
+
+  .museum-sheet__title {
+    color: #000000;
+    font-size: 16pt;
+  }
+
+  .museum-sheet__print-btn,
+  .no-print {
+    display: none !important;
+  }
+
+  .museum-sheet__section {
+    margin-bottom: 0.5cm;
+    break-inside: avoid;
+  }
+
+  .museum-sheet__section-title {
+    color: #000000;
+    border-left-color: #000000;
+    font-size: 12pt;
+    margin-bottom: 0.3cm;
+  }
+
+  .museum-sheet__figures {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.4cm;
+  }
+
+  .museum-sheet__figure-card {
+    background: transparent;
+    border: 1px solid #666666;
+    border-left: 3px solid #000000;
+  }
+
+  .museum-sheet__figure-name,
+  .museum-sheet__figure-role,
+  .museum-sheet__figure-bio {
+    color: #000000;
+  }
+
+  .museum-sheet__anecdote-wrap {
+    background: transparent;
+    border: 1px dashed #666666;
+    padding: 0.3cm 0.5cm;
+  }
+
+  .museum-sheet__anecdote {
+    color: #000000;
+  }
+
+  .museum-sheet__educator {
+    background: transparent;
+    border: 1px dashed #000000;
+    page-break-inside: avoid;
+  }
+
+  .museum-sheet__educator-badge {
+    background: #000000;
+    color: #ffffff;
+  }
+
+  .museum-sheet__tips li,
+  .museum-sheet__resources li {
+    color: #000000;
+  }
+
+  .museum-sheet__resource-link {
+    color: #000000;
+    text-decoration-color: #000000;
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 1.2cm 1.4cm;
+}

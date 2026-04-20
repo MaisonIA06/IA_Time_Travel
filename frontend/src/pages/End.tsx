@@ -1,12 +1,12 @@
 /**
- * Page End - Récapitulatif de fin de partie
+ * Page End — récapitulatif de fin de partie (refonte visuelle MIA)
  */
 
 import { useNavigate } from 'react-router-dom'
-import { Button, Card } from '../components/ui'
+import { Button } from '../components/ui'
 import { Timeline } from '../components/Timeline'
 import { EventCardMini } from '../components/EventCard'
-import { RefreshIcon, CheckIcon, HomeIcon } from '../components/icons'
+import { RefreshIcon, HomeIcon } from '../components/icons'
 import { useGameStore } from '../store/gameStore'
 import './End.css'
 
@@ -39,7 +39,6 @@ export function End() {
     navigate('/')
   }
 
-  // Message de félicitations basé sur la performance
   const getMessage = () => {
     if (accuracy >= 90) return { level: 'legendary', text: 'Extraordinaire !' }
     if (accuracy >= 70) return { level: 'excellent', text: 'Excellent travail !' }
@@ -61,27 +60,33 @@ export function End() {
   return (
     <div className="end-page">
       <header className="end-header">
-        <Button
-          variant="ghost"
-          size="sm"
+        <button
+          type="button"
+          className="end-home-btn"
           onClick={handleGoHome}
-          className="btn-home-end"
           title="Retour à l'accueil"
+          aria-label="Retour à l'accueil"
         >
-          <HomeIcon size={24} />
-        </Button>
-        <div className={`end-badge end-badge--${message.level}`}>
-          <CheckIcon size={48} color="currentColor" />
-        </div>
-        <h1 className="end-title">{message.text}</h1>
-        <p className="end-subtitle">
-          Mission accomplie, Agent Temporel !
-        </p>
+          <HomeIcon size={22} />
+        </button>
+
+        <img
+          src="/logo-mia-medaillon.png"
+          alt="La Maison de l'IA"
+          className="end-logo"
+          draggable={false}
+        />
+
+        <h1 className={`end-title end-title--${message.level}`}>{message.text}</h1>
+        <p className="end-subtitle">Mission accomplie, Agent Temporel.</p>
+        {chapterName && (
+          <p className="end-chapter">Chapitre&nbsp;: <strong>{chapterName}</strong></p>
+        )}
       </header>
 
       <main className="end-content">
         {/* Score principal */}
-        <Card variant="glass" padding="lg" className="score-card">
+        <section className="score-card">
           <div className="score-main">
             <span className="score-value">{score}</span>
             <span className="score-label">points</span>
@@ -102,22 +107,23 @@ export function End() {
             </div>
             <div className="score-stat">
               <span className="stat-value">x{streakMax}</span>
-            <span className="stat-label">Meilleure série</span>
+              <span className="stat-label">Meilleure série</span>
+            </div>
           </div>
-        </div>
-      </Card>
+        </section>
 
-        {/* Frise chronologique complète */}
-        <Card variant="bordered" padding="md" className="timeline-card">
+        {/* Frise chronologique */}
+        <section className="timeline-card">
           <h2 className="section-title">Ta frise chronologique</h2>
           <Timeline answeredEvents={answeredEvents} showLabels />
-        </Card>
+        </section>
 
         {/* Liste des événements */}
-        <Card variant="bordered" padding="md" className="events-card">
+        <section className="events-card">
           <h2 className="section-title">Événements rencontrés</h2>
           <div className="events-list">
             {answeredEvents
+              .slice()
               .sort((a, b) => a.event.year_correct - b.event.year_correct)
               .map((ae, idx) => (
                 <EventCardMini
@@ -128,7 +134,7 @@ export function End() {
               ))
             }
           </div>
-        </Card>
+        </section>
 
         {/* Actions */}
         <div className="end-actions">
@@ -136,16 +142,14 @@ export function End() {
             variant="primary"
             size="lg"
             onClick={handlePlayAgain}
+            leftIcon={<RefreshIcon size={18} />}
           >
-            <span className="btn-icon">
-              <RefreshIcon size={20} />
-            </span>
             Rejouer
           </Button>
 
           <Button
             variant="ghost"
-            onClick={handlePlayAgain}
+            onClick={handleGoHome}
           >
             Retour à l'accueil
           </Button>
@@ -154,4 +158,3 @@ export function End() {
     </div>
   )
 }
-

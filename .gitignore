@@ -1,6 +1,7 @@
 # Environment
 .env
 *.env.local
+.env.prod
 
 # Python
 __pycache__/
@@ -62,8 +63,15 @@ Thumbs.db
 # Docker
 postgres_data/
 
+# Let's Encrypt / certbot volumes (certs et challenges, jamais committer)
+deploy/certbot/conf/
+deploy/certbot/www/
+
 # Testing
 .coverage
 htmlcov/
 .pytest_cache/
 
+
+# Claude Code worktrees et sessions
+.claude/

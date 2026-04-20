@@ -5,12 +5,15 @@ import './DiscoveryMode.css'
 
 interface DiscoveryModeProps {
   event: QuizItem
+  /** Année de l'événement (fournie par le store via /events/). */
+  year: number | undefined
   onNext: () => void
   isLast: boolean
 }
 
 export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
   event,
+  year,
   onNext,
   isLast
 }) => {
@@ -20,19 +23,21 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
         <div className="discovery-content">
           <div className="discovery-image-container">
             {event.image_url ? (
-              <img src={event.image_url} alt={event.title} className="discovery-image" />
+              <img src={event.image_url} alt={event.prompt} className="discovery-image" />
             ) : (
               <div className="discovery-image-placeholder">Pas d'image</div>
             )}
-            <div className="discovery-year-badge">
-              <Badge variant="accent" size="lg" glow>{event.year_correct}</Badge>
-            </div>
+            {year !== undefined && (
+              <div className="discovery-year-badge">
+                <Badge variant="accent" size="lg" glow>{year}</Badge>
+              </div>
+            )}
           </div>
 
           <div className="discovery-info">
-            <h2 className="discovery-title">{event.title}</h2>
+            <h2 className="discovery-title">{event.prompt}</h2>
             <p className="discovery-description">{event.description_short}</p>
-            
+
             <div className="discovery-note">
               <h4>💡 Le savais-tu ?</h4>
               <p>
@@ -48,7 +53,7 @@ export const DiscoveryMode: React.FC<DiscoveryModeProps> = ({
           </Button>
         </div>
       </Card>
-      
+
       <div className="discovery-teacher-note">
         <p><strong>Note pour les élèves :</strong> Prenez le temps de lire la description et de comprendre l'événement.</p>
       </div>

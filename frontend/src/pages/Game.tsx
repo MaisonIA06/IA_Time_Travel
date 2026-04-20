@@ -1,16 +1,22 @@
 /**
- * Page Game - Le jeu principal
+ * Page Game — le jeu principal (identité visuelle MIA).
+ * Déclenche les mini-jeux centrés dates après la 3e, 6e, 9e question,
+ * et le speed-quiz « Course contre le temps » en fin de partie.
  */
 
 import { useState, useEffect, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Card, Badge } from '../components/ui'
+import { Button } from '../components/ui'
 import { EventCard } from '../components/EventCard'
 import { FeedbackPanel } from '../components/FeedbackPanel'
-import { Timeline, TimelineDropZones } from '../components/Timeline'
+import { Timeline } from '../components/Timeline'
 import { useGameStore } from '../store/gameStore'
 import { OrderGame } from '../games/OrderGame'
 import { TrueFalseGame } from '../games/TrueFalseGame'
+import { DuelDates } from '../games/DuelDates'
+import { DecennieRush } from '../games/DecennieRush'
+import { AvantApres } from '../games/AvantApres'
+import { CourseContreTemps } from '../games/CourseContreTemps'
 import { DiscoveryMode } from '../components/DiscoveryMode'
 import { HomeIcon } from '../components/icons'
 import './Game.css'
@@ -23,6 +29,7 @@ export function Game() {
     bonusTime: number
     streakBonus: number
     userAnswer: number
+    correctYear: number
   } | null>(null)
 
   const {
@@ -33,18 +40,15 @@ export function Game() {
     score,
     streak,
     answeredEvents,
-    miniGamePending,
     miniGameType,
     getCurrentItem,
     getProgress,
-    isGameOver,
     answerQuestion,
     nextQuestion,
     nextDiscovery,
     completeMiniGame,
     skipMiniGame,
-    finishGame,
-    resetGame
+    resetGame,
   } = useGameStore()
 
   const currentItem = getCurrentItem()
@@ -57,74 +61,72 @@ export function Game() {
     }
   }
 
-  // Vérifier si le jeu est terminé
   useEffect(() => {
     if (phase === 'result') {
       navigate('/end')
     }
   }, [phase, navigate])
 
-  // Répondre à la question (mode QCM par défaut dans le quiz)
   const handleAnswer = useCallback((year: number) => {
     const result = answerQuestion(year)
     setLastResult({ ...result, userAnswer: year })
   }, [answerQuestion])
 
-  // Passer à la question suivante
   const handleNext = useCallback(() => {
     nextQuestion()
     setLastResult(null)
   }, [nextQuestion])
 
-  // Passer à l'événement suivant en découverte
   const handleNextDiscovery = useCallback(() => {
     nextDiscovery()
   }, [nextDiscovery])
 
-  // Terminer un mini-jeu
   const handleMiniGameComplete = useCallback((bonusPoints: number) => {
     completeMiniGame(bonusPoints)
   }, [completeMiniGame])
 
-  // Passer le mini-jeu
   const handleSkipMiniGame = useCallback(() => {
     skipMiniGame()
   }, [skipMiniGame])
 
-  // Rediriger si pas de quiz chargé
   if (quizItems.length === 0) {
     return (
       <div className="game-page">
-        <Card variant="glass" padding="lg" className="game-empty">
+        <div className="game-empty">
           <h2>Aucune question chargée</h2>
-          <p>Retourne à l'accueil pour démarrer une partie</p>
+          <p>Retourne à l'accueil pour démarrer une partie.</p>
           <Button onClick={() => navigate('/')}>Retour à l'accueil</Button>
-        </Card>
+        </div>
       </div>
     )
   }
 
   return (
     <div className="game-page">
-      {/* Header avec progression et score */}
       <header className="game-header">
         <div className="game-header-left">
-          <Button
-            variant="ghost"
-            size="sm"
+          <button
+            type="button"
+            className="game-home-btn"
             onClick={handleGoHome}
-            className="btn-home"
             title="Retour à l'accueil"
+            aria-label="Retour à l'accueil"
           >
-            <HomeIcon size={24} />
-          </Button>
+            <HomeIcon size={22} />
+          </button>
+          <img
+            src="/logo-mia-medaillon.png"
+            alt="La Maison de l'IA"
+            className="game-logo-mini"
+            draggable={false}
+          />
           <div className="game-progress">
-            <span className="progress-text">
+            <span className="game-progress-label">
               {phase === 'discovery' ? 'Étape' : 'Défi'} {progress.current} / {progress.total}
             </span>
-            <div className="progress-bar">
+            <div className="game-progress-bar">
               <div
-                className="progress-fill"
+                className="game-progress-fill"
                 style={{ width: `${progress.percentage}%` }}
               />
             </div>
@@ -132,38 +134,67 @@ export function Game() {
         </div>
 
         <div className="game-stats">
-          <Badge variant="accent" size="lg" glow>
-            {score} pts
-          </Badge>
+          <div className="game-stat game-stat--score">
+            <span className="game-stat-value">{score}</span>
+            <span className="game-stat-label">pts</span>
+          </div>
           {streak > 1 && (
-            <Badge variant="purple" size="lg" glow>
-              🔥 x{streak}
-            </Badge>
+            <div className="game-stat game-stat--streak" aria-label={`Série de ${streak}`}>
+              <span className="game-stat-flame" aria-hidden="true">★</span>
+              <span className="game-stat-value">x{streak}</span>
+            </div>
           )}
         </div>
       </header>
 
-      {/* Contenu principal */}
       <main className="game-content">
-        {/* Phase Découverte */}
         {phase === 'discovery' && currentItem && (
           <DiscoveryMode
             event={currentItem}
+            year={currentItem.year_correct}
             onNext={handleNextDiscovery}
             isLast={currentIndex === quizItems.length - 1}
           />
         )}
 
-        {/* Mini-jeu */}
         {phase === 'minigame' && miniGameType && (
           <div className="minigame-container">
-            {miniGameType === 'order' ? (
+            {miniGameType === 'duelDates' && (
+              <DuelDates
+                items={quizItems}
+                onComplete={handleMiniGameComplete}
+                onSkip={handleSkipMiniGame}
+              />
+            )}
+            {miniGameType === 'decennieRush' && (
+              <DecennieRush
+                items={quizItems}
+                onComplete={handleMiniGameComplete}
+                onSkip={handleSkipMiniGame}
+              />
+            )}
+            {miniGameType === 'avantApres' && (
+              <AvantApres
+                items={quizItems}
+                onComplete={handleMiniGameComplete}
+                onSkip={handleSkipMiniGame}
+              />
+            )}
+            {miniGameType === 'courseContreTemps' && (
+              <CourseContreTemps
+                items={quizItems}
+                onComplete={handleMiniGameComplete}
+                onSkip={handleSkipMiniGame}
+              />
+            )}
+            {miniGameType === 'order' && (
               <OrderGame
                 events={quizItems.slice(0, 5)}
                 onComplete={handleMiniGameComplete}
                 onSkip={handleSkipMiniGame}
               />
-            ) : (
+            )}
+            {miniGameType === 'trueFalse' && (
               <TrueFalseGame
                 events={quizItems}
                 onComplete={handleMiniGameComplete}
@@ -173,10 +204,8 @@ export function Game() {
           </div>
         )}
 
-        {/* Question */}
         {phase === 'quiz' && currentItem && (
           <div className="question-container">
-            {/* Frise chronologique mini */}
             <div className="timeline-mini">
               <Timeline
                 answeredEvents={answeredEvents}
@@ -185,7 +214,6 @@ export function Game() {
               />
             </div>
 
-            {/* Carte événement */}
             <div className="event-container">
               <p className="question-prompt">Quand cet événement a-t-il eu lieu ?</p>
               <EventCard
@@ -195,7 +223,6 @@ export function Game() {
               />
             </div>
 
-            {/* Options de réponse */}
             {currentItem.options_years && (
               <div className="answer-options">
                 {currentItem.options_years.map((year) => (
@@ -214,12 +241,12 @@ export function Game() {
           </div>
         )}
 
-        {/* Feedback */}
         {phase === 'feedback' && currentItem && lastResult && (
           <FeedbackPanel
             isCorrect={lastResult.isCorrect}
             event={currentItem}
             userAnswer={lastResult.userAnswer}
+            correctYear={lastResult.correctYear}
             pointsEarned={lastResult.pointsEarned}
             bonusTime={lastResult.bonusTime}
             streakBonus={lastResult.streakBonus}
@@ -229,11 +256,9 @@ export function Game() {
         )}
       </main>
 
-      {/* Info chapitre */}
       <footer className="game-footer">
         <span className="chapter-info">{chapterName}</span>
       </footer>
     </div>
   )
 }
-

@@ -38,7 +38,7 @@ export interface QuizItem {
   difficulty: number
   people: string[]
   image_url?: string | null
-  explanation?: string // Nouvelle explication pédagogique
+  explanation?: string
 }
 
 export interface QuizResponse {
@@ -46,6 +46,12 @@ export interface QuizResponse {
   chapter_display: string
   count: number
   items: QuizItem[]
+}
+
+// Réponse de l'endpoint /quiz/check/
+export interface QuizCheckResponse {
+  is_correct: boolean
+  correct_year: number
 }
 
 // Runs / Parties
@@ -68,6 +74,7 @@ export interface AnsweredEvent {
   event: QuizItem
   isCorrect: boolean
   userAnswer: number
+  correctYear: number
   timeTaken: number
 }
 
@@ -77,3 +84,33 @@ export interface FinishRunResponse {
   run: PlayerRun
 }
 
+// === Musée virtuel ===
+export interface KeyFigure {
+  name: string
+  role: string
+  mini_bio: string
+}
+
+export interface MuseumResource {
+  label: string
+  url: string
+}
+
+export interface MuseumSheet {
+  event: number
+  event_year: number
+  event_title: string
+  context_long: string
+  key_figures: KeyFigure[]
+  anecdote: string
+  educator_tips: string[]
+  resources: MuseumResource[]
+  print_layout_hint: string
+}
+
+export interface MuseumSheetsResponse {
+  count: number
+  limit: number
+  offset: number
+  results: MuseumSheet[]
+}

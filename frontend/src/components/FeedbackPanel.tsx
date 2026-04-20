@@ -13,6 +13,7 @@ import './FeedbackPanel.css'
 interface FeedbackPanelProps {
   isCorrect: boolean
   event: QuizItem
+  correctYear: number
   userAnswer: number
   pointsEarned: number
   bonusTime: number
@@ -24,6 +25,7 @@ interface FeedbackPanelProps {
 export function FeedbackPanel({
   isCorrect,
   event,
+  correctYear,
   userAnswer,
   pointsEarned,
   bonusTime,
@@ -81,7 +83,7 @@ export function FeedbackPanel({
         <div className="feedback-correction">
           <p className="correction-text">
             Tu as répondu <span className="user-answer">{userAnswer}</span>,
-            mais la bonne réponse était <span className="correct-answer">{event.year_correct}</span>.
+            mais la bonne réponse était <span className="correct-answer">{correctYear}</span>.
           </p>
         </div>
       )}
@@ -101,7 +103,7 @@ export function FeedbackPanel({
 
         <h3 className="learn-more-title">
           <Badge variant={isCorrect ? 'success' : 'error'} size="lg">
-            {event.year_correct}
+            {correctYear}
           </Badge>
           {event.prompt}
         </h3>

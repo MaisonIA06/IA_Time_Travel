@@ -1,0 +1,306 @@
+/**
+ * Museum.css — styles de la page musée virtuel.
+ * Tokens EXCLUSIVEMENT issus de theme-mai.css (--mai-*).
+ */
+
+.museum-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(ellipse at top left, var(--mai-blue-lumen) 0%, transparent 55%),
+    radial-gradient(ellipse at bottom right, var(--mai-red-auria) 0%, transparent 60%),
+    var(--mai-bg);
+  color: var(--mai-text);
+  font-family: var(--mai-font-body);
+  padding: 1.5rem;
+}
+
+.museum-page__topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto 1.5rem auto;
+  padding: 1rem 1.25rem;
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border-soft);
+  border-radius: var(--mai-radius-lg);
+  box-shadow: var(--mai-shadow-sm);
+  flex-wrap: wrap;
+}
+
+.museum-page__brand {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.museum-page__exit {
+  font-family: var(--mai-font-body);
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: transparent;
+  color: var(--mai-primary);
+  border: 1px solid var(--mai-border);
+  border-radius: var(--mai-radius-pill);
+  padding: 0.45rem 0.95rem;
+  cursor: pointer;
+  transition: background var(--mai-transition-fast), border-color var(--mai-transition-fast);
+}
+
+.museum-page__exit:hover,
+.museum-page__exit:focus-visible {
+  background: var(--mai-bg-alt);
+  border-color: var(--mai-accent);
+  outline: none;
+}
+
+.museum-page__titles {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.museum-page__title {
+  font-family: var(--mai-font-title);
+  font-weight: 800;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  color: var(--mai-primary);
+  margin: 0;
+  line-height: 1.1;
+}
+
+.museum-page__subtitle {
+  font-size: 0.9rem;
+  color: var(--mai-text-muted);
+  margin: 0;
+  font-style: italic;
+}
+
+.museum-page__toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--mai-primary);
+}
+
+.museum-page__toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.museum-page__toggle-track {
+  position: relative;
+  width: 42px;
+  height: 22px;
+  background: var(--mai-gray-matter);
+  border-radius: var(--mai-radius-pill);
+  transition: background var(--mai-transition-base);
+}
+
+.museum-page__toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 18px;
+  height: 18px;
+  background: var(--mai-bg);
+  border-radius: 50%;
+  transition: transform var(--mai-transition-base);
+  box-shadow: var(--mai-shadow-sm);
+}
+
+.museum-page__toggle input:checked + .museum-page__toggle-track {
+  background: var(--mai-accent);
+}
+
+.museum-page__toggle input:checked + .museum-page__toggle-track .museum-page__toggle-thumb {
+  transform: translateX(20px);
+}
+
+.museum-page__toggle input:focus-visible + .museum-page__toggle-track {
+  outline: 2px solid var(--mai-accent);
+  outline-offset: 2px;
+}
+
+.museum-page__layout {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+  align-items: start;
+}
+
+.museum-page__sidebar {
+  position: sticky;
+  top: 1.5rem;
+  max-height: calc(100vh - 3rem);
+  overflow-y: auto;
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border-soft);
+  border-radius: var(--mai-radius-lg);
+  padding: 1rem;
+  box-shadow: var(--mai-shadow-sm);
+}
+
+.museum-page__sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid var(--mai-border-soft);
+  font-size: 0.8rem;
+}
+
+.museum-page__sidebar-count {
+  color: var(--mai-accent);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.museum-page__sidebar-hint {
+  color: var(--mai-text-muted);
+  font-size: 0.75rem;
+}
+
+.museum-page__sheet-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.museum-page__sheet-item {
+  display: flex;
+  align-items: stretch;
+  gap: 0.6rem;
+  padding: 0.55rem 0.65rem;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--mai-radius-md);
+  color: var(--mai-text);
+  font-family: var(--mai-font-body);
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--mai-transition-fast), border-color var(--mai-transition-fast);
+  width: 100%;
+}
+
+.museum-page__sheet-item:hover {
+  background: var(--mai-bg-alt);
+}
+
+.museum-page__sheet-item:focus-visible {
+  outline: 2px solid var(--mai-accent);
+  outline-offset: 2px;
+}
+
+.museum-page__sheet-item.is-active {
+  background: var(--mai-bg-alt);
+  border-color: var(--mai-accent);
+}
+
+.museum-page__sheet-index {
+  font-family: var(--mai-font-title);
+  font-size: 0.75rem;
+  color: var(--mai-text-muted);
+  font-weight: 700;
+  padding-top: 0.2rem;
+  min-width: 1.5rem;
+}
+
+.museum-page__sheet-item.is-active .museum-page__sheet-index {
+  color: var(--mai-accent);
+}
+
+.museum-page__sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.museum-page__sheet-year {
+  font-size: 0.75rem;
+  color: var(--mai-accent);
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+
+.museum-page__sheet-title {
+  font-size: 0.88rem;
+  color: var(--mai-primary);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.museum-page__main {
+  min-width: 0;
+}
+
+.museum-page__loading,
+.museum-page__error {
+  padding: 2rem;
+  text-align: center;
+  color: var(--mai-text-muted);
+  font-style: italic;
+}
+
+.museum-page__error {
+  color: var(--mai-error);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .museum-page {
+    padding: 1rem;
+  }
+
+  .museum-page__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .museum-page__sidebar {
+    position: static;
+    max-height: 360px;
+  }
+
+  .museum-page__topbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* === Mode impression : la page s'efface derrière la fiche === */
+@media print {
+  .museum-page {
+    background: #ffffff;
+    padding: 0;
+  }
+
+  .museum-page__topbar,
+  .museum-page__sidebar,
+  .no-print {
+    display: none !important;
+  }
+
+  .museum-page__layout {
+    display: block;
+    max-width: none;
+    margin: 0;
+    gap: 0;
+  }
+
+  .museum-page__main {
+    padding: 0;
+  }
+}

@@ -1,10 +1,10 @@
 """
-Serializers pour l'API des événements et quiz.
+Serializers pour l'API des événements, quiz et musée virtuel.
 """
 
 from rest_framework import serializers
 
-from .models import Event, ChapterChoices
+from .models import Event, MuseumSheet
 
 
 class EventSerializer(serializers.ModelSerializer):
@@ -40,7 +40,10 @@ class ChapterSerializer(serializers.Serializer):
 class QuizItemSerializer(serializers.Serializer):
     """
     Serializer pour un élément de quiz.
-    Contient l'événement et les options de réponse.
+    `year_correct` est exposé pour alimenter les mini-jeux pédagogiques
+    (duel des dates, décennie rush, etc.) qui raisonnent sur l'année.
+    L'endpoint POST /api/v1/quiz/check/ reste disponible pour valider
+    une réponse sans s'appuyer sur le JSON client.
     """
     event_id = serializers.IntegerField()
     prompt = serializers.CharField()
@@ -67,3 +70,25 @@ class QuizResponseSerializer(serializers.Serializer):
     count = serializers.IntegerField()
     items = QuizItemSerializer(many=True)
 
+
+class MuseumSheetSerializer(serializers.ModelSerializer):
+    """Serializer complet pour une fiche du musée virtuel."""
+    event_year = serializers.IntegerField(source='event.year', read_only=True)
+    event_title = serializers.CharField(source='event.title', read_only=True)
+
+    class Meta:
+        model = MuseumSheet
+        fields = [
+            'id',
+            'event',
+            'event_year',
+            'event_title',
+            'context_long',
+            'key_figures',
+            'anecdote',
+            'educator_tips',
+            'resources',
+            'print_layout_hint',
+            'created_at',
+            'updated_at',
+        ]

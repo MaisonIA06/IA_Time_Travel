@@ -1,0 +1,142 @@
+# docker-compose.prod.yml
+# Orchestration production pour IA Time Traveler.
+# Utilisation :
+#   cp .env.prod.example .env.prod    # puis editer les valeurs
+#   docker compose -f docker-compose.prod.yml --env-file .env.prod up -d
+#
+# Aucun port applicatif (db/backend/frontend) n'est expose sur l'hote.
+# Seul le service nginx publie 80/443. Le reseau interne Docker relie
+# les conteneurs entre eux.
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: ia_timetravel_db_prod
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # Pas de port expose : seul le reseau interne accede a la base.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ia_timetravel_net
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.prod
+    container_name: ia_timetravel_backend_prod
+    restart: unless-stopped
+    environment:
+      DJANGO_SETTINGS_MODULE: config.settings.prod
+      SECRET_KEY: ${SECRET_KEY}
+      DJANGO_ALLOWED_HOSTS: ${DJANGO_ALLOWED_HOSTS}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS}
+      DATABASE_URL: ${DATABASE_URL}
+      DEBUG: "False"
+    volumes:
+      - static_files:/app/staticfiles
+    # Pas de port expose : seul nginx accede au backend via le reseau interne.
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/', timeout=3)"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+    networks:
+      - ia_timetravel_net
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: ia_timetravel_frontend_prod
+    restart: unless-stopped
+    # Pas de port expose : nginx reverse-proxie le frontend en interne.
+    depends_on:
+      - backend
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:80/ >/dev/null 2>&1 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+    networks:
+      - ia_timetravel_net
+
+  nginx:
+    build:
+      context: ./deploy/nginx
+      dockerfile: Dockerfile
+    container_name: ia_timetravel_nginx_prod
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      # Substituee dans /etc/nginx/templates/default.conf.template au boot
+      # par l'entrypoint nginx:alpine. Seules les vars definies dans
+      # l'environnement du conteneur sont remplacees : les variables nginx
+      # ($host, $request_uri, ...) ne sont donc pas touchees.
+      DOMAIN_NAME: ${DOMAIN_NAME}
+    volumes:
+      - ./deploy/certbot/conf:/etc/letsencrypt:ro
+      - ./deploy/certbot/www:/var/www/certbot:ro
+      - static_files:/var/www/static:ro
+    depends_on:
+      - backend
+      - frontend
+    # Recharge nginx toutes les 6h pour recuperer les certs renouveles.
+    # L'entrypoint nginx:alpine traite /etc/nginx/templates/*.template via
+    # envsubst avant d'executer cette commande.
+    command: >
+      /bin/sh -c "while :; do sleep 6h & wait $${!}; nginx -s reload; done &
+      exec nginx -g 'daemon off;'"
+    healthcheck:
+      # Verifie que nginx ecoute bien sur 80. Le challenge ACME renvoie 404
+      # (pas de fichier), ce qui confirme que le serveur repond (wget sort 8).
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:80/.well-known/acme-challenge/ || [ $$? = 8 ]"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+    networks:
+      - ia_timetravel_net
+
+  certbot:
+    image: certbot/certbot:latest
+    container_name: ia_timetravel_certbot_prod
+    restart: unless-stopped
+    volumes:
+      - ./deploy/certbot/conf:/etc/letsencrypt
+      - ./deploy/certbot/www:/var/www/certbot
+    # Boucle de renouvellement toutes les 12h.
+    entrypoint: >
+      /bin/sh -c "trap exit TERM;
+      while :; do certbot renew --webroot -w /var/www/certbot --quiet;
+      sleep 12h & wait $${!}; done"
+    depends_on:
+      - nginx
+    networks:
+      - ia_timetravel_net
+
+volumes:
+  postgres_data:
+    name: ia_timetravel_postgres_data
+  static_files:
+    name: ia_timetravel_static_files
+
+networks:
+  ia_timetravel_net:
+    name: ia_timetravel_net
+    driver: bridge

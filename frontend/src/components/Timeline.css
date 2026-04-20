@@ -1,5 +1,6 @@
 /**
- * Styles Timeline
+ * Styles Timeline — charte MIA
+ * Frise sobre, teintes institutionnelles, accent terracotta pour mise en avant.
  */
 
 .timeline {
@@ -22,12 +23,7 @@
   right: var(--space-4);
   top: 50%;
   height: 2px;
-  background: linear-gradient(
-    90deg,
-    var(--aa-border) 0%,
-    var(--aa-accent) 50%,
-    var(--aa-border) 100%
-  );
+  background: var(--mai-border);
   z-index: 0;
 }
 
@@ -51,35 +47,37 @@
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--aa-bg-secondary);
-  border: 2px solid var(--aa-border);
-  transition: all var(--transition-fast);
+  background: var(--mai-bg);
+  border: 2px solid var(--mai-border);
+  transition: background var(--mai-transition-fast),
+              border-color var(--mai-transition-fast),
+              transform var(--mai-transition-fast);
 }
 
 .timeline-decade.has-events .decade-dot {
-  background: var(--aa-accent);
-  border-color: var(--aa-accent);
-  box-shadow: 0 0 10px var(--aa-glow);
+  background: var(--mai-primary);
+  border-color: var(--mai-primary);
 }
 
 .timeline-decade.highlighted .decade-dot {
-  background: var(--aa-accent-secondary);
-  border-color: var(--aa-accent-secondary);
-  box-shadow: 0 0 20px var(--aa-glow-purple);
-  transform: scale(1.5);
+  background: var(--mai-accent);
+  border-color: var(--mai-accent);
+  transform: scale(1.4);
+  box-shadow: var(--mai-shadow-sm);
 }
 
 .decade-label {
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
   font-size: var(--text-xs);
-  color: var(--aa-text-muted);
+  color: var(--mai-text-muted);
   writing-mode: vertical-rl;
   text-orientation: mixed;
   transform: rotate(180deg);
 }
 
 .timeline-decade.highlighted .decade-label {
-  color: var(--aa-accent);
+  color: var(--mai-accent);
+  font-weight: 600;
 }
 
 /* Events sur la frise */
@@ -96,23 +94,24 @@
 
 .timeline-event {
   padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-sm);
+  border-radius: var(--mai-radius-sm);
   font-size: var(--text-xs);
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
   white-space: nowrap;
   cursor: default;
+  border: 1px solid transparent;
 }
 
 .timeline-event.correct {
-  background: rgba(16, 185, 129, 0.2);
-  border: 1px solid var(--aa-success);
-  color: var(--aa-success);
+  background: var(--mai-green-neura);
+  border-color: var(--mai-success);
+  color: var(--mai-success);
 }
 
 .timeline-event.incorrect {
-  background: rgba(239, 68, 68, 0.2);
-  border: 1px solid var(--aa-error);
-  color: var(--aa-error);
+  background: var(--mai-red-auria);
+  border-color: var(--mai-error);
+  color: var(--mai-error);
 }
 
 /* Compact mode */
@@ -140,28 +139,31 @@
 
 .drop-zone {
   padding: var(--space-3) var(--space-4);
-  background: var(--aa-bg-secondary);
-  border: 2px dashed var(--aa-border);
-  border-radius: var(--radius-md);
-  color: var(--aa-text-muted);
-  font-family: var(--font-display);
+  background: var(--mai-bg);
+  border: 2px dashed var(--mai-border);
+  border-radius: var(--mai-radius-md);
+  color: var(--mai-text-muted);
+  font-family: var(--mai-font-title);
   font-size: var(--text-sm);
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: border-color var(--mai-transition-fast),
+              color var(--mai-transition-fast),
+              background var(--mai-transition-fast);
 }
 
 .drop-zone:hover,
 .drop-zone:focus {
-  border-color: var(--aa-accent);
-  color: var(--aa-accent);
-  background: rgba(0, 212, 255, 0.1);
+  border-color: var(--mai-primary);
+  color: var(--mai-primary);
+  background: var(--mai-bg-alt);
 }
 
 .drop-zone.active {
-  border-color: var(--aa-accent);
+  border-color: var(--mai-accent);
   border-style: solid;
-  background: rgba(0, 212, 255, 0.2);
-  box-shadow: 0 0 20px var(--aa-glow);
+  background: var(--mai-red-auria);
+  color: var(--mai-accent);
+  box-shadow: var(--mai-shadow-sm);
 }
 
 /* Responsive */
@@ -178,4 +180,3 @@
     font-size: 10px;
   }
 }
-

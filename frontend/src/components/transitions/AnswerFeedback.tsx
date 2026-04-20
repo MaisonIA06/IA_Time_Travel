@@ -91,9 +91,9 @@ export function AnswerFeedback({
       {/* Icône centrale */}
       <div className="feedback-icon">
         {isCorrect ? (
-          <CheckIcon size={64} color="var(--aa-success)" className="feedback-icon-svg" />
+          <CheckIcon size={64} color="var(--mai-success)" className="feedback-icon-svg" />
         ) : (
-          <CrossIcon size={64} color="var(--aa-error)" className="feedback-icon-svg" />
+          <CrossIcon size={64} color="var(--mai-error)" className="feedback-icon-svg" />
         )}
       </div>
 
@@ -104,14 +104,6 @@ export function AnswerFeedback({
         </div>
       )}
 
-      {/* Effet glitch pour erreur */}
-      {!isCorrect && (
-        <div className="feedback-glitch">
-          <div className="glitch-line glitch-line--1" />
-          <div className="glitch-line glitch-line--2" />
-          <div className="glitch-line glitch-line--3" />
-        </div>
-      )}
     </div>
   )
 }
@@ -128,9 +120,9 @@ export function InlineFeedback({ isCorrect, size = 'md' }: InlineFeedbackProps) 
   return (
     <span className={`inline-feedback inline-feedback--${isCorrect ? 'correct' : 'incorrect'} inline-feedback--${size}`}>
       {isCorrect ? (
-        <CheckIcon size={sizes[size]} color="var(--aa-success)" />
+        <CheckIcon size={sizes[size]} color="var(--mai-success)" />
       ) : (
-        <CrossIcon size={sizes[size]} color="var(--aa-error)" />
+        <CrossIcon size={sizes[size]} color="var(--mai-error)" />
       )}
     </span>
   )

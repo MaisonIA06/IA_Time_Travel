@@ -1,34 +1,38 @@
 /**
- * Styles FeedbackPanel
+ * Styles FeedbackPanel — charte MIA
+ * Tonalite institutionnelle, feedback clair et bienveillant.
  */
 
 .feedback-panel {
-  background: var(--aa-glass);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 2px solid var(--aa-border);
-  border-radius: var(--radius-xl);
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border);
+  border-radius: var(--mai-radius-lg);
   padding: var(--space-8);
   max-width: 600px;
   margin: 0 auto;
   opacity: 0;
-  transform: translateY(20px) scale(0.95);
-  transition: all var(--transition-normal);
+  transform: translateY(12px);
+  transition: opacity var(--mai-transition-base),
+              transform var(--mai-transition-base),
+              border-color var(--mai-transition-base),
+              box-shadow var(--mai-transition-base);
+  box-shadow: var(--mai-shadow-md);
+  color: var(--mai-text);
 }
 
 .feedback-panel.visible {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translateY(0);
 }
 
 .feedback-panel.correct {
-  border-color: var(--aa-success);
-  box-shadow: 0 0 40px var(--aa-success-glow);
+  border-color: var(--mai-success);
+  box-shadow: var(--mai-shadow-lg);
 }
 
 .feedback-panel.incorrect {
-  border-color: var(--aa-error);
-  box-shadow: 0 0 40px var(--aa-error-glow);
+  border-color: var(--mai-error);
+  box-shadow: var(--mai-shadow-lg);
 }
 
 /* Header */
@@ -46,34 +50,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--text-3xl);
   font-weight: bold;
+  box-shadow: var(--mai-shadow-sm);
 }
 
 .feedback-panel.correct .feedback-icon {
-  background: var(--aa-success);
-  color: white;
-  box-shadow: 0 0 30px var(--aa-success-glow);
+  background: var(--mai-success);
+  color: var(--mai-text-inverse);
 }
 
 .feedback-panel.incorrect .feedback-icon {
-  background: var(--aa-error);
-  color: white;
-  box-shadow: 0 0 30px var(--aa-error-glow);
+  background: var(--mai-error);
+  color: var(--mai-text-inverse);
 }
 
 .feedback-title {
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
   font-size: var(--text-3xl);
   margin: 0;
 }
 
 .feedback-panel.correct .feedback-title {
-  color: var(--aa-success);
+  color: var(--mai-success);
 }
 
 .feedback-panel.incorrect .feedback-title {
-  color: var(--aa-error);
+  color: var(--mai-error);
 }
 
 /* Points */
@@ -81,8 +83,8 @@
   text-align: center;
   margin-bottom: var(--space-6);
   padding: var(--space-4);
-  background: var(--aa-bg-secondary);
-  border-radius: var(--radius-lg);
+  background: var(--mai-bg-alt);
+  border-radius: var(--mai-radius-md);
 }
 
 .points-main {
@@ -93,22 +95,22 @@
 }
 
 .points-value {
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
   font-size: var(--text-4xl);
   font-weight: 700;
 }
 
 .feedback-panel.correct .points-value {
-  color: var(--aa-success);
+  color: var(--mai-success);
 }
 
 .feedback-panel.incorrect .points-value {
-  color: var(--aa-error);
+  color: var(--mai-error);
 }
 
 .points-label {
   font-size: var(--text-lg);
-  color: var(--aa-text-muted);
+  color: var(--mai-text-muted);
 }
 
 .points-bonus {
@@ -121,39 +123,40 @@
 
 /* Correction */
 .feedback-correction {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid var(--aa-error);
-  border-radius: var(--radius-md);
+  background: var(--mai-red-auria);
+  border: 1px solid var(--mai-error);
+  border-radius: var(--mai-radius-md);
   padding: var(--space-4);
   margin-bottom: var(--space-6);
 }
 
 .correction-text {
   margin: 0;
-  color: var(--aa-text);
+  color: var(--mai-text);
   font-size: var(--text-base);
 }
 
 .user-answer {
-  color: var(--aa-error);
+  color: var(--mai-error);
   font-weight: 600;
 }
 
 .correct-answer {
-  color: var(--aa-success);
+  color: var(--mai-success);
   font-weight: 600;
 }
 
 /* Learn more */
 .feedback-learn-more {
-  background: var(--aa-bg-secondary);
-  border-radius: var(--radius-lg);
+  background: var(--mai-bg-alt);
+  border-radius: var(--mai-radius-md);
   padding: var(--space-5);
   margin-bottom: var(--space-6);
   overflow: hidden;
+  border: 1px solid var(--mai-border);
 }
 
-/* Image de l'événement */
+/* Image de l'evenement */
 .learn-more-image {
   width: calc(100% + var(--space-5) * 2);
   margin: calc(-1 * var(--space-5)) calc(-1 * var(--space-5)) var(--space-4);
@@ -166,7 +169,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform var(--mai-transition-slow);
 }
 
 .learn-more-image::after {
@@ -176,7 +179,7 @@
   background: linear-gradient(
     to bottom,
     transparent 60%,
-    var(--aa-bg-secondary) 100%
+    var(--mai-bg-alt) 100%
   );
   pointer-events: none;
 }
@@ -187,13 +190,27 @@
   gap: var(--space-3);
   font-size: var(--text-lg);
   margin-bottom: var(--space-3);
-  color: var(--aa-text);
+  color: var(--mai-text);
+  font-family: var(--mai-font-title);
 }
 
 .learn-more-description {
-  color: var(--aa-text-muted);
+  color: var(--mai-text-muted);
   line-height: 1.7;
   margin-bottom: var(--space-4);
+}
+
+.feedback-explanation {
+  background: var(--mai-highlight);
+  border-radius: var(--mai-radius-md);
+  padding: var(--space-3) var(--space-4);
+  margin-bottom: var(--space-4);
+  color: var(--mai-text);
+}
+
+.feedback-explanation p {
+  margin: 0;
+  color: var(--mai-text);
 }
 
 .learn-more-people {
@@ -205,7 +222,7 @@
 
 .people-label {
   font-size: var(--text-sm);
-  color: var(--aa-text-dim);
+  color: var(--mai-text-muted);
   margin-right: var(--space-1);
 }
 
@@ -221,22 +238,24 @@
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
-  border-radius: var(--radius-full);
+  border-radius: var(--mai-radius-pill);
   font-weight: 600;
 }
 
 .feedback-inline.correct {
-  background: rgba(16, 185, 129, 0.2);
-  color: var(--aa-success);
+  background: var(--mai-green-neura);
+  color: var(--mai-success);
 }
 
 .feedback-inline.incorrect {
-  background: rgba(239, 68, 68, 0.2);
-  color: var(--aa-error);
+  background: var(--mai-red-auria);
+  color: var(--mai-error);
 }
 
 .inline-icon {
   font-size: var(--text-lg);
+  display: inline-flex;
+  align-items: center;
 }
 
 /* Responsive */
@@ -248,7 +267,6 @@
   .feedback-icon {
     width: 50px;
     height: 50px;
-    font-size: var(--text-2xl);
   }
 
   .feedback-title {
@@ -259,4 +277,3 @@
     font-size: var(--text-3xl);
   }
 }
-

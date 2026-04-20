@@ -4,7 +4,7 @@ Configuration de l'admin Django pour les événements.
 
 from django.contrib import admin
 
-from .models import Event
+from .models import Event, MuseumSheet
 
 
 @admin.register(Event)
@@ -30,4 +30,10 @@ class EventAdmin(admin.ModelAdmin):
             'classes': ('collapse',)
         }),
     )
+
+
+@admin.register(MuseumSheet)
+class MuseumSheetAdmin(admin.ModelAdmin):
+    """Administration des fiches du musée virtuel."""
+    list_display = ['event', 'print_layout_hint', 'updated_at']
 

@@ -1,31 +1,30 @@
 /**
- * Client API pour communiquer avec le backend Django
+ * Client API pour communiquer avec le backend Django.
  */
 
 import type {
   Chapter,
   Event,
   QuizResponse,
+  QuizCheckResponse,
   ChapterId,
   GameMode,
+  MuseumSheet,
+  MuseumSheetsResponse,
 } from '../types'
 
 /**
- * Détermine l'URL de l'API dynamiquement
- * - En production ou avec variable d'env : utilise VITE_API_URL
- * - En local : utilise le même hostname que le frontend mais port 8000
+ * Détermine l'URL de l'API dynamiquement :
+ * - Si VITE_API_URL est défini, on l'utilise.
+ * - Sinon, on reprend le hostname courant + port 8000, pour que les
+ *   appareils distants (LAN) atteignent l'API via l'IP de la machine hôte.
  */
 function getApiUrl(): string {
-  // Si une URL est explicitement définie, l'utiliser
   if (import.meta.env.VITE_API_URL) {
     return import.meta.env.VITE_API_URL
   }
-
-  // Sinon, utiliser le même host que le frontend mais port 8000
-  // Cela permet aux appareils distants d'accéder à l'API
   const protocol = window.location.protocol
   const hostname = window.location.hostname
-
   return `${protocol}//${hostname}:8000`
 }
 
@@ -96,3 +95,27 @@ export async function getQuiz(params: GetQuizParams): Promise<QuizResponse> {
   return request<QuizResponse>(`/quiz/?${searchParams}`)
 }
 
+/**
+ * Vérifie la réponse d'un joueur côté serveur.
+ * La bonne année n'est révélée qu'après soumission (anti-triche).
+ */
+export async function checkQuizAnswer(
+  eventId: number,
+  year: number
+): Promise<QuizCheckResponse> {
+  return request<QuizCheckResponse>('/quiz/check/', {
+    method: 'POST',
+    body: JSON.stringify({ event_id: eventId, year }),
+  })
+}
+
+// === Musée virtuel ===
+
+export async function getMuseumSheets(): Promise<MuseumSheet[]> {
+  const page = await request<MuseumSheetsResponse>('/museum/sheets/')
+  return page.results
+}
+
+export async function getMuseumSheet(eventId: number): Promise<MuseumSheet> {
+  return request<MuseumSheet>(`/museum/sheets/${eventId}/`)
+}

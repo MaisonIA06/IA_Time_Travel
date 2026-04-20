@@ -1,32 +1,34 @@
 /**
- * Styles Modal & Drawer
+ * Styles Modal & Drawer — tokens --mai-* uniquement, pas de HEX.
  */
 
-/* Modal overlay */
+/* Overlay commun Modal + Drawer */
 .modal-overlay,
 .drawer-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: color-mix(in srgb, var(--mai-blue-deep) 55%, transparent);
   backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: var(--z-modal);
-  animation: fade-in var(--transition-fast) ease;
+  animation: fade-in var(--mai-transition-base) ease;
 }
 
 /* Modal */
 .modal {
-  background: var(--aa-bg-secondary);
-  border: 1px solid var(--aa-border);
-  border-radius: var(--radius-xl);
-  box-shadow: var(--shadow-lg), 0 0 40px var(--aa-glow);
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border);
+  border-radius: var(--mai-radius-lg);
+  box-shadow: var(--mai-shadow-lg);
   max-height: 90vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  animation: slide-up var(--transition-normal) ease;
+  color: var(--mai-text);
+  animation: slide-up var(--mai-transition-base) ease;
 }
 
 .modal-sm { width: min(400px, 90vw); }
@@ -39,30 +41,32 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) var(--space-6);
-  border-bottom: 1px solid var(--aa-border);
+  border-bottom: 1px solid var(--mai-border);
 }
 
 .modal-title {
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
+  font-weight: 700;
   font-size: var(--text-xl);
-  color: var(--aa-accent);
+  color: var(--mai-primary);
   margin: 0;
 }
 
 .modal-close {
   background: transparent;
   border: none;
-  color: var(--aa-text-muted);
+  color: var(--mai-text-muted);
   font-size: var(--text-xl);
   cursor: pointer;
   padding: var(--space-2);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  border-radius: var(--mai-radius-sm);
+  transition: background-color var(--mai-transition-fast),
+              color var(--mai-transition-fast);
 }
 
 .modal-close:hover {
-  color: var(--aa-accent);
-  background: rgba(0, 212, 255, 0.1);
+  color: var(--mai-accent);
+  background: var(--mai-bg-alt);
 }
 
 .modal-content {
@@ -74,9 +78,10 @@
 /* Drawer */
 .drawer {
   position: fixed;
-  background: var(--aa-bg-secondary);
-  border: 1px solid var(--aa-border);
-  box-shadow: var(--shadow-lg);
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border);
+  box-shadow: var(--mai-shadow-lg);
+  color: var(--mai-text);
   display: flex;
   flex-direction: column;
   max-height: 100vh;
@@ -87,8 +92,8 @@
   right: 0;
   bottom: 0;
   width: min(400px, 90vw);
-  border-left: 1px solid var(--aa-border);
-  animation: slide-in-from-right var(--transition-normal) ease;
+  border-left: 1px solid var(--mai-border);
+  animation: slide-in-from-right var(--mai-transition-base) ease;
 }
 
 .drawer-left {
@@ -96,8 +101,8 @@
   left: 0;
   bottom: 0;
   width: min(400px, 90vw);
-  border-right: 1px solid var(--aa-border);
-  animation: slide-in-from-left var(--transition-normal) ease;
+  border-right: 1px solid var(--mai-border);
+  animation: slide-in-from-left var(--mai-transition-base) ease;
 }
 
 .drawer-bottom {
@@ -105,9 +110,9 @@
   right: 0;
   bottom: 0;
   max-height: 80vh;
-  border-top: 1px solid var(--aa-border);
-  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-  animation: slide-in-from-bottom var(--transition-normal) ease;
+  border-top: 1px solid var(--mai-border);
+  border-radius: var(--mai-radius-lg) var(--mai-radius-lg) 0 0;
+  animation: slide-in-from-bottom var(--mai-transition-base) ease;
 }
 
 .drawer-header {
@@ -115,30 +120,32 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-4) var(--space-6);
-  border-bottom: 1px solid var(--aa-border);
+  border-bottom: 1px solid var(--mai-border);
 }
 
 .drawer-title {
-  font-family: var(--font-display);
+  font-family: var(--mai-font-title);
+  font-weight: 700;
   font-size: var(--text-lg);
-  color: var(--aa-accent);
+  color: var(--mai-primary);
   margin: 0;
 }
 
 .drawer-close {
   background: transparent;
   border: none;
-  color: var(--aa-text-muted);
+  color: var(--mai-text-muted);
   font-size: var(--text-lg);
   cursor: pointer;
   padding: var(--space-2);
-  border-radius: var(--radius-md);
-  transition: all var(--transition-fast);
+  border-radius: var(--mai-radius-sm);
+  transition: background-color var(--mai-transition-fast),
+              color var(--mai-transition-fast);
 }
 
 .drawer-close:hover {
-  color: var(--aa-accent);
-  background: rgba(0, 212, 255, 0.1);
+  color: var(--mai-accent);
+  background: var(--mai-bg-alt);
 }
 
 .drawer-content {
@@ -174,4 +181,3 @@
     transform: translateY(0);
   }
 }
-

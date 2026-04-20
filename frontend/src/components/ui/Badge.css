@@ -1,17 +1,17 @@
 /**
- * Styles Badge
+ * Styles Badge — tokens --mai-* uniquement, pas de HEX.
  */
 
 .badge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-body);
+  font-family: var(--mai-font-body);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  border-radius: var(--radius-full);
+  letter-spacing: 0.02em;
+  border-radius: var(--mai-radius-pill);
   white-space: nowrap;
+  border: 1px solid transparent;
 }
 
 /* Sizes */
@@ -32,55 +32,46 @@
 
 /* Variants */
 .badge-default {
-  background: var(--aa-bg-tertiary);
-  color: var(--aa-text-muted);
-  border: 1px solid var(--aa-border);
+  background: var(--mai-bg-alt);
+  color: var(--mai-text-muted);
+  border-color: var(--mai-border);
 }
 
 .badge-accent {
-  background: rgba(0, 212, 255, 0.15);
-  color: var(--aa-accent);
-  border: 1px solid var(--aa-accent);
+  background: color-mix(in srgb, var(--mai-accent) 15%, transparent);
+  color: var(--mai-accent);
+  border-color: var(--mai-accent);
 }
 
 .badge-purple {
-  background: rgba(139, 92, 246, 0.15);
-  color: var(--aa-accent-secondary);
-  border: 1px solid var(--aa-accent-secondary);
+  background: color-mix(in srgb, var(--mai-blue-quantum) 20%, transparent);
+  color: var(--mai-primary);
+  border-color: var(--mai-blue-quantum);
 }
 
 .badge-success {
-  background: rgba(16, 185, 129, 0.15);
-  color: var(--aa-success);
-  border: 1px solid var(--aa-success);
+  background: color-mix(in srgb, var(--mai-success) 15%, transparent);
+  color: var(--mai-success);
+  border-color: var(--mai-success);
 }
 
 .badge-error {
-  background: rgba(239, 68, 68, 0.15);
-  color: var(--aa-error);
-  border: 1px solid var(--aa-error);
+  background: color-mix(in srgb, var(--mai-error) 15%, transparent);
+  color: var(--mai-error);
+  border-color: var(--mai-error);
 }
 
 .badge-warning {
-  background: rgba(245, 158, 11, 0.15);
-  color: var(--aa-warning);
-  border: 1px solid var(--aa-warning);
+  background: color-mix(in srgb, var(--mai-red-terra) 15%, transparent);
+  color: var(--mai-red-terra);
+  border-color: var(--mai-red-terra);
 }
 
-/* Glow effect */
-.badge-glow.badge-accent {
-  box-shadow: 0 0 10px var(--aa-glow);
+/* Glow effect — ombres sobres MIA */
+.badge-glow.badge-accent,
+.badge-glow.badge-purple,
+.badge-glow.badge-success,
+.badge-glow.badge-error,
+.badge-glow.badge-warning {
+  box-shadow: var(--mai-shadow-sm);
 }
-
-.badge-glow.badge-purple {
-  box-shadow: 0 0 10px var(--aa-glow-purple);
-}
-
-.badge-glow.badge-success {
-  box-shadow: 0 0 10px var(--aa-success-glow);
-}
-
-.badge-glow.badge-error {
-  box-shadow: 0 0 10px var(--aa-error-glow);
-}
-

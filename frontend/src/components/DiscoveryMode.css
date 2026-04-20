@@ -1,15 +1,25 @@
+/**
+ * Styles DiscoveryMode — charte MIA
+ * Presentation sobre et pedagogique, sans effets cyber.
+ */
+
 .discovery-container {
   display: flex;
   flex-direction: column;
   gap: 2rem;
   max-width: 900px;
   margin: 0 auto;
-  animation: fadeIn 0.5s ease-out;
+  animation: fadeIn var(--mai-transition-slow) ease-out;
 }
 
 .discovery-card {
   position: relative;
   overflow: hidden;
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border);
+  border-radius: var(--mai-radius-lg);
+  box-shadow: var(--mai-shadow-md);
+  color: var(--mai-text);
 }
 
 .discovery-content {
@@ -27,17 +37,18 @@
 
 .discovery-image-container {
   position: relative;
-  border-radius: 12px;
+  border-radius: var(--mai-radius-md);
   overflow: hidden;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  box-shadow: var(--mai-shadow-sm);
   aspect-ratio: 4/3;
+  background: var(--mai-bg-alt);
 }
 
 .discovery-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.3s ease;
+  transition: transform var(--mai-transition-slow);
 }
 
 .discovery-image-placeholder {
@@ -46,8 +57,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--aa-bg-secondary);
-  color: var(--aa-text-dim);
+  background: var(--mai-bg-alt);
+  color: var(--mai-text-muted);
 }
 
 .discovery-year-badge {
@@ -65,35 +76,35 @@
 .discovery-title {
   font-size: 2rem;
   margin: 0;
-  background: linear-gradient(to right, var(--aa-text-primary), var(--aa-accent));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--mai-primary);
+  font-family: var(--mai-font-title);
   line-height: 1.2;
 }
 
 .discovery-description {
   font-size: 1.2rem;
   line-height: 1.6;
-  color: var(--aa-text-primary);
+  color: var(--mai-text);
   margin: 0;
 }
 
 .discovery-note {
-  background: rgba(var(--aa-accent-rgb), 0.1);
-  border-left: 4px solid var(--aa-accent);
+  background: var(--mai-highlight);
+  border-left: 4px solid var(--mai-accent);
   padding: 1.5rem;
-  border-radius: 0 8px 8px 0;
+  border-radius: 0 var(--mai-radius-md) var(--mai-radius-md) 0;
 }
 
 .discovery-note h4 {
   margin: 0 0 0.5rem 0;
-  color: var(--aa-accent);
+  color: var(--mai-accent);
+  font-family: var(--mai-font-title);
 }
 
 .discovery-note p {
   margin: 0;
   font-style: italic;
-  color: var(--aa-text-secondary);
+  color: var(--mai-text);
 }
 
 .discovery-actions {
@@ -107,21 +118,20 @@
 }
 
 .discovery-teacher-note {
-  background: rgba(var(--aa-purple-rgb), 0.1);
+  background: var(--mai-bg-alt);
   padding: 1rem;
-  border-radius: 8px;
-  border: 1px dashed var(--aa-purple);
+  border-radius: var(--mai-radius-md);
+  border: 1px dashed var(--mai-border-soft);
   text-align: center;
 }
 
 .discovery-teacher-note p {
   margin: 0;
   font-size: 0.9rem;
-  color: var(--aa-purple);
+  color: var(--mai-text-muted);
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
+  from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
-

@@ -9,6 +9,8 @@ import './EventCard.css'
 
 interface EventCardProps {
   event: QuizItem
+  /** Année à afficher quand showYear/isRevealed est vrai. Requise seulement dans ces cas. */
+  year?: number
   showYear?: boolean
   showDescription?: boolean
   isRevealed?: boolean
@@ -19,6 +21,7 @@ interface EventCardProps {
 
 export function EventCard({
   event,
+  year,
   showYear = false,
   showDescription = false,
   isRevealed = false,
@@ -49,9 +52,9 @@ export function EventCard({
       {/* Contenu */}
       <div className="event-card-content">
         {/* Année (si révélée) */}
-        {(showYear || isRevealed) && (
+        {(showYear || isRevealed) && year !== undefined && (
           <div className="event-year-badge">
-            <span className="year-value">{event.year_correct}</span>
+            <span className="year-value">{year}</span>
           </div>
         )}
 
@@ -100,13 +103,14 @@ export function EventCard({
 // Version compacte pour les listes
 interface EventCardMiniProps {
   event: QuizItem
+  year: number
   isCorrect?: boolean
 }
 
-export function EventCardMini({ event, isCorrect }: EventCardMiniProps) {
+export function EventCardMini({ event, year, isCorrect }: EventCardMiniProps) {
   return (
     <div className={`event-card-mini ${isCorrect !== undefined ? (isCorrect ? 'correct' : 'incorrect') : ''}`}>
-      <span className="mini-year">{event.year_correct}</span>
+      <span className="mini-year">{year}</span>
       <span className="mini-title">{event.prompt}</span>
     </div>
   )

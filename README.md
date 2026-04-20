@@ -10,6 +10,16 @@
 
 ---
 
+## 🚀 Déploiement en production
+
+Pour héberger l'application sur un VPS (Ubuntu, HTTPS, nom de domaine),
+suivez le guide pas-à-pas : **[`docs/DEPLOY.md`](docs/DEPLOY.md)**.
+
+Le présent README couvre uniquement l'installation en **développement local**
+via Docker Compose (voir plus bas).
+
+---
+
 ## 🎯 Objectif Pédagogique
 
 Ce projet vise à démystifier l'Intelligence Artificielle auprès des jeunes (11-15 ans) en leur montrant que :

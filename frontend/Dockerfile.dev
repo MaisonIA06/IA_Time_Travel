@@ -1,0 +1,17 @@
+# Dockerfile dev : garde le workflow actuel (Vite dev server + HMR).
+FROM node:20-slim
+
+WORKDIR /app
+
+# Copie uniquement package.json pour installer sans figer sur une arch (parité ex-image).
+COPY package.json ./
+
+RUN npm install --legacy-peer-deps && npm rebuild
+
+# Le reste des sources est monté en volume par docker-compose.yml
+COPY . .
+
+EXPOSE 5173
+
+# Vite dev server accessible depuis l'extérieur du conteneur
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

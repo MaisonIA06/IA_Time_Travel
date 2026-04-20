@@ -1,34 +1,38 @@
 /**
- * Styles Card - Glassmorphism effect
+ * Styles Card — tokens --mai-* uniquement, pas de HEX.
  */
 
 .card {
-  border-radius: var(--radius-lg);
-  transition: all var(--transition-normal);
+  border-radius: var(--mai-radius-lg);
+  transition: background-color var(--mai-transition-base),
+              border-color var(--mai-transition-base),
+              box-shadow var(--mai-transition-base),
+              transform var(--mai-transition-base);
+  color: var(--mai-text);
 }
 
 /* Variants */
 .card-default {
-  background: var(--aa-bg-secondary);
-  border: 1px solid var(--aa-border);
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border);
 }
 
 .card-glass {
-  background: var(--aa-glass);
+  background: color-mix(in srgb, var(--mai-bg) 80%, transparent);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--aa-border);
+  border: 1px solid var(--mai-border-soft);
 }
 
 .card-bordered {
   background: transparent;
-  border: 2px solid var(--aa-border);
+  border: 2px solid var(--mai-border);
 }
 
 .card-elevated {
-  background: var(--aa-bg-secondary);
-  border: 1px solid var(--aa-border);
-  box-shadow: var(--shadow-lg);
+  background: var(--mai-bg);
+  border: 1px solid var(--mai-border);
+  box-shadow: var(--mai-shadow-lg);
 }
 
 /* Padding */
@@ -44,35 +48,35 @@
 
 .card-hoverable:hover {
   transform: translateY(-4px);
-  border-color: var(--aa-border-hover);
-  box-shadow: var(--shadow-glow);
+  border-color: var(--mai-accent);
+  box-shadow: var(--mai-shadow-md);
 }
 
-/* Glow variants */
+/* Glow variants (map vers la palette MIA) */
 .card-glow-accent:hover {
-  box-shadow: 0 0 30px var(--aa-glow);
-  border-color: var(--aa-accent);
+  border-color: var(--mai-accent);
+  box-shadow: var(--mai-shadow-md);
 }
 
 .card-glow-purple:hover {
-  box-shadow: 0 0 30px var(--aa-glow-purple);
-  border-color: var(--aa-accent-secondary);
+  border-color: var(--mai-blue-quantum);
+  box-shadow: var(--mai-shadow-md);
 }
 
 .card-glow-success {
-  border-color: var(--aa-success);
-  box-shadow: 0 0 20px var(--aa-success-glow);
+  border-color: var(--mai-success);
+  box-shadow: var(--mai-shadow-sm);
 }
 
 .card-glow-error {
-  border-color: var(--aa-error);
-  box-shadow: 0 0 20px var(--aa-error-glow);
+  border-color: var(--mai-error);
+  box-shadow: var(--mai-shadow-sm);
 }
 
 /* Sub-components */
 .card-header {
   padding-bottom: var(--space-4);
-  border-bottom: 1px solid var(--aa-border);
+  border-bottom: 1px solid var(--mai-border);
   margin-bottom: var(--space-4);
 }
 
@@ -82,7 +86,6 @@
 
 .card-footer {
   padding-top: var(--space-4);
-  border-top: 1px solid var(--aa-border);
+  border-top: 1px solid var(--mai-border);
   margin-top: var(--space-4);
 }
-

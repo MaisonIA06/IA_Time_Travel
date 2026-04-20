@@ -49,20 +49,9 @@ export function PageTransition({ children }: PageTransitionProps) {
 
   return (
     <div className={`page-transition ${isTransitioning ? 'transitioning' : ''}`}>
-      {/* Overlay de transition */}
+      {/* Voile de transition doux (charte MIA) */}
       {isTransitioning && (
-        <div className={`transition-overlay transition-overlay--${transitionPhase}`}>
-          <div className="transition-lines">
-            {Array.from({ length: 12 }, (_, i) => (
-              <div
-                key={i}
-                className="transition-line"
-                style={{ animationDelay: `${i * 0.02}s` }}
-              />
-            ))}
-          </div>
-          <div className="transition-flash" />
-        </div>
+        <div className={`transition-overlay transition-overlay--${transitionPhase}`} />
       )}
 
       {/* Contenu de la page - toujours afficher children directement */}

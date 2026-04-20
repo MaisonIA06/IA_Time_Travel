@@ -1,15 +1,19 @@
 /**
- * Page d'accueil - Sélection du mode de jeu et du chapitre
+ * Page d'accueil — Sélection du chapitre (identité visuelle MIA).
+ * Easter eggs :
+ *   - 5 clics rapides sur le logo    → Chronos Snake
+ *   - 5 clics rapides sur le sous-titre → Glitch Terminal
+ *   - Séquence clavier « MUSEE »     → Musée virtuel (voir useMuseumEgg)
  */
 
 import { useEffect, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Card, Badge } from '../components/ui'
-import { GlitchText, HolographicCard, TimeIcon } from '../components'
+import { Button } from '../components/ui'
 import { ChronosSnake } from '../components/EasterEgg/ChronosSnake'
 import { GlitchTerminal } from '../components/EasterEgg/GlitchTerminal'
 import { getChapters, getQuiz } from '../api/client'
 import { useGameStore } from '../store/gameStore'
+import { useMuseumEgg } from '../hooks/useMuseumEgg'
 import type { Chapter, ChapterId } from '../types'
 import './Home.css'
 
@@ -19,19 +23,25 @@ export function Home() {
   const [selectedChapter, setSelectedChapter] = useState<ChapterId | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  
-  // Easter Egg 1: Chronos Snake
+
   const [snakeClickCount, setSnakeClickCount] = useState(0)
   const [showSnake, setShowSnake] = useState(false)
   const [glitchActive, setGlitchActive] = useState(false)
   const lastSnakeClickTime = useRef<number>(0)
 
-  // Easter Egg 2: Glitch Terminal
   const [terminalClickCount, setTerminalClickCount] = useState(0)
   const [showTerminal, setShowTerminal] = useState(false)
   const lastTerminalClickTime = useRef<number>(0)
 
-  const { setChapter, setQuizItems, startGame, resetGame, setIsLoading: setStoreIsLoading } = useGameStore()
+  const { overlay: museumOverlay } = useMuseumEgg()
+
+  const {
+    setChapter,
+    setQuizItems,
+    startGame,
+    resetGame,
+    setIsLoading: setStoreIsLoading,
+  } = useGameStore()
 
   useEffect(() => {
     resetGame()
@@ -65,10 +75,11 @@ export function Home() {
       setIsLoading(true)
       const data = await getChapters()
       setChapters(data)
-      if (data.length > 0) {
-        setSelectedChapter(data[0].id)
+      const firstPlayable = data.find(c => c.event_count > 0)
+      if (firstPlayable) {
+        setSelectedChapter(firstPlayable.id)
       }
-    } catch (err) {
+    } catch {
       setError('Impossible de charger les chapitres. Vérifiez la connexion au serveur.')
     } finally {
       setIsLoading(false)
@@ -82,17 +93,16 @@ export function Home() {
       try {
         setStoreIsLoading(true)
         setChapter(selectedChapter, chapter.name)
-        
-        // Charger le quiz directement
+
         const response = await getQuiz({
           chapter: selectedChapter,
-          count: chapter.event_count
+          count: chapter.event_count,
         })
-        
+
         setQuizItems(response.items)
         startGame()
         navigate('/game')
-      } catch (err) {
+      } catch {
         setError('Erreur lors du lancement de l\'aventure')
       } finally {
         setStoreIsLoading(false)
@@ -121,101 +131,101 @@ export function Home() {
   }
 
   const selectedChapterData = chapters.find(c => c.id === selectedChapter)
+  const selectedIsEmpty = selectedChapterData?.event_count === 0
 
   return (
     <div className={`home-page ${glitchActive ? 'glitch-active' : ''}`}>
+      {museumOverlay}
       {showSnake && <ChronosSnake onClose={() => setShowSnake(false)} />}
       {showTerminal && <GlitchTerminal onClose={() => setShowTerminal(false)} />}
-      
-      {/* Header */}
-      <header className="home-header">
-        <div className="logo-container" onClick={handleLogoClick} style={{ cursor: 'pointer' }}>
-          <div className="logo-icon">
-            <TimeIcon size={48} color="var(--aa-accent)" />
-          </div>
-          <GlitchText
-            text="IA Time Traveler"
-            as="h1"
-            className="logo-title"
-            intensity="normal"
-            glow={true}
+
+      <header className="home-hero">
+        <button
+          type="button"
+          className="home-logo"
+          onClick={handleLogoClick}
+          aria-label="La Maison de l'IA"
+        >
+          <img
+            src="/logo-mia-medaillon.png"
+            alt="La Maison de l'IA"
+            className="home-logo-img"
+            draggable={false}
           />
-        </div>
-        <p className="home-subtitle" onClick={handleSubtitleClick} style={{ cursor: 'pointer', userSelect: 'none' }}>
-          Deviens un agent temporel et reconstruis l'histoire de l'Intelligence Artificielle !
+        </button>
+
+        <h1 className="home-title">IA Time Traveler</h1>
+        <p className="home-subtitle" onClick={handleSubtitleClick}>
+          Deviens un agent temporel et reconstruis l'histoire de l'Intelligence Artificielle.
         </p>
       </header>
 
-      {/* Contenu principal */}
       <main className="home-content">
         {isLoading ? (
           <div className="home-loading">
-            <div className="loading-spinner" />
-            <p>Chargement des chapitres...</p>
+            <span className="home-spinner" />
+            <p>Chargement des chapitres…</p>
           </div>
         ) : error ? (
-          <Card variant="bordered" padding="lg" className="home-error">
+          <div className="home-error" role="alert">
             <p>{error}</p>
             <Button variant="outline" onClick={loadChapters}>
               Réessayer
             </Button>
-          </Card>
+          </div>
         ) : (
           <>
-            {/* Sélection du chapitre */}
-            <section className="chapter-section">
-              <h2 className="section-title">Choisis ton aventure</h2>
+            <section className="home-section">
+              <h2 className="home-section-title">Choisis ton chapitre</h2>
               <div className="chapter-grid">
-                {chapters.map((chapter, index) => (
-                  <HolographicCard
-                    key={chapter.id}
-                    glowColor={selectedChapter === chapter.id ? 'cyan' : 'purple'}
-                    intensity={selectedChapter === chapter.id ? 'high' : 'medium'}
-                    className={`chapter-card ${selectedChapter === chapter.id ? 'selected' : ''}`}
-                    onClick={() => setSelectedChapter(chapter.id)}
-                  >
-                    <div className="chapter-number">
-                      <span>{index + 1}</span>
-                    </div>
-                    <h3 className="chapter-name">{chapter.name}</h3>
-                    <Badge variant="accent" size="sm">
-                      {chapter.event_count} étapes
-                    </Badge>
-                  </HolographicCard>
-                ))}
+                {chapters.map((chapter, index) => {
+                  const isSelected = selectedChapter === chapter.id
+                  const isEmpty = chapter.event_count === 0
+                  return (
+                    <button
+                      key={chapter.id}
+                      type="button"
+                      className={`chapter-card ${isSelected ? 'is-selected' : ''} ${isEmpty ? 'is-empty' : ''}`}
+                      onClick={() => !isEmpty && setSelectedChapter(chapter.id)}
+                      aria-pressed={isSelected}
+                      aria-disabled={isEmpty}
+                      disabled={isEmpty}
+                    >
+                      <span className="chapter-number">{String(index + 1).padStart(2, '0')}</span>
+                      <h3 className="chapter-name">{chapter.name}</h3>
+                      <span className="chapter-meta">
+                        {isEmpty ? 'Bientôt disponible' : `${chapter.event_count} étapes`}
+                      </span>
+                    </button>
+                  )
+                })}
               </div>
             </section>
 
-            {/* Bouton d'action */}
-            <section className="action-section">
+            <section className="home-action">
               <Button
                 variant="primary"
                 size="lg"
                 onClick={handlePlayAdventure}
-                disabled={!selectedChapter}
+                disabled={!selectedChapter || selectedIsEmpty}
                 className="btn-play-adventure"
               >
-                Lancer l'Aventure
+                Lancer l'aventure
               </Button>
+              {selectedChapterData && !selectedIsEmpty && (
+                <p className="home-info">
+                  <strong>{selectedChapterData.name}</strong>
+                  {' — '}
+                  {selectedChapterData.event_count} événements à découvrir.
+                </p>
+              )}
             </section>
-
-            {/* Info chapitre sélectionné */}
-            {selectedChapterData && (
-              <section className="info-section">
-                <Card variant="bordered" padding="sm">
-                  <p className="info-text">
-                    <strong>{selectedChapterData.name}</strong> — {selectedChapterData.event_count} événements à découvrir
-                  </p>
-                </Card>
-              </section>
-            )}
           </>
         )}
       </main>
 
-      {/* Footer */}
       <footer className="home-footer">
-        <p>Un jeu éducatif pour découvrir l'histoire de l'IA</p>
+        <p>Un jeu éducatif de La Maison de l'IA pour découvrir l'histoire de l'Intelligence Artificielle.</p>
       </footer>
     </div>
   )

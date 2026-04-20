@@ -29,7 +29,7 @@ export function Timeline({
     const map = new Map<number, AnsweredEvent[]>()
 
     answeredEvents.forEach(ae => {
-      const decade = Math.floor(ae.event.year_correct / 10) * 10
+      const decade = Math.floor(ae.correctYear / 10) * 10
       const existing = map.get(decade) || []
       map.set(decade, [...existing, ae])
     })
@@ -68,9 +68,9 @@ export function Timeline({
                     <div
                       key={idx}
                       className={`timeline-event ${ae.isCorrect ? 'correct' : 'incorrect'}`}
-                      title={`${ae.event.year_correct} - ${ae.event.prompt}`}
+                      title={`${ae.correctYear} - ${ae.event.prompt}`}
                     >
-                      <span className="event-year">{ae.event.year_correct}</span>
+                      <span className="event-year">{ae.correctYear}</span>
                     </div>
                   ))}
                 </div>

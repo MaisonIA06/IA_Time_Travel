@@ -1,0 +1,510 @@
+/**
+ * Données de secours pour le musée virtuel.
+ *
+ * Utilisées uniquement si l'endpoint `/api/v1/museum-sheets/` n'est pas
+ * encore branché côté backend. Dès que W10 publie l'API, ces fiches
+ * restent cohérentes avec la graine design/museum_sheets_seed.json.
+ */
+
+import type { MuseumSheet } from '../types'
+
+export const MUSEUM_SEED: MuseumSheet[] = [
+  {
+    event: 1,
+    event_year: 1843,
+    event_title: 'Ada Lovelace écrit le premier algorithme',
+    context_long:
+      "Londres, années 1840. Ada Lovelace, 27 ans, fille du poète Byron et d'une mathématicienne, rencontre Charles Babbage, inventeur d'une « machine analytique » géante qui n'existera jamais vraiment. Là où Babbage ne voit qu'une calculette améliorée, Ada imagine tout autre chose : une machine capable de manipuler des symboles — des lettres, des notes de musique, n'importe quoi. Dans les notes qu'elle ajoute à la traduction d'un article italien sur la machine, elle décrit le tout premier algorithme destiné à être exécuté par une machine : un calcul des nombres de Bernoulli. Elle vient d'inventer la programmation, 100 ans avant le premier ordinateur électronique.",
+    key_figures: [
+      {
+        name: 'Ada Lovelace (1815-1852)',
+        role: 'Mathématicienne, première programmeuse',
+        mini_bio:
+          "Fille de Lord Byron, éduquée en mathématiques pour contrer l'« imagination dangereuse » héritée de son père. Meurt à 36 ans sans voir sa théorie reconnue.",
+      },
+      {
+        name: 'Charles Babbage (1791-1871)',
+        role: 'Ingénieur, concepteur de la machine analytique',
+        mini_bio:
+          "L'« ami » scientifique d'Ada. Sa machine ne sera jamais terminée faute de financement.",
+      },
+    ],
+    anecdote:
+      "Ada Lovelace a écrit le premier programme informatique pour une machine qui n'a jamais été construite. C'est un peu comme écrire une recette pour un four qui n'existe pas encore !",
+    educator_tips: [
+      "Demander aux élèves : « Selon vous, faut-il un ordinateur pour programmer ? » (spoiler : non, Ada l'a prouvé).",
+      "Faire dessiner à la main un « programme » en 5 étapes pour faire un sandwich — on retrouve les mêmes structures (séquences, conditions, répétitions).",
+      "Souligner le rôle des femmes dans l'histoire de l'informatique, souvent effacé — relier à Grace Hopper, Margaret Hamilton, Katherine Johnson.",
+      "Le langage de programmation « Ada » (utilisé par la NASA et l'aviation) porte son nom depuis 1980.",
+    ],
+    resources: [
+      { label: 'Ada Lovelace — Wikipédia', url: 'https://fr.wikipedia.org/wiki/Ada_Lovelace' },
+      {
+        label: "Les Notes (G) d'Ada Lovelace, traduites",
+        url: 'https://www.fourmilab.ch/babbage/sketch.html',
+      },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 11,
+    event_year: 1936,
+    event_title: 'Alan Turing invente la machine de Turing',
+    context_long:
+      "En 1936, Alan Turing a 24 ans. Il est étudiant à Cambridge et s'attaque à un problème mathématique tordu : peut-on décider, à l'avance, si un calcul va se terminer ou tourner en boucle ? Pour raisonner dessus, il invente une machine imaginaire : un simple ruban de papier infini, une tête de lecture qui lit et écrit des symboles, et une petite table de règles. Cette « machine de Turing » ne sera jamais construite — elle n'est qu'un outil de pensée. Mais elle contient déjà tout ce que fait un ordinateur : mémoire, instructions, calcul. Dix ans plus tard, les premières machines réelles (ENIAC, Colossus) fonctionneront sur ce modèle.",
+    key_figures: [
+      {
+        name: 'Alan Turing (1912-1954)',
+        role: "Mathématicien, père de l'informatique théorique",
+        mini_bio:
+          "Codera Enigma pendant la Seconde Guerre mondiale, ce qui aidera à raccourcir la guerre. Condamné pour son homosexualité en 1952, il meurt en 1954. Gracié officiellement en 2013.",
+      },
+    ],
+    anecdote:
+      "La « machine de Turing » n'est pas une machine physique : c'est un crayon, un ruban de papier et des règles. Aujourd'hui encore, tout ordinateur — même le plus puissant — est équivalent à cette idée griffonnée en 1936.",
+    educator_tips: [
+      "Simuler une machine de Turing avec du papier quadrillé et deux élèves (un « ruban » et une « tête ») : programme « ajouter 1 à un nombre binaire ». 5 minutes garanties de perplexité joyeuse.",
+      "Question déclic : « Quelle est la différence entre un ordinateur et un grille-pain ? » → réponse : un ordinateur est « universel » au sens de Turing.",
+      "Relier à la biographie : Turing a changé le cours de la guerre à Bletchley Park. Le film Imitation Game (2014) est une belle entrée (avec réserves historiques).",
+      "Aborder en sensibilité : sa condamnation, sa mort, sa réhabilitation.",
+    ],
+    resources: [
+      { label: 'Machine de Turing — Wikipédia', url: 'https://fr.wikipedia.org/wiki/Machine_de_Turing' },
+      {
+        label: 'Interstices — Turing et les limites du calculable',
+        url: 'https://interstices.info/alan-turing/',
+      },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 12,
+    event_year: 1943,
+    event_title: 'McCulloch et Pitts formalisent le neurone artificiel',
+    context_long:
+      "En pleine Seconde Guerre mondiale, deux hommes que tout oppose collaborent à Chicago : Warren McCulloch, neurologue à la barbe fournie, et Walter Pitts, adolescent prodige de 18 ans, sans-abri, autodidacte en logique. Ensemble, ils publient « A Logical Calculus of the Ideas Immanent in Nervous Activity » — un article qui propose de modéliser le neurone biologique comme une petite porte logique : elle s'active (1) si assez d'entrées sont actives, reste silencieuse (0) sinon. C'est la première fois qu'on décrit le cerveau comme un circuit qu'on pourrait, en théorie, reproduire avec des composants électriques. Les réseaux de neurones artificiels, qui font tourner ChatGPT 80 ans plus tard, descendent directement de cette idée.",
+    key_figures: [
+      {
+        name: 'Warren McCulloch (1898-1969)',
+        role: 'Neurologue et cybernéticien',
+        mini_bio:
+          "Prétendait dormir 4h par nuit et boire du whisky pour réfléchir. Figure centrale des conférences Macy qui lancent la cybernétique.",
+      },
+      {
+        name: 'Walter Pitts (1923-1969)',
+        role: 'Logicien autodidacte',
+        mini_bio:
+          "Se forme seul à la logique à 12 ans en lisant Principia Mathematica. N'obtiendra jamais de diplôme. Meurt à 46 ans.",
+      },
+    ],
+    anecdote:
+      "Walter Pitts a écrit ce papier fondateur à 18 ans, alors qu'il était SDF et squattait les couloirs de l'université. Aucun diplôme, juste un esprit brillant repéré par Bertrand Russell à 12 ans.",
+    educator_tips: [
+      "Dessiner au tableau un « neurone » McCulloch-Pitts : entrées (oui/non), seuil, sortie. Faire construire un « ET », un « OU » logique.",
+      "Poser la question : « Un neurone, c'est comme quoi dans la vraie vie ? » — comparaison utile : un interrupteur qui ne s'allume que si plusieurs conditions sont remplies.",
+      "Souligner que ChatGPT et les IA modernes reposent encore sur cette brique — en milliards d'exemplaires.",
+      "Histoire humaine : l'un neurologue reconnu, l'autre sans-abri. La science se moque parfois des diplômes.",
+    ],
+    resources: [
+      { label: 'Neurone artificiel — Wikipédia', url: 'https://fr.wikipedia.org/wiki/Neurone_formel' },
+      {
+        label: 'Walter Pitts, le génie oublié',
+        url: 'https://nautil.us/the-man-who-tried-to-redeem-the-world-with-logic-235253/',
+      },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 2,
+    event_year: 1950,
+    event_title: 'Alan Turing publie le test de Turing',
+    context_long:
+      "1950. Alan Turing publie un article intitulé « Computing Machinery and Intelligence » qui commence par une question simple : « Les machines peuvent-elles penser ? » Mais Turing se méfie des mots pièges. « Penser » est trop flou. Il propose donc un test concret : un « jeu de l'imitation ». Un interrogateur humain discute par écrit avec deux interlocuteurs cachés — l'un humain, l'autre machine. Si l'interrogateur ne peut pas dire lequel est la machine, alors celle-ci a passé le test. 75 ans plus tard, on en discute toujours : ChatGPT passe-t-il le test ? Oui et non, cela dépend de qui interroge, et pendant combien de temps.",
+    key_figures: [
+      {
+        name: 'Alan Turing (1912-1954)',
+        role: "Mathématicien, père de l'informatique théorique",
+        mini_bio:
+          "Au moment de publier cet article, il vient de contribuer à casser Enigma. Il est aussi un grand coureur de fond (vice-champion marathon UK).",
+      },
+    ],
+    anecdote:
+      "Turing s'est inspiré d'un jeu de salon victorien où l'on devait deviner si les lettres anonymes venaient d'un homme ou d'une femme. Il a juste remplacé « femme » par « machine ».",
+    educator_tips: [
+      "Activité test de Turing version classe : un élève tape un texte, un chatbot tape un autre, les autres votent. Débriefer sur les indices qui trahissent la machine.",
+      "Débat : « Si une IA imite parfaitement un humain, est-elle intelligente ? » — introduit les deux écoles (comportementaliste vs cognitiviste).",
+      "Montrer que le test a des limites : Joseph Weizenbaum (ELIZA) a ensuite prouvé qu'on peut tromper un humain sans la moindre intelligence.",
+      "Question vive : ChatGPT aujourd'hui — passe-t-il ? (oui pour 5 min, non pour 1h d'interrogatoire expert).",
+    ],
+    resources: [
+      {
+        label: 'Computing Machinery and Intelligence (VO)',
+        url: 'https://academic.oup.com/mind/article/LIX/236/433/986238',
+      },
+      { label: 'Test de Turing — Interstices', url: 'https://interstices.info/le-test-de-turing/' },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 3,
+    event_year: 1956,
+    event_title: "Conférence de Dartmouth : naissance de l'« Intelligence Artificielle »",
+    context_long:
+      "Été 1956. Au Dartmouth College, dans le New Hampshire, dix scientifiques se réunissent pour huit semaines d'atelier. Le sujet : créer des machines qui raisonnent. L'organisateur, John McCarthy, a eu une intuition pour décrocher du financement Rockefeller : donner un nom sexy à la discipline. Il invente « Artificial Intelligence » — Intelligence Artificielle. Le terme colle, et lance officiellement un champ de recherche. Dans la salle : Marvin Minsky, Claude Shannon (père de la théorie de l'information), Herbert Simon, Allen Newell. Tous persuadés qu'en 20 ans on aura fait des machines intelligentes comme des humains. Spoiler : 70 ans plus tard, on y travaille toujours.",
+    key_figures: [
+      {
+        name: 'John McCarthy (1927-2011)',
+        role: 'Informaticien, inventeur du terme « Intelligence Artificielle »',
+        mini_bio:
+          "Créera aussi le langage LISP en 1958, qui restera la langue de l'IA pendant 40 ans. Prix Turing 1971.",
+      },
+      {
+        name: 'Marvin Minsky (1927-2016)',
+        role: "Cofondateur de l'IA au MIT",
+        mini_bio: "Dira plus tard regretter d'avoir été trop optimiste sur les délais. Prix Turing 1969.",
+      },
+    ],
+    anecdote:
+      "Le terme « Intelligence Artificielle » a été inventé… pour obtenir une subvention. McCarthy a reconnu avoir choisi ce nom parce qu'il « sonnait bien » sur une demande de bourse à la Fondation Rockefeller.",
+    educator_tips: [
+      "Faire deviner aux élèves : « Le mot IA a été inventé pour… ? » — réponse ludique : pour avoir des sous.",
+      "Carte : placer Dartmouth sur une carte des USA. Important : l'IA est née aux USA, avec de l'argent militaire et privé.",
+      "Parler des promesses non tenues (les « hivers de l'IA ») — une leçon de prudence face aux promesses actuelles.",
+      "Activité : demander à chacun d'inventer un nom pour une nouvelle technologie. Quels critères font qu'un nom « prend » ?",
+    ],
+    resources: [
+      {
+        label: 'Conférence de Dartmouth — Wikipédia',
+        url: 'https://fr.wikipedia.org/wiki/Conf%C3%A9rence_de_Dartmouth',
+      },
+      { label: 'Proposition originale 1955 (VO)', url: 'http://jmc.stanford.edu/articles/dartmouth/dartmouth.pdf' },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 4,
+    event_year: 1966,
+    event_title: "ELIZA, le premier chatbot, révèle l'effet ELIZA",
+    context_long:
+      "MIT, 1966. Joseph Weizenbaum, informaticien allemand émigré aux USA, programme ELIZA — un chatbot qui imite un psychothérapeute rogérien. Son secret est minuscule : ELIZA ne comprend rien. Elle repère quelques mots-clés, reformule les phrases en questions (« Ma mère me déteste » → « Parlez-moi de votre mère »), et enchaîne. Pourtant, la secrétaire de Weizenbaum demande à parler seule à ELIZA. Des utilisateurs lui confient des secrets intimes. L'auteur est horrifié par cette crédulité et écrira ensuite un livre entier contre la confusion homme-machine. C'est l'« effet ELIZA » : notre tendance à prêter une intelligence à ce qui n'en a pas.",
+    key_figures: [
+      {
+        name: 'Joseph Weizenbaum (1923-2008)',
+        role: "Informaticien, créateur d'ELIZA",
+        mini_bio:
+          "A fui le nazisme à 13 ans. Deviendra un des premiers lanceurs d'alerte sur les dangers de l'IA.",
+      },
+      {
+        name: 'Carl Rogers (1902-1987)',
+        role: 'Psychologue (hors scène)',
+        mini_bio: "Inventeur de la thérapie « centrée sur la personne » qu'ELIZA imite caricaturalement.",
+      },
+    ],
+    anecdote:
+      "ELIZA tient sur 200 lignes de code. Son créateur, voyant les gens s'attacher à elle, est devenu un des premiers critiques de l'IA. Il disait : « L'ordinateur ne comprend pas. Il ne comprend rien. »",
+    educator_tips: [
+      "Montrer un extrait de dialogue ELIZA (facile à trouver en ligne, ou via un émulateur web). Laisser les élèves deviner la mécanique.",
+      "Question : « Pourquoi les gens faisaient-ils confiance à ELIZA ? » — introduit la notion d'anthropomorphisme.",
+      "Relier à aujourd'hui : pourquoi est-il si facile de tutoyer ChatGPT, de lui dire merci ? Même phénomène, 60 ans plus tard.",
+      "Point éthique : ELIZA n'a jamais menti sur sa nature. Mais a-t-elle manipulé ? Débat.",
+    ],
+    resources: [
+      { label: 'ELIZA en ligne (émulateur)', url: 'https://web.njit.edu/~ronkowit/eliza.html' },
+      { label: 'ELIZA — Wikipédia', url: 'https://fr.wikipedia.org/wiki/ELIZA' },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 13,
+    event_year: 1972,
+    event_title: 'PROLOG, le langage logique français',
+    context_long:
+      "1972, à l'université d'Aix-Marseille. Alain Colmerauer, jeune chercheur français, conçoit PROLOG (« PROgrammation en LOGique »). Là où les autres langages disent à la machine quoi faire étape par étape, PROLOG lui dit quels sont les faits et les règles — et laisse la machine chercher elle-même la solution. Exemple : on lui dit « Socrate est un homme » et « Tous les hommes sont mortels », puis on demande « Socrate est-il mortel ? ». Le programme répond « oui » tout seul. PROLOG deviendra le langage de référence de l'IA en Europe et au Japon pendant 20 ans, avant d'être dépassé par les approches statistiques.",
+    key_figures: [
+      {
+        name: 'Alain Colmerauer (1941-2017)',
+        role: 'Informaticien français, créateur de PROLOG',
+        mini_bio: "Fierté nationale : l'un des rares langages de programmation majeurs à être né en France.",
+      },
+      {
+        name: 'Robert Kowalski',
+        role: 'Co-théoricien de la programmation logique',
+        mini_bio: 'Logicien britannique qui a posé les bases théoriques parallèlement à Colmerauer.',
+      },
+    ],
+    anecdote:
+      "PROLOG a été tellement populaire au Japon que dans les années 1980, le pays a lancé un plan national à 500 millions de dollars pour bâtir des « ordinateurs de 5e génération » basés sur PROLOG. Le plan a échoué, mais a inspiré les investissements IA d'aujourd'hui.",
+    educator_tips: [
+      "Faire construire à la classe un mini-système de règles : « Si X et Y, alors Z ». Les élèves enchaînent les déductions.",
+      "Opposer les 2 grandes écoles de l'IA : symbolique (PROLOG, raisonnement par règles) vs connexionniste (réseaux de neurones). La seconde a gagné — pour l'instant.",
+      "Rappeler que la France a joué un rôle majeur dans l'histoire de l'IA (Colmerauer, mais aussi Yann LeCun, prix Turing 2018).",
+      "Activité : écrire au tableau un raisonnement en style PROLOG sur un sujet familier (familles d'animaux, généalogie fictive).",
+    ],
+    resources: [
+      { label: 'PROLOG — Wikipédia', url: 'https://fr.wikipedia.org/wiki/Prolog' },
+      { label: 'SWI-Prolog en ligne (essayer en direct)', url: 'https://swish.swi-prolog.org/' },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 14,
+    event_year: 1980,
+    event_title: "L'âge d'or des systèmes experts",
+    context_long:
+      "Années 1980 : l'IA promet gros. Edward Feigenbaum à Stanford pousse l'idée des « systèmes experts » — des programmes qui contiennent les connaissances d'un spécialiste humain (médecin, géologue, chimiste) sous forme de milliers de règles « si… alors… ». MYCIN diagnostique les infections du sang mieux que certains internes. XCON fait gagner 40 millions de dollars par an à Digital Equipment en configurant des ordinateurs. Les entreprises se ruent. Mais trois problèmes se révèlent : extraire la connaissance des experts est un cauchemar, les systèmes sont fragiles face à l'imprévu, et la maintenance coûte une fortune. Dans les années 1990, le soufflé retombe. C'est le deuxième « hiver de l'IA ».",
+    key_figures: [
+      {
+        name: 'Edward Feigenbaum (né en 1936)',
+        role: 'Pionnier des systèmes experts',
+        mini_bio:
+          "Élève de Herbert Simon. Prix Turing 1994. Surnommé « le père des systèmes experts ».",
+      },
+      {
+        name: 'Edward Shortliffe (né en 1947)',
+        role: 'Créateur de MYCIN',
+        mini_bio:
+          "Médecin ET informaticien. A démontré qu'un système expert pouvait dépasser des humains — mais l'hôpital n'en a jamais voulu, pour raisons juridiques.",
+      },
+    ],
+    anecdote:
+      "MYCIN diagnostiquait les infections sanguines mieux que les jeunes médecins en 1979. Mais il n'a jamais été utilisé en vrai hôpital. La raison ? Personne ne savait qui était responsable en cas d'erreur. Exactement le débat d'aujourd'hui sur l'IA médicale.",
+    educator_tips: [
+      "Comparer un « système expert » à une encyclopédie interactive géante. Pourquoi ça ne suffit pas ?",
+      "Activité : écrire ensemble 5 règles pour « diagnostiquer » pourquoi un téléphone ne s'allume pas. Voir à quel point on peut rapidement arriver au bout.",
+      "Parler des « hivers » de l'IA : périodes où on a promis trop et livré trop peu. Leçon de prudence vis-à-vis des promesses actuelles.",
+      "Débat : si une IA se trompe en médecine, qui est responsable ? Toujours une question ouverte aujourd'hui.",
+    ],
+    resources: [
+      { label: 'Systèmes experts — Wikipédia', url: 'https://fr.wikipedia.org/wiki/Syst%C3%A8me_expert' },
+      {
+        label: 'Histoire de MYCIN',
+        url: 'https://people.dbmi.columbia.edu/~ehs7001/Buchanan-Shortliffe-1984/MYCIN%20Book.htm',
+      },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 6,
+    event_year: 1997,
+    event_title: "Deep Blue bat Kasparov aux échecs",
+    context_long:
+      "11 mai 1997, New York. Dans une salle d'hôtel, Garry Kasparov — champion du monde d'échecs, considéré comme le meilleur joueur humain de tous les temps — joue la sixième partie contre Deep Blue, un ordinateur IBM de la taille d'un frigo. Il perd en 19 coups. C'est la première fois qu'une machine bat un champion du monde en conditions officielles. Deep Blue calculait 200 millions de positions par seconde. Ce n'était pas de l'intelligence au sens humain — juste une puissance brute couplée à une base de parties. Kasparov, furieux, soupçonne qu'IBM a triché. IBM démantèle la machine et refuse une revanche. L'événement est énorme : le public comprend que les machines peuvent nous battre dans les domaines où on pensait l'intuition nécessaire.",
+    key_figures: [
+      {
+        name: 'Garry Kasparov (né en 1963)',
+        role: "Champion du monde d'échecs 1985-2000",
+        mini_bio:
+          "L'un des plus grands joueurs d'échecs de l'histoire. Est devenu après sa défaite un défenseur passionné de la collaboration humain-IA.",
+      },
+      {
+        name: 'Équipe IBM Deep Blue',
+        role: 'Murray Campbell, Feng-hsiung Hsu, Joseph Hoane',
+        mini_bio: 'Chercheurs CMU puis IBM. Ont travaillé 12 ans sur le projet.',
+      },
+    ],
+    anecdote:
+      "Kasparov a accusé IBM d'avoir fait jouer Deep Blue par des grands maîtres humains cachés. IBM a démantelé la machine juste après le match. Le fantôme de la revanche plane encore aujourd'hui.",
+    educator_tips: [
+      "Calcul rigolo : Deep Blue évalue 200 millions de positions/seconde. Un humain fort : environ 2 par seconde. Ratio : 100 millions.",
+      "Question : « Deep Blue est-il intelligent ? » → pour aborder la notion d'intelligence par force brute vs intelligence par compréhension.",
+      "Kasparov a inventé les « échecs avancés » (humain + IA contre humain + IA). Une leçon sur comment réagir face à une techno plus forte que soi.",
+      "Aujourd'hui, même un smartphone bat le champion du monde. Ce qui était impossible en 1996 est devenu banal.",
+    ],
+    resources: [
+      { label: 'Deep Blue — Wikipédia', url: 'https://fr.wikipedia.org/wiki/Deep_Blue' },
+      {
+        label: 'Kasparov raconte (TED)',
+        url: 'https://www.ted.com/talks/garry_kasparov_don_t_fear_intelligent_machines_work_with_them',
+      },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 8,
+    event_year: 2011,
+    event_title: "Siri, premier assistant vocal grand public",
+    context_long:
+      "4 octobre 2011. Apple dévoile Siri sur l'iPhone 4S — le premier assistant vocal grand public capable d'avoir une conversation à peu près naturelle. La techno vient en fait d'un projet militaire (CALO) financé par la DARPA américaine, acheté par Apple deux ans plus tôt. Siri combine trois ingrédients : reconnaissance vocale (transformer la voix en texte), compréhension du langage (deviner l'intention) et synthèse vocale (répondre). Ce n'est pas de l'intelligence — c'est de l'ingénierie fine. Mais en 2011, c'est magique : on parle à son téléphone et il comprend. Google Now, Alexa, Cortana suivront. Aujourd'hui, des milliards d'assistants vocaux fonctionnent ainsi.",
+    key_figures: [
+      {
+        name: 'Équipe SRI International',
+        role: 'Concepteurs originaux de Siri',
+        mini_bio:
+          "Spin-off d'un centre de recherche californien, financé initialement par l'armée US via la DARPA.",
+      },
+      {
+        name: 'Steve Jobs (1955-2011)',
+        role: "PDG d'Apple",
+        mini_bio:
+          "A personnellement supervisé l'intégration de Siri. Siri a été annoncée 1 jour avant sa mort — une coïncidence qui a marqué l'histoire.",
+      },
+    ],
+    anecdote:
+      "Siri a été dévoilée le 4 octobre 2011 — le lendemain, Steve Jobs mourait. La première IA grand public est sortie la veille de la mort de son parrain.",
+    educator_tips: [
+      "Démo en direct : tester Siri, Google Assistant ou Alexa en classe. Quels types de questions marchent bien ? Lesquelles plantent ?",
+      "Expliquer le trio « voix → texte → intention → réponse → texte → voix ». Chaque étape est une IA distincte.",
+      "Question éthique : où va votre voix ? (spoiler : sur des serveurs distants, pour toujours dans certains cas).",
+      "Débat : un assistant vocal nous aide-t-il vraiment, ou nous rend-il dépendants ?",
+    ],
+    resources: [
+      { label: 'Siri — Wikipédia', url: 'https://fr.wikipedia.org/wiki/Siri' },
+      { label: 'Histoire du projet CALO (VO)', url: 'https://www.ai.sri.com/project/CALO' },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 9,
+    event_year: 2016,
+    event_title: 'AlphaGo bat Lee Sedol au jeu de Go',
+    context_long:
+      "Mars 2016, Séoul. Le jeu de Go est bien plus complexe que les échecs : après 3 coups, il y a déjà plus de parties possibles qu'il n'y a d'atomes dans l'univers visible. On pensait les machines incapables de battre un humain au Go avant 2030. AlphaGo, créé par DeepMind (filiale de Google), affronte Lee Sedol, 18 fois champion du monde. Score final : 4-1 pour la machine. Au coup 37 de la 2e partie, AlphaGo joue un coup qu'aucun humain n'aurait joué — les commentateurs le pensent mauvais. Il gagne la partie. Lee Sedol a l'air ébranlé : il dit avoir vu « la beauté ». Contrairement à Deep Blue, AlphaGo n'utilise pas la force brute : il a appris en jouant 30 millions de parties contre lui-même, via du deep learning.",
+    key_figures: [
+      {
+        name: 'Demis Hassabis (né en 1976)',
+        role: 'Fondateur de DeepMind',
+        mini_bio:
+          "Ancien prodige des échecs, neuroscientifique. Prix Nobel de chimie 2024 pour AlphaFold (IA de protéines).",
+      },
+      {
+        name: 'Lee Sedol (né en 1983)',
+        role: 'Champion de Go',
+        mini_bio:
+          "Prendra sa retraite en 2019 en disant : « L'IA est une entité qui ne peut pas être battue. »",
+      },
+    ],
+    anecdote:
+      "Le fameux « coup 37 » d'AlphaGo est étudié aujourd'hui dans les livres de Go comme un coup d'une beauté inhumaine. Les champions humains eux-mêmes l'intègrent à leurs parties. L'IA a enrichi un art humain millénaire.",
+    educator_tips: [
+      "Expliquer la différence force brute (Deep Blue) vs apprentissage (AlphaGo). C'est la vraie révolution : l'IA apprend sans qu'on lui dicte les règles.",
+      "Bon documentaire : « AlphaGo » (2017) sur YouTube — gratuit, sous-titré français, 1h30 accessible dès 12 ans.",
+      "Parler de la surprise : même les ingénieurs de DeepMind ne comprenaient pas le coup 37. L'IA peut surprendre ses propres créateurs.",
+      "Réflexion : Sedol a pris sa retraite. Quelles professions devraient se poser la même question ?",
+    ],
+    resources: [
+      { label: 'AlphaGo — Wikipédia', url: 'https://fr.wikipedia.org/wiki/AlphaGo' },
+      {
+        label: 'Documentaire AlphaGo (YouTube)',
+        url: 'https://www.youtube.com/watch?v=WXuK6gekU1Y',
+      },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 15,
+    event_year: 2018,
+    event_title: 'Prix Turing 2018 pour les parrains du deep learning',
+    context_long:
+      "Chaque année depuis 1966, l'ACM décerne le « prix Turing », considéré comme le Nobel de l'informatique — 1 million de dollars. En 2018, il est décerné conjointement à trois chercheurs pour leurs travaux qui ont rendu possible la révolution du deep learning : Yoshua Bengio (Montréal), Geoffrey Hinton (Toronto), Yann LeCun (Paris, puis Meta/NYU). Ces trois-là ont persisté dans les réseaux de neurones pendant les années 1990-2000, alors que la communauté les considérait comme une voie morte. Leur patience paie : leurs idées fondent ChatGPT, Midjourney, AlphaFold, la reconnaissance vocale, la conduite autonome. On les surnomme les « parrains du deep learning ».",
+    key_figures: [
+      {
+        name: 'Yoshua Bengio (né en 1964)',
+        role: 'Université de Montréal',
+        mini_bio:
+          "Français d'origine, installé au Canada. A lancé l'alerte en 2023 sur les risques existentiels de l'IA.",
+      },
+      {
+        name: 'Geoffrey Hinton (né en 1947)',
+        role: 'Université de Toronto, ex-Google',
+        mini_bio:
+          "Britannique. A quitté Google en 2023 pour alerter sur les dangers de l'IA qu'il a contribué à créer. Nobel de physique 2024.",
+      },
+      {
+        name: 'Yann LeCun (né en 1960)',
+        role: 'Meta (Facebook) + NYU',
+        mini_bio:
+          "Français. A créé les réseaux convolutifs (vision par ordinateur) pendant son doctorat à Paris. Optimiste revendiqué sur l'IA.",
+      },
+    ],
+    anecdote:
+      "Le prix Turing 2018 a été décerné à trois chercheurs qui passaient pour des marginaux dans les années 1990. Leur obstination sur les réseaux de neurones, alors que la mode était aux systèmes experts, a changé le monde.",
+    educator_tips: [
+      "Mini-quiz : citer un prix Turing français (réponse : Colmerauer aurait pu l'avoir, LeCun l'a eu). La France pèse !",
+      "Récit d'une leçon de persévérance : ils ont « perdu » pendant 20 ans avant de gagner.",
+      "Parler des divergences : aujourd'hui les trois ne sont pas d'accord sur les risques de l'IA. Bengio et Hinton alertent, LeCun relativise.",
+      "Vocabulaire : « deep learning » = apprentissage profond. « Profond » ne veut pas dire intelligent — juste qu'il y a beaucoup de couches de neurones.",
+    ],
+    resources: [
+      { label: 'Prix Turing 2018 (ACM)', url: 'https://awards.acm.org/about/2018-turing' },
+      {
+        label: 'Yann LeCun — conférences grand public',
+        url: 'https://www.college-de-france.fr/chaire/yann-lecun-informatique-et-sciences-numeriques-chaire-annuelle',
+      },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 10,
+    event_year: 2022,
+    event_title: 'ChatGPT débarque et change tout',
+    context_long:
+      "30 novembre 2022. OpenAI, une startup américaine, ouvre au public un chatbot baptisé ChatGPT — basé sur son modèle de langage GPT-3.5. En 5 jours, il atteint 1 million d'utilisateurs. En 2 mois, 100 millions. Un record absolu. ChatGPT ne « comprend » pas au sens humain : il prédit le mot suivant d'une phrase, mot après mot, en s'appuyant sur des milliards de textes avalés durant son entraînement. Mais le résultat est bluffant : il rédige des dissertations, du code, des poèmes, résume des articles. Il hallucine aussi — invente des faits avec aplomb. Le grand public découvre brutalement ce que les chercheurs savaient depuis 2020 : l'IA générative est arrivée.",
+    key_figures: [
+      {
+        name: 'Sam Altman (né en 1985)',
+        role: "PDG d'OpenAI",
+        mini_bio:
+          "Cofondateur et figure controversée. Lancera ChatGPT « sans s'attendre » au succès massif, selon ses dires.",
+      },
+      {
+        name: 'Ilya Sutskever (né en 1986)',
+        role: "Cofondateur et scientifique en chef d'OpenAI",
+        mini_bio:
+          "Élève d'Hinton. Quittera OpenAI en 2024 après un conflit interne sur la sécurité de l'IA.",
+      },
+    ],
+    anecdote:
+      "ChatGPT a atteint 100 millions d'utilisateurs en 2 mois. Pour comparer : TikTok avait mis 9 mois, Instagram 2 ans et demi. C'est l'adoption la plus rapide d'un produit grand public dans l'histoire.",
+    educator_tips: [
+      "Démo en classe : montrer comment un même prompt donne des réponses différentes. ChatGPT n'est pas déterministe.",
+      "Démontrer une « hallucination » : demander une biographie d'une personne réelle peu connue. Voir comment ChatGPT invente.",
+      "Exercice critique : prendre une réponse ChatGPT sur un sujet d'Histoire. Vérifier chaque fait. Faire le score de véracité.",
+      "Débat : utilisation à l'école. Triche ? Outil d'apprentissage ? Les deux ? Les profs expérimentent déjà.",
+    ],
+    resources: [
+      { label: 'ChatGPT — Wikipédia', url: 'https://fr.wikipedia.org/wiki/ChatGPT' },
+      { label: 'Comprendre les LLM (Interstices)', url: 'https://interstices.info/les-grands-modeles-de-langue/' },
+    ],
+    print_layout_hint: 'portrait',
+  },
+  {
+    event: 16,
+    event_year: 2024,
+    event_title: "Nobel de physique 2024 pour Hopfield et Hinton",
+    context_long:
+      "8 octobre 2024. Le Nobel de physique est décerné à John Hopfield (Princeton) et Geoffrey Hinton (Toronto) pour leurs « découvertes fondamentales et inventions qui permettent l'apprentissage automatique avec des réseaux de neurones artificiels ». Surprise : ce sont des travaux d'informatique récompensés par un Nobel de physique. La raison : les méthodes utilisées (énergies, états d'équilibre, mécanique statistique) viennent directement de la physique. Hopfield a inventé dans les années 1980 un modèle de mémoire associative inspiré des verres de spin. Hinton a prolongé ces idées vers les réseaux profonds. La reconnaissance ultime pour les « connexionnistes » : l'IA moderne est officiellement une branche de la physique — et une révolution scientifique majeure.",
+    key_figures: [
+      {
+        name: 'John Hopfield (né en 1933)',
+        role: 'Physicien, Princeton',
+        mini_bio:
+          "A inventé le « réseau de Hopfield » en 1982 — un modèle de mémoire associative. Nobel à 91 ans.",
+      },
+      {
+        name: 'Geoffrey Hinton (né en 1947)',
+        role: 'Informaticien, ex-Google',
+        mini_bio:
+          "Double récompense : prix Turing 2018 + Nobel physique 2024. Pour alerter sur les risques, avait quitté Google en 2023.",
+      },
+    ],
+    anecdote:
+      "Hinton a reçu son Nobel par téléphone à 5h du matin dans une chambre d'hôtel bon marché. Sa première réaction : « Je pensais que c'était un mauvais plaisantin. » Personne ne s'attendait à un Nobel de physique pour de l'informatique.",
+    educator_tips: [
+      "Question piège : « Peut-on gagner un Nobel de physique en faisant de l'informatique ? » Oui, depuis 2024.",
+      "Introduire l'idée que les disciplines scientifiques se mélangent : physique, maths, bio, info — de moins en moins séparables.",
+      "Hinton a utilisé sa notoriété pour alerter sur les risques de l'IA. Parler du rôle public des scientifiques.",
+      "Nobel de chimie 2024 : Demis Hassabis (DeepMind) pour AlphaFold. 2 Nobels pour l'IA la même année — signal fort.",
+    ],
+    resources: [
+      {
+        label: 'Nobel de physique 2024 — site officiel',
+        url: 'https://www.nobelprize.org/prizes/physics/2024/summary/',
+      },
+      {
+        label: 'Explication simple (The Conversation FR)',
+        url: 'https://theconversation.com/nobel-de-physique-2024-lia-recompensee-240907',
+      },
+    ],
+    print_layout_hint: 'portrait',
+  },
+]

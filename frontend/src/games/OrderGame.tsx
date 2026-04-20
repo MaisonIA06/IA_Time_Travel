@@ -69,6 +69,7 @@ function SortableItem({ id, event, index }: SortableItemProps) {
 }
 
 export function OrderGame({ events, onComplete, onSkip }: OrderGameProps) {
+  const yearOf = (event: QuizItem) => event.year_correct ?? 0
   // Prendre 5 événements aléatoires
   const [selectedEvents] = useState<QuizItem[]>(() => {
     const shuffled = [...events].sort(() => Math.random() - 0.5)
@@ -107,7 +108,7 @@ export function OrderGame({ events, onComplete, onSkip }: OrderGameProps) {
     setIsChecking(true)
 
     // Vérifier l'ordre
-    const correctOrder = [...selectedEvents].sort((a, b) => a.year_correct - b.year_correct)
+    const correctOrder = [...selectedEvents].sort((a, b) => yearOf(a) - yearOf(b))
     let errors = 0
 
     items.forEach((item, index) => {
@@ -205,10 +206,10 @@ export function OrderGame({ events, onComplete, onSkip }: OrderGameProps) {
           <div className="correct-order">
             <p>L'ordre correct était :</p>
             {[...selectedEvents]
-              .sort((a, b) => a.year_correct - b.year_correct)
+              .sort((a, b) => yearOf(a) - yearOf(b))
               .map((event) => (
                 <div key={event.event_id} className="correct-item">
-                  <Badge variant="accent" size="sm">{event.year_correct}</Badge>
+                  <Badge variant="accent" size="sm">{yearOf(event)}</Badge>
                   <span>{event.prompt}</span>
                 </div>
               ))

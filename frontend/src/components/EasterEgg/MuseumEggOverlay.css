@@ -1,0 +1,78 @@
+/**
+ * Styles de la modale de transition vers le musée.
+ * Tokens --mai-* uniquement.
+ */
+
+.museum-egg-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(22, 52, 88, 0.72);
+  backdrop-filter: blur(6px);
+  animation: museum-egg-fade 200ms ease-out;
+}
+
+.museum-egg-overlay__card {
+  background: var(--mai-bg);
+  color: var(--mai-text);
+  font-family: var(--mai-font-body);
+  padding: 1.75rem 2rem;
+  border-radius: var(--mai-radius-lg);
+  border: 2px solid var(--mai-accent);
+  box-shadow: var(--mai-shadow-lg);
+  text-align: center;
+  max-width: 360px;
+  animation: museum-egg-pop 500ms cubic-bezier(0.2, 0.8, 0.2, 1.2);
+}
+
+.museum-egg-overlay__emoji {
+  font-size: 3rem;
+  margin: 0 0 0.5rem 0;
+  animation: museum-egg-wiggle 900ms ease-in-out infinite;
+}
+
+.museum-egg-overlay__text {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.4;
+  font-style: italic;
+  color: var(--mai-primary);
+}
+
+@keyframes museum-egg-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes museum-egg-pop {
+  0% {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.05);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes museum-egg-wiggle {
+  0%,
+  100% {
+    transform: rotate(-5deg);
+  }
+  50% {
+    transform: rotate(8deg);
+  }
+}
