@@ -43,18 +43,13 @@ def sample_event():
 @pytest.mark.django_db
 class TestChaptersAPI:
     def test_list_chapters(self, api_client):
-        """Test que l'endpoint chapters retourne les 4 chapitres."""
+        """Test que l'endpoint chapters retourne le chapitre unique."""
         url = reverse('chapters-list')
         response = api_client.get(url)
 
         assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 4
-
-        chapter_ids = [c['id'] for c in response.data]
-        assert 'chapter_1' in chapter_ids
-        assert 'chapter_2' in chapter_ids
-        assert 'chapter_3' in chapter_ids
-        assert 'chapter_4' in chapter_ids
+        assert len(response.data) == 1
+        assert response.data[0]['id'] == 'chapter_1'
 
 
 @pytest.mark.django_db

@@ -18,7 +18,7 @@ import { useMuseumEgg } from '../hooks/useMuseumEgg'
 import type { Chapter, ChapterId } from '../types'
 import './Home.css'
 
-const MISSION_DATES = [1843, 1936, 1950, 1966, 1997, 2011, 2016, 2022]
+const MISSION_DATES = [1843, 1950, 1966, 1997, 2016, 2022]
 const JOURNAL = [
   'Condensateurs en charge…',
   'Alignement chronomètre : 0.00',
@@ -247,27 +247,28 @@ export function Home() {
             <Button variant="ghost" onClick={loadChapters}>Réessayer</Button>
           </div>
         ) : (
-          <div className="home-chapters">
+          <div className="home-chapters home-chapters--single">
             <div className="home-chapters__title">
-              Sélection de mission — 4 chapitres disponibles
+              Mission disponible — Chapitre unique
             </div>
-            {chapters.map((chapter, index) => {
+            {chapters.map((chapter) => {
               const isSelected = selectedChapter === chapter.id
               const isEmpty = chapter.event_count === 0
-              const num = String(index + 1).padStart(2, '0')
               return (
                 <button
                   key={chapter.id}
                   type="button"
-                  className={`chapter-card ${isSelected ? 'is-selected' : ''} ${isEmpty ? 'is-empty' : ''}`}
+                  className={`chapter-card chapter-card--solo ${isSelected ? 'is-selected' : ''} ${isEmpty ? 'is-empty' : ''}`}
                   onClick={() => !isEmpty && setSelectedChapter(chapter.id)}
                   aria-pressed={isSelected}
                   disabled={isEmpty}
                 >
-                  <span className="chapter-number">Ch. {num}</span>
+                  <span className="chapter-number">Ch. 01 · 1843 → 2024</span>
                   <h3 className="chapter-name">{chapter.name}</h3>
                   <span className="chapter-meta">
-                    {isEmpty ? 'Bientôt disponible' : `${chapter.event_count} époques`}
+                    {isEmpty
+                      ? 'Bientôt disponible'
+                      : `${chapter.event_count} époques à reconstituer`}
                   </span>
                 </button>
               )

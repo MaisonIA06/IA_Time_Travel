@@ -322,6 +322,21 @@
   min-height: 340px;
   align-content: start;
 }
+
+.home-chapters--single {
+  grid-template-columns: 1fr;
+}
+
+.chapter-card--solo {
+  min-height: 240px;
+  padding: 28px;
+  gap: 16px;
+  justify-content: center;
+  align-items: flex-start;
+}
+.chapter-card--solo .chapter-name {
+  font-size: 22px;
+}
 .home-chapters__title {
   grid-column: 1 / -1;
   font-family: var(--mai-font-mono);
