@@ -1,25 +1,24 @@
 /**
- * Mini-jeu DuelDates - Deviner l'antériorité entre deux événements
+ * DuelDates — "Duel des dates" (§ screen-minigames.jsx / DuelGame).
  *
- * Pédagogie : apprendre les dates de l'histoire de l'IA par comparaison.
- * 5 duels : on choisit l'événement le plus ancien, l'année est révélée,
- * et un bonus proportionnel aux bonnes réponses (0-250) est attribué.
+ * Layout : header + arena 3 colonnes (carte A | bandeau VS | carte B) + footer.
+ * Le joueur clique la carte qui lui semble la plus ancienne. Les années sont
+ * masquées jusqu'au pick. +50 pts par bonne réponse. 5 duels, bonus total 250.
  */
 
-import { useState, useMemo, useCallback } from 'react'
-import { Card, Badge } from '../components/ui'
-import { CheckIcon, CrossIcon, TimeIcon } from '../components/icons'
+import { useCallback, useMemo, useState } from 'react'
+import { FlipYear, Stamp } from '../components/instrument'
 import type { QuizItem } from '../types'
 import './DuelDates.css'
 
 const TOTAL_DUELS = 5
 const MAX_BONUS = 250
-const FEEDBACK_DELAY_MS = 1000
-const NEXT_DELAY_MS = 600
+const FEEDBACK_DELAY_MS = 1400
 
 interface DuelDatesProps {
   items: QuizItem[]
   onComplete: (bonusPoints: number) => void
+  onSkip?: () => void
 }
 
 interface Duel {
@@ -27,17 +26,14 @@ interface Duel {
   right: QuizItem
 }
 
-/**
- * Construit jusqu'à `count` duels distincts à partir de la liste fournie.
- * Chaque duel évite que `left` et `right` partagent la même année (sinon
- * la question d'antériorité n'a pas de bonne réponse).
- */
+type Side = 'left' | 'right'
+
 function buildDuels(items: QuizItem[], count: number): Duel[] {
   const usable = items.filter((item) => Number.isFinite(item.year_correct))
   if (usable.length < 2) return []
 
   const duels: Duel[] = []
-  const seenPairs = new Set<string>()
+  const seen = new Set<string>()
   let safety = 0
 
   while (duels.length < count && safety < count * 50) {
@@ -50,16 +46,18 @@ function buildDuels(items: QuizItem[], count: number): Duel[] {
     if (!right) continue
 
     const key = [left.event_id, right.event_id].sort((a, b) => a - b).join('-')
-    if (seenPairs.has(key)) continue
-
-    seenPairs.add(key)
+    if (seen.has(key)) continue
+    seen.add(key)
     duels.push({ left, right })
   }
 
   return duels
 }
 
-type Side = 'left' | 'right'
+function toneFor(eventId: number): 'terra' | 'blue' | 'green' {
+  const tones = ['terra', 'blue', 'green'] as const
+  return tones[eventId % tones.length]
+}
 
 export function DuelDates({ items, onComplete }: DuelDatesProps) {
   const duels = useMemo(() => buildDuels(items, TOTAL_DUELS), [items])
@@ -75,31 +73,21 @@ export function DuelDates({ items, onComplete }: DuelDatesProps) {
       ? 'left'
       : 'right'
     : null
-  const isCorrect = picked !== null && picked === olderSide
-
-  const finish = useCallback(
-    (finalCorrect: number) => {
-      const ratio = duels.length > 0 ? finalCorrect / duels.length : 0
-      const bonus = Math.round(ratio * MAX_BONUS)
-      onComplete(bonus)
-    },
-    [duels.length, onComplete]
-  )
 
   const handlePick = useCallback(
     (side: Side) => {
       if (!currentDuel || picked || !olderSide) return
 
-      const nextCorrectCount = correctCount + (side === olderSide ? 1 : 0)
-
+      const nextCorrect = correctCount + (side === olderSide ? 1 : 0)
       setPicked(side)
-      setCorrectCount(nextCorrectCount)
+      setCorrectCount(nextCorrect)
 
       window.setTimeout(() => {
         const nextIndex = currentIndex + 1
         if (nextIndex >= duels.length) {
-          // Petit délai pour que le joueur voie le dernier feedback.
-          window.setTimeout(() => finish(nextCorrectCount), NEXT_DELAY_MS)
+          const ratio = nextCorrect / duels.length
+          const bonus = Math.round(ratio * MAX_BONUS)
+          onComplete(bonus)
           setCurrentIndex(nextIndex)
         } else {
           setCurrentIndex(nextIndex)
@@ -107,122 +95,101 @@ export function DuelDates({ items, onComplete }: DuelDatesProps) {
         }
       }, FEEDBACK_DELAY_MS)
     },
-    [currentDuel, picked, olderSide, correctCount, currentIndex, duels.length, finish]
+    [currentDuel, picked, olderSide, correctCount, currentIndex, duels.length, onComplete]
   )
 
-  // Pas assez d'événements pour former un duel : on termine sans bonus.
   if (duels.length === 0) {
     return (
-      <Card variant="glass" padding="lg" className="duel-dates duel-dates--empty">
+      <div className="duel duel--empty">
         <h2>Duel des dates</h2>
-        <p>Pas assez d'événements pour ce mini-jeu.</p>
-      </Card>
+        <p>Pas assez d'événements pour lancer le duel.</p>
+      </div>
     )
   }
 
   if (isFinished || !currentDuel) {
     return (
-      <Card variant="glass" padding="lg" className="duel-dates duel-dates--result">
-        <div className="duel-result">
-          <div className="duel-result-icon">
-            <TimeIcon size={56} color="var(--aa-accent)" />
-          </div>
-          <h2>{correctCount}/{duels.length} bons duels</h2>
-          <p>
-            {correctCount === duels.length
-              ? 'Sans-faute ! Tu maîtrises la chronologie de l\'IA.'
-              : correctCount >= Math.ceil(duels.length * 0.6)
-                ? 'Bien joué ! Tu situes les grandes étapes de l\'IA.'
-                : 'Continue, tu vas vite t\'améliorer !'}
-          </p>
-        </div>
-      </Card>
+      <div className="duel duel--empty">
+        <h2>{correctCount} / {duels.length} bonnes réponses</h2>
+        <p>+{Math.round((correctCount / duels.length) * MAX_BONUS)} pts</p>
+      </div>
     )
   }
 
-  const renderSide = (side: Side, item: QuizItem) => {
-    const isPicked = picked === side
-    const isWinner = picked !== null && side === olderSide
-    const isLoser = picked !== null && side !== olderSide
+  const score = correctCount * 50
 
-    const className = [
-      'duel-card',
-      isPicked ? 'duel-card--picked' : '',
-      isWinner ? 'duel-card--winner' : '',
-      isLoser ? 'duel-card--loser' : ''
-    ]
-      .filter(Boolean)
-      .join(' ')
+  const renderCard = (side: Side, item: QuizItem, label: string) => {
+    const isPicked = picked === side
+    const show = picked !== null
+    const isCorrect = show && side === olderSide
+    const tone = toneFor(item.event_id)
+
+    const classes = ['duel__card']
+    if (show && isCorrect) classes.push('duel__card--correct')
+    else if (show && isPicked && !isCorrect) classes.push('duel__card--wrong')
+    else if (show) classes.push('duel__card--muted')
 
     return (
       <button
         type="button"
-        className={className}
         onClick={() => handlePick(side)}
-        disabled={picked !== null}
+        disabled={show}
+        className={classes.join(' ')}
         aria-label={`Choisir : ${item.prompt}`}
       >
-        {item.image_url && (
-          <div className="duel-card-image">
-            <img src={item.image_url} alt="" loading="lazy" />
-          </div>
-        )}
-        <h3 className="duel-card-title">{item.prompt}</h3>
+        <span className="label">{label}</span>
+        <h3 className="duel__card-title">{item.prompt}</h3>
         {item.description_short && (
-          <p className="duel-card-description">{item.description_short}</p>
+          <p className="duel__card-subtitle">{item.description_short.split('.')[0]}.</p>
         )}
-        {picked !== null && (
-          <div className="duel-card-year">
-            <Badge variant={isWinner ? 'accent' : 'default'} size="lg" glow={isWinner}>
-              {item.year_correct}
-            </Badge>
+
+        <div className="duel__card-media">
+          {item.image_url ? (
+            <img src={item.image_url} alt={item.prompt} draggable={false} />
+          ) : (
+            <div className={`duel__placeholder duel__placeholder--${tone}`}>
+              <span className="label">[ Archive ]</span>
+              <span>{item.prompt}</span>
+            </div>
+          )}
+        </div>
+
+        {show ? (
+          <div className="duel__card-reveal">
+            <FlipYear value={item.year_correct} size={40} />
+            {isCorrect && <Stamp color="ink" rotate={-3}>Plus ancien</Stamp>}
           </div>
+        ) : (
+          <span className="duel__card-masked">Date masquée</span>
         )}
       </button>
     )
   }
 
   return (
-    <Card variant="glass" padding="lg" className="duel-dates">
-      <div className="duel-header">
-        <Badge variant="purple" size="lg" glow>
-          Duel des dates
-        </Badge>
-        <h2>Lequel est le plus ancien&nbsp;?</h2>
-        <p className="duel-subtitle">
-          Duel {Math.min(currentIndex + 1, duels.length)} / {duels.length}
-        </p>
-        <div className="duel-progress">
-          <div
-            className="duel-progress-fill"
-            style={{ width: `${((currentIndex + (picked ? 1 : 0)) / duels.length) * 100}%` }}
-          />
+    <div className="duel">
+      <header className="duel__header">
+        <div>
+          <span className="label label--accent">Duel des dates</span>
+          <h2 className="duel__title">
+            Lequel est le <em>plus ancien</em> ?
+          </h2>
         </div>
-      </div>
-
-      <div className="duel-arena">
-        {renderSide('left', currentDuel.left)}
-        <div className="duel-vs" aria-hidden="true">VS</div>
-        {renderSide('right', currentDuel.right)}
-      </div>
-
-      {picked !== null && (
-        <div className={`duel-feedback ${isCorrect ? 'duel-feedback--correct' : 'duel-feedback--wrong'}`}>
-          {isCorrect ? (
-            <>
-              <CheckIcon size={24} color="var(--aa-success)" /> Bien vu&nbsp;!
-            </>
-          ) : (
-            <>
-              <CrossIcon size={24} color="var(--aa-error)" /> Raté&nbsp;!
-            </>
-          )}
+        <div className="duel__stats">
+          <span className="duel__stat">Manche {currentIndex + 1}</span>
+          <span className="duel__stat duel__stat--pts">{score} pts</span>
         </div>
-      )}
+      </header>
 
-      <div className="duel-score" aria-live="polite">
-        Score&nbsp;: {correctCount} / {duels.length}
-      </div>
-    </Card>
+      <main className="duel__arena">
+        {renderCard('left', currentDuel.left, `Archive n° ${currentDuel.left.event_id}`)}
+        <div className="duel__vs" aria-hidden>VS</div>
+        {renderCard('right', currentDuel.right, `Archive n° ${currentDuel.right.event_id}`)}
+      </main>
+
+      <footer className="duel__footer">
+        Cliquez sur la carte qui vous semble la plus ancienne — +50 pts par bonne réponse
+      </footer>
+    </div>
   )
 }
