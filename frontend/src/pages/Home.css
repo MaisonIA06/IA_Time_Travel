@@ -4,14 +4,14 @@
  */
 
 .home-page {
-  position: relative;
+  position: absolute;
+  inset: 0;
   display: grid;
   grid-template-columns: 1.1fr 1fr;
-  min-height: 100%;
   gap: 0;
+  overflow-y: auto;
   /* Fond en 2 bandes verticales (papier clair à gauche, warm à droite) avec
-     séparateur ink au milieu. Couvre toute la hauteur scrollable, indépendamment
-     du contenu. La frontière est à 1.1 / (1.1 + 1) = ~52.38%. */
+     séparateur ink au milieu. La frontière est à 1.1 / (1.1 + 1) = ~52.38%. */
   background:
     linear-gradient(
       to right,
