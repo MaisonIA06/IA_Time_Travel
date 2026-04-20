@@ -9,7 +9,7 @@
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 0;
-  overflow-y: auto;
+  overflow: hidden;
   /* Fond : transparent à gauche (laisse passer la grille millimétrée globale
      bleutée de Overlays.paper-bg), warm opaque à droite, séparateur ink au
      milieu (~52.38% = 1.1 / 2.1). */
